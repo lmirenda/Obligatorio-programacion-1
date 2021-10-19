@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <title>Obligatorio P1</title>
+</head>
+
+<body>
+
+    <div id="funcionalidad1" class="container">
+        <h2>Ingresar a la aplicación</h2>
+        <label for="ingresoUsuario">Usuario: </label>
+        <input type="text" placeholder="Nombre de usuario" id="ingresoUsuario">
+        <br><br>
+        <label for="ingresoPassword">Contraseña: </label>
+        <input type="password" placeholder="">
+        <br><br>
+        <button id="btn1" class="btn btn-secondary">Log In</button>
+        <hr>
+    </div>
+
+
+
+    <!-- FUNCIONALIDAD 2 - HABILITAR DESHABILITAR EMPRESAS -->
+    <div id="funcionalidad2" class="container">
+        <h2>Habilitar/Deshabilitar empresa</h2>
+        <div id="listadoEmpresas">
+            <label for="criterioBusquedaEmpresaF2">Criterio de busqueda: </label>
+            <select id="criterioBusquedaEmpresaF2">
+                <option value="0">Seleccionar criterio</option>
+                <option value="1">Nombre empresa</option>
+                <option value="2">RUT</option>
+                <option value="3">Razon social</option>
+                <option value="4">Estado</option>
+            </select>
+            <label for="textoBusquedaEmpresaF2">Criterio de busqueda: </label>
+            <input type="text" id="textoBusquedaEmpresaF2" placeholder="...">
+            <br><br>
+            <input type="button" id="btnMostrarEmpresasF2" value="Mostrar filtrado" class="btn btn-secondary">
+
+            <table class="table">
+                <header>
+                    <tr>
+                        <th>Nombre empresa</th>
+                        <th>RUT</th>
+                        <th>Razon social</th>
+                        <th>Estado</th>
+                        <th>Habilitar/Deshabilitar</th>
+                    </tr>
+                </header>
+                <tbody>
+                    <tr>
+                        <td>Nombre empresa 1</td>
+                        <td>123</td>
+                        <td>Razon social empresa 1</td>
+                        <td>Habilitada</td>
+                        <td><i class="bi bi-x-circle"></i></i></td>
+                    </tr>
+                    <tr>
+                        <td>Nombre empresa 2</td>
+                        <td>456</td>
+                        <td>Razon social empresa 1</td>
+                        <td>Deshabilitada</td>
+                        <td><i class="bi bi-check-circle"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Nombre empresa 3</td>
+                        <td>789</td>
+                        <td>Razon social empresa 1</td>
+                        <td>Habilitada</td>
+                        <td><i class="bi bi-x-circle"></i></i></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- BUSQUEDA DE EMPRESA FUNCIONALIDAD 2 - HABILITAR DESHABILITAR EMPRESAS -->
+            <br><br><br><br><br><br>
+            <h2>Muestra de busqueda</h2>
+            <label for="criterioBusquedaEmpresaF2">Criterio de busqueda: </label>
+            <select id="criterioBusquedaEmpresaF2">
+                <option value="0">Seleccionar criterio</option>
+                <option value="1">Nombre empresa</option>
+                <option value="2">RUT</option>
+                <option value="3">Razon social</option>
+                <option value="4">Estado</option>
+            </select>
+            <label for="textoBusquedaEmpresaF2">Criterio de busqueda: </label>
+            <input type="text" id="textoBusquedaEmpresaF2" placeholder="..." value="Nombre empresa 3">
+            <br><br>
+            <input type="button" id="btnMostrarEmpresasF2" value="Mostrar filtrado" class="btn btn-secondary">
+            <table class="table">
+                <header>
+                    <tr>
+                        <th>Nombre empresa</th>
+                        <th>RUT</th>
+                        <th>Razon social</th>
+                        <th>Estado</th>
+                        <th>Habilitar/Deshabilitar</th>
+                    </tr>
+                </header>
+                <tbody>
+                    <tr>
+                        <td>Nombre empresa 3</td>
+                        <td>789</td>
+                        <td>Razon social empresa 1</td>
+                        <td>Deshabilitada</td>
+                        <td><i class="bi bi-x-circle"></i></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+    </div>
+
+    <div id="funcionalidad3" class="container">
+        <h2>Crear tipos de vehiculos</h2>
+        <div id="listadoVehiculos">
+            <table class="table">
+                <header>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>ID</th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Moto</td>
+                            <td>837401</td>
+                        </tr>
+                        <tr>
+                            <td>Camion</td>
+                            <td>023764</td>
+                        </tr>
+                        <tr>
+                            <td>Avion</td>
+                            <td>262345</td>
+                        </tr>
+                    </tbody>
+                </header>
+            </table>
+        </div>
+        <div id="agregarVehiculos">
+            <h3>Agregar Vehiculos</h3>
+            <label for="tipoVehiculo">Tipo de vehiculo: </label>
+            <input type="text" placeholder="Vehiculo" id="tipos">
+            <br><br>
+            <button class="btn btn-secondary">Ingresar vehiculo al sistema</button>
+        </div>
+        <hr>
+    </div>
+
+    <div id="funcionalidad4" class="container">
+        <h2>Visualizar informacion estadistica</h2>
+        <br><br>
+        <h3>Informacion de empresas: Admin</h3>
+        <table class="table">
+            <header>
+                <th>Nombre empresa</th>
+                <th>Total de KM recorridos</th>
+                <th>Empleado con mayor cantidad de entregas</th>
+                <th>Pedidos aceptados</th>
+            </header>
+            <tbody>
+                <tr>
+                    <td>Empresa 1</td>
+                    <td>8192 km</td>
+                    <td>Lorem ipsum</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Empresa 2</td>
+                    <td>2341 km</td>
+                    <td>Lorem ipsum</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Empresa 3</td>
+                    <td>8345 km</td>
+                    <td>Lorem ipsum</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br><br>
+        <h3>Informacion de pedidos: Empresa</h3>
+        <h4>Ej: Empresa 1</h4>
+        <table class="table">
+            <header>
+                <th>Estado de la solicitud</th>
+                <th>Estado del pedido</th>
+                <th>Nombre del usuario</th>
+            </header>
+            <tbody>
+                <tr>
+                    <td>Aceptada</td>
+                    <td>En transito</td>
+                    <td>Usuario 1</td>
+                </tr>
+                <tr>
+                    <td>Aceptada</td>
+                    <td>En deposito</td>
+                    <td>Usuario 2</td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <h3>Informacion de pedidos: Admin</h3>
+        <table class="table">
+            <header>
+                <th>Estado de la solicitud</th>
+                <th>Estado del pedido</th>
+                <th>Nombre del usuario</th>
+                <th>Empresa asociada</th>
+            </header>
+            <tbody>
+                <tr>
+                    <td>Aceptada</td>
+                    <td>En transito</td>
+                    <td>Usuario 1</td>
+                    <td>Empresa 1</td>
+                </tr>
+                <tr>
+                    <td>No aceptada</td>
+                    <td>N/A</td>
+                    <td>Usuario 1</td>
+                    <td>N/A</td>
+                </tr>
+                <tr>
+                    <td>Aceptada</td>
+                    <td>En deposito</td>
+                    <td>Usuario 2</td>
+                    <td>Empresa 2</td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <h3>Informacion de pedidos: Usuario</h3>
+        <h4>Ej: Usuario 1</h4>
+        <table class="table">
+            <header>
+                <th>Estado de la solicitud</th>
+                <th>Estado del pedido</th>
+                <th>Empresa asociada</th>
+            </header>
+            <tbody>
+                <tr>
+                    <td>Aceptada</td>
+                    <td>En transito</td>
+                    <td>Empresa 1</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+    </div>
+
+    <div id="funcionalidad5" class="container">
+        <h2>Registrarse en la aplicacion</h2>
+        <label for="tipoDeCuenta">Seleccione el tipo de cuenta: </label>
+        <select name="" id="tipoDeCuenta">
+            <option value="empresa">Empresa</option>
+            <option value="empresa">Usuario</option>
+        </select>
+        <div id="registroUsuario">
+            <h3>Registro Usuario</h3>
+            <br>
+            <label for="registroAliasUsuario">Nombre de Usuario: </label>
+            <input type="text" id="regsitroAliasUsuario" placeholder="Nombre de usuario">
+            <br><br>
+            <label for="registroPassUsuario">Contraseña: </label>
+            <input type="password" id="registroPassUsuario" placeholder="Contraseña">
+            <br><br>
+            <label for="registroPassUsuario2">Repetir contraseña: </label>
+            <input type="password" id="registroPassUsuario2" placeholder="Repetir Contraseña">
+            <br><br>
+            <label for="registroNombreUsuario">Nombre Completo: </label>
+            <input type="text" id="registroNombreUsuario" placeholder="Nombre completo">
+            <br><br>
+            <button class=" btn btn-secondary" id="btn51">Registrar</button>
+        </div>
+        <div id="registroEmpresa">
+            <h3>Registro Empresa</h3>
+            <br>
+            <label for="registroNombreEmpresa">Nombre de fantasia: </label>
+            <input type="text" id="registroNombreEmpresa">
+            <br><br>
+            <label for="registroRUTEmpresa">RUT:</label>
+            <input type="number" id="registroRUTEmpresa">
+            <br><br>
+            <label for="registroRazonSocialEmpresa">Razon Social:</label>
+            <input type="text" id="registroRazonSocialEmpresa">
+            <br><br>
+            <label for="registroPassEmpresa">Contraseña: </label>
+            <input type="password" id="registroPassEmpresa" placeholder="Contraseña">
+            <br><br>
+            <label for="registroPassEmpresa2">Repetir contraseña: </label>
+            <input type="password" id="registroPassEmpresa2" placeholder="Repetir Contraseña">
+            <br><br>
+            <button class=" btn btn-secondary" id="btn52">Registrar</button>
+        </div>
+        <hr>
+    </div>
+
+    <div id="funcionalidad6" class="container">
+        <h2>Realizar solicitud de envío</h2>
+        <label for="solitudEnvioVehiculo">Tipo de vehiculo: </label>
+        <select id="solicitudEnvioVehiculo">
+            <option value="Moto">Moto</option>
+            <option value="Camion">Camion</option>
+            <option value="Avion">Avion</option>
+        </select>
+        <br><br>
+        <label for="solitudEnvioDistancia">Distancia: </label>
+        <input type="number" id="solicitudEnvioDistancia" placeholder="Distancia en Km">
+        <br><br>
+        <label for="solitudEnvioDescripcion">Descripción: </label>
+        <input type="text" placeholder="Breve descripcion">
+        <br><br>
+        <label for="solitudEnvioFoto">Imagen:</label>
+        <input type="text" placeholder="URL">
+        <br><br>
+        <button id="btn6" class="btn btn-secondary">Ingresar solicitud</button>
+    </div>
+
+    <div id="funcionalidad7" class="container">
+        <h2>Ver listado de envíos</h2>
+        <table class="table">
+            <header>
+                <tr>
+                    <th>Foto</th>
+                    <th>Estado</th>
+                    <th>Empresa</th>
+                </tr>
+            </header>
+            <tbody>
+                <tr>
+                    <td><img src="" alt="img"></td>
+                    <td>Pendiente</td>
+                    <td>Luca's company</td>
+                </tr>
+                <tr>
+                    <td><img src="" alt="img"></td>
+                    <td>Aceptado</td>
+                    <td>Andy Inc.</td>
+                </tr>
+                <tr>
+                    <td><img src="" alt="img"></td>
+                    <td>En tránsito</td>
+                    <td>Feli & associated</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="funcionalidad8" class="container">
+        <h2>Ver listado de solicitudes pendientes especificas</h2>
+        <table class="table">
+            <header>
+                <tr>
+                    <th>Estado</th>
+                    <th>Vehiculo</th>
+                    <th>Distancia</th>
+                    <th>Foto</th>
+                    <th>Nombre del solicitante</th>
+                    <th>Aceptar envío</th>
+                </tr>
+            </header>
+            <tbody>
+                <tr>
+                    <td>No aceptado</td>
+                    <td>Moto</td>
+                    <td>5 km</td>
+                    <td><img src="" alt="img"></td>
+                    <td>Lorem Ipsum</td>
+                    <td><i class="bi bi-plus-square"></i></td>
+                </tr>
+                <tr>
+                    <td>No aceptado</td>
+                    <td>Camion</td>
+                    <td>45 km</td>
+                    <td><img src="" alt="img"></td>
+                    <td>Lorem Ipsum</td>
+                    <td><i class="bi bi-plus-square"></i></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="funcionalidad9" class="container">
+        <h2>Ver listado de solicitudes tomadas</h2>
+        <table class="table">
+            <header>
+                <tr>
+                    <th>Estado</th>
+                    <th>Vehiculo</th>
+                    <th>Distancia</th>
+                    <th>Foto</th>
+                    <th>Nombre del solicitante</th>
+                    <th>Aceptar envío</th>
+                </tr>
+            </header>
+            <tbody>
+                <tr>
+                    <td>Aceptado</td>
+                    <td>Moto</td>
+                    <td>5 km</td>
+                    <td><img src="" alt="img"></td>
+                    <td>Lorem Ipsum</td>
+                    <td><i class="bi bi-plus-square"></i></td>
+                </tr>
+                <tr>
+                    <td>Aceptado</td>
+                    <td>Camion</td>
+                    <td>45 km</td>
+                    <td><img src="" alt="img"></td>
+                    <td>Lorem Ipsum</td>
+                    <td><i class="bi bi-plus-square"></i></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
