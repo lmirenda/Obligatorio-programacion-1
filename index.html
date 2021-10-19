@@ -191,7 +191,24 @@
         <br><br><br>
         <h3>Informacion de pedidos: Empresa</h3>
         <h4>Ej: Empresa 1</h4>
-        <table class="table">
+        <p>Cliente  con mas pedidos: Lorem, Ipsum
+            <br>
+            Traslados: 59
+        </p>
+        <label for="estadoSolicitudEmpresaF4"></label>
+        <select id="estadoSolicitudEmpresaF4">
+            <option value="0">Seleccionar estado</option>
+            <option value="1">Pendiente</option>
+            <option value="2">En transito</option>
+            <option value="3">Finalizada</option>
+        </select>
+
+        <div id="resCantidadPorEstadoEmpresaF4">
+            Pendiente: 25 pedidos
+        </div>
+        
+
+<!--         <table class="table">
             <header>
                 <th>Estado de la solicitud</th>
                 <th>Estado del pedido</th>
@@ -209,7 +226,7 @@
                     <td>Usuario 2</td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
         <br><br>
         <h3>Informacion de pedidos: Admin</h3>
         <table class="table">
@@ -243,6 +260,10 @@
         <br><br>
         <h3>Informacion de pedidos: Usuario</h3>
         <h4>Ej: Usuario 1</h4>
+        <p>Pedidos pendientes: 3 </p>
+        <p>Pedidos en transito: 1 </p>
+        <p>Pedidos finalizados: 6 </p>
+        <p>Pedidos aceptados: 70%</p>
         <table class="table">
             <header>
                 <th>Estado de la solicitud</th>
@@ -270,37 +291,47 @@
         <div id="registroUsuario">
             <h3>Registro Usuario</h3>
             <br>
-            <label for="registroAliasUsuario">Nombre de Usuario: </label>
-            <input type="text" id="regsitroAliasUsuario" placeholder="Nombre de usuario">
+            <label for="registroAliasUsuarioPersonaF5">Nombre de Usuario: </label>
+            <input type="text" id="regsitroAliasUsuarioPersonaF5" placeholder="Nombre de usuario">
             <br><br>
-            <label for="registroPassUsuario">Contraseña: </label>
-            <input type="password" id="registroPassUsuario" placeholder="Contraseña">
+            <label for="registroPassUsuarioPersonaF5">Contraseña: </label>
+            <input type="password" id="registroPassUsuarioPersonaF5" placeholder="Contraseña">
             <br><br>
-            <label for="registroPassUsuario2">Repetir contraseña: </label>
-            <input type="password" id="registroPassUsuario2" placeholder="Repetir Contraseña">
+            <label for="registroCIUsuarioPersonaF5">CI: </label>
+            <input type="password" id="registroCIUsuarioPersonaF5" placeholder="1234567890">
             <br><br>
-            <label for="registroNombreUsuario">Nombre Completo: </label>
-            <input type="text" id="registroNombreUsuario" placeholder="Nombre completo">
+            <label for="registroNombreUsuarioPersonaF5">Nombre: </label>
+            <input type="text" id="registroNombreUsuarioPersonaF5" placeholder="Nombre">
+            <br><br>
+            <label for="registroApellidoUsuarioPersonaF5">Apellido: </label>
+            <input type="text" id="registroApellidoUsuarioPersonaF5" placeholder="Apellido">
             <br><br>
             <button class=" btn btn-secondary" id="btn51">Registrar</button>
         </div>
         <div id="registroEmpresa">
             <h3>Registro Empresa</h3>
             <br>
-            <label for="registroNombreEmpresa">Nombre de fantasia: </label>
-            <input type="text" id="registroNombreEmpresa">
+            <label for="registroAliasEmpresaF5">Nombre de usuario: </label>
+            <input type="text" id="registroAliasEmpresaF5">
             <br><br>
-            <label for="registroRUTEmpresa">RUT:</label>
-            <input type="number" id="registroRUTEmpresa">
+            <label for="registroNombreEmpresaF5">Nombre de fantasia: </label>
+            <input type="text" id="registroNombreEmpresaF5">
             <br><br>
-            <label for="registroRazonSocialEmpresa">Razon Social:</label>
-            <input type="text" id="registroRazonSocialEmpresa">
+            <label for="registroRUTEmpresaF5">RUT:</label>
+            <input type="number" id="registroRUTEmpresaF5">
             <br><br>
-            <label for="registroPassEmpresa">Contraseña: </label>
-            <input type="password" id="registroPassEmpresa" placeholder="Contraseña">
+            <label for="registroRazonSocialEmpresaF5">Razon Social:</label>
+            <input type="text" id="registroRazonSocialEmpresaF5">
             <br><br>
-            <label for="registroPassEmpresa2">Repetir contraseña: </label>
-            <input type="password" id="registroPassEmpresa2" placeholder="Repetir Contraseña">
+            <label for="registroPassEmpresaF5">Contraseña: </label>
+            <input type="password" id="registroPassEmpresaF5" placeholder="Contraseña">
+            <br><br>
+            <label for="registroVehiculoEmpresa">Tipo de vehiculo: </label>
+            <select id="registroVehiculoEmpresa">
+                <option value="Moto">Moto</option>
+                <option value="Camion">Camion</option>
+                <option value="Avion">Avion</option>
+            </select>
             <br><br>
             <button class=" btn btn-secondary" id="btn52">Registrar</button>
         </div>
@@ -323,7 +354,7 @@
         <input type="text" placeholder="Breve descripcion">
         <br><br>
         <label for="solitudEnvioFoto">Imagen:</label>
-        <input type="text" placeholder="URL">
+        <input type="file" placeholder="URL">
         <br><br>
         <button id="btn6" class="btn btn-secondary">Ingresar solicitud</button>
     </div>
