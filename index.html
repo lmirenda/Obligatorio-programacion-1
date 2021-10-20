@@ -17,35 +17,27 @@
 
     <div id="funcionalidad1" class="container">
         <h2>Ingresar a la aplicación</h2>
-        <label for="ingresoUsuario">Usuario: </label>
-        <input type="text" placeholder="Nombre de usuario" id="ingresoUsuario">
+        <label for="ingresoUsuario" class="control-label">Usuario: </label>
+        <input type="text" placeholder="Nombre de usuario" class="form-control" id="ingresoUsuario">
         <br><br>
-        <label for="ingresoPassword">Contraseña: </label>
-        <input type="password" placeholder="">
+        <label for="ingresoPassword" class="control-label">Contraseña: </label>
+        <input type="password" placeholder="Ingresar contraseña..." id="ingresoPassword" class="form-control">
         <br><br>
         <button id="btn1" class="btn btn-secondary">Log In</button>
         <hr>
     </div>
-
-
-
+    
+    
+    
     <!-- FUNCIONALIDAD 2 - HABILITAR DESHABILITAR EMPRESAS -->
     <div id="funcionalidad2" class="container">
         <h2>Habilitar/Deshabilitar empresa</h2>
         <div id="listadoEmpresas">
-            <label for="criterioBusquedaEmpresaF2">Criterio de busqueda: </label>
-            <select id="criterioBusquedaEmpresaF2">
-                <option value="0">Seleccionar criterio</option>
-                <option value="1">Nombre empresa</option>
-                <option value="2">RUT</option>
-                <option value="3">Razon social</option>
-                <option value="4">Estado</option>
-            </select>
-            <label for="textoBusquedaEmpresaF2">Criterio de busqueda: </label>
-            <input type="text" id="textoBusquedaEmpresaF2" placeholder="...">
+            <label for="textoBusquedaEmpresaF2" id="labBusquedaEmpresas" class="control-label">Buscar por razón social:</label> 
+            <label for="textoBusquedaEmpresaF2"> <i class="bi bi-search"></i> </label>
+            <input type="text" id="textoBusquedaEmpresaF2" placeholder="Buscar..." class="form-control-busqueda">
             <br><br>
             <input type="button" id="btnMostrarEmpresasF2" value="Mostrar filtrado" class="btn btn-secondary">
-
             <table class="table">
                 <header>
                     <tr>
@@ -80,22 +72,15 @@
                     </tr>
                 </tbody>
             </table>
-
-            <!-- BUSQUEDA DE EMPRESA FUNCIONALIDAD 2 - HABILITAR DESHABILITAR EMPRESAS -->
+            
+            <!-- BUSQUEDA DE EMPRESA FUNCIONALIDAD 2 - MUESTRA BUSQUEDA -->
             <br><br><br><br><br><br>
-            <h2>Muestra de busqueda</h2>
-            <label for="criterioBusquedaEmpresaF2">Criterio de busqueda: </label>
-            <select id="criterioBusquedaEmpresaF2">
-                <option value="0">Seleccionar criterio</option>
-                <option value="1">Nombre empresa</option>
-                <option value="2">RUT</option>
-                <option value="3">Razon social</option>
-                <option value="4">Estado</option>
-            </select>
-            <label for="textoBusquedaEmpresaF2">Criterio de busqueda: </label>
-            <input type="text" id="textoBusquedaEmpresaF2" placeholder="..." value="Nombre empresa 3">
+            <h2>Muestra de busqueda</h2> 
+            <label for="textoBusquedaEmpresaF2" id="labBusquedaEmpresas" class="control-label">Buscar por razón social:</label> 
+            <label for="textoBusquedaEmpresaF2"> <i class="bi bi-search"></i> </label>
+            <input type="text" id="textoBusquedaEmpresaF2" class="form-control-busqueda" value="Nombre empresa 3">
             <br><br>
-            <input type="button" id="btnMostrarEmpresasF2" value="Mostrar filtrado" class="btn btn-secondary">
+            <input type="button" id="btnMostrarTodoEmpresasF2" value="Mostrar todo" class="btn btn-secondary">
             <table class="table">
                 <header>
                     <tr>
@@ -148,8 +133,8 @@
         </div>
         <div id="agregarVehiculos">
             <h3>Agregar Vehiculos</h3>
-            <label for="tipoVehiculo">Tipo de vehiculo: </label>
-            <input type="text" placeholder="Vehiculo" id="tipos">
+            <label for="tipoVehiculo" class="control-label">Tipo de vehiculo: </label>
+            <input type="text" placeholder="Vehiculo" id="tipos" class="form-control">
             <br><br>
             <button class="btn btn-secondary">Ingresar vehiculo al sistema</button>
         </div>
@@ -195,7 +180,7 @@
             <br>
             Traslados: 59
         </p>
-        <label for="estadoSolicitudEmpresaF4"></label>
+        <label for="estadoSolicitudEmpresaF4" class="control-label"></label>
         <select id="estadoSolicitudEmpresaF4">
             <option value="0">Seleccionar estado</option>
             <option value="1">Pendiente</option>
@@ -301,7 +286,7 @@
             <input type="password" id="registroPassUsuarioPersonaF5" placeholder="Contraseña">
             <br><br>
             <label for="registroCIUsuarioPersonaF5">CI: </label>
-            <input type="password" id="registroCIUsuarioPersonaF5" placeholder="1234567890">
+            <input type="password" id="registroCIUsuarioPersonaF5" placeholder="12345678">
             <br><br>
             <label for="registroNombreUsuarioPersonaF5">Nombre: </label>
             <input type="text" id="registroNombreUsuarioPersonaF5" placeholder="Nombre">

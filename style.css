@@ -1,3 +1,53 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 div{
     margin-bottom: 50px;
+}
+
+.control-label{
+    display: block;
+    padding-bottom: 5px;
+}
+
+.form-control {
+    font-size: 1rem;
+    line-height: 1.3;
+    display: block;
+    width: 20%;
+    padding: .375rem .75rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border: 1px solid #cfcfcf;
+    border-radius: 3px;
+}
+
+.form-control-busqueda {
+    font-size: 1rem;
+    line-height: 1.3;
+    display: inline-block;
+    width: 20%;
+    padding: .375rem .75rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border: 1px solid #cfcfcf;
+    border-radius: 3px;
+}
+
+select {
+    margin-bottom; 5px:
+}
+
+#estadoSolicitudEmpresaF4 {
+
+}
+
+#labBusquedaEmpresas {
+    margin-left: 22px;
+    font-weight: bold;
+}
+
+h2 {
+    margin: 25px auto;
 }
