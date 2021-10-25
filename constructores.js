@@ -1,10 +1,11 @@
 class UsuarioPersona{
-    constructor(_username,_pass,_CI,_nombre,_apellido){
+    constructor(_username,_pass,_CI,_nombre,_apellido,_pedidos){
         this.username = _username;
         this.pass = _pass;
         this.cedula = _CI;
         this.nombre = _nombre;
-        this._apellido = _apellido;
+        this.apellido = _apellido;
+        this.pedidos = [];
     }
 }
 
