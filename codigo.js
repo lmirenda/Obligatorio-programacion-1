@@ -30,10 +30,10 @@ function precargaDeVehiculos(){
 }
 
 function precargaDeUsuariosPersona() {
-    usuariosPersona.push(new UsuarioPersona("bdiaz", 123, 12345678, "Bruno", "Diaz"))
-    usuariosPersona.push(new UsuarioPersona("amayes", 456, 4928922, "Andres", "Mayes"))
-    usuariosPersona.push(new UsuarioPersona("fcaillabet", 789, 87654321, "Felipe", "Caillabet"))
-    usuariosPersona.push(new UsuarioPersona("lmirenda", 123, 14725836, "Luca", "Mirenda"))
+    usuariosPersona.push(new UsuarioPersona("bdiaz", 123, 12345678, "Bruno", "Diaz",[]))
+    usuariosPersona.push(new UsuarioPersona("amayes", 456, 4928922, "Andres", "Mayes",[]))
+    usuariosPersona.push(new UsuarioPersona("fcaillabet", 789, 87654321, "Felipe", "Caillabet",[]))
+    usuariosPersona.push(new UsuarioPersona("lmirenda", 123, 14725836, "Luca", "Mirenda",[]))
 }
 
 function precargaDeUsuariosEmpresa() {
