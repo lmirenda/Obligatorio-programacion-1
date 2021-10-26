@@ -15,6 +15,8 @@ function agregarEventoEnBotones(){
     document.querySelector("#btnRegistrarEmpresa").addEventListene("click", registroEmpresa);
 }
 
+// PRECARGA DE DATOS AL SISTEMA // 
+
 function precargaDeDatos(){
     precargaDeVehiculos();
     precargaDeUsuariosPersona();
