@@ -74,7 +74,7 @@ function obtenerNuevoID(){            // Genera un ID (diferente a los existente
     let nuevoID = '';        
     while (i < vehiculos.length){
         if (i == 0){
-            nuevoID = Math.floor(Math.random()*1000 - 100)) + 100; //Fuente https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+            nuevoID = Math.floor((Math.random()*1000 - 100)) + 100; //Fuente https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/random
         }
         if (vehiculos[i].id === nuevoID){
             i = 0
