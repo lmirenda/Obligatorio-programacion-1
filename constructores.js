@@ -6,6 +6,7 @@ class UsuarioPersona{
         this.nombre = _nombre;
         this.apellido = _apellido;
         this.pedidos = [];
+        this.tipo = "Persona"
     }
 }
 
@@ -21,6 +22,7 @@ class UsuarioEmpresa {
         this.habilitacion = _habilitacion;  // True = empresa habilitada. False = empresa deshabilitada. 
         this.km = _totalKM;
         this.empleado = _empleado;
+        this.tipo = "Empresa"
     }
 }
 
@@ -28,6 +30,7 @@ class UsuarioAdmin {
     constructor(_username,_pass){
         this.username = _username;
         this.pass = _pass;
+        this.tipo = "Administrador"
     }
 }
 

@@ -68,3 +68,10 @@ h2 {
     margin-left: 284px;
 }
 
+a {
+    text-decoration: none;
+}
+.errorMsj {
+    margin-top: 25px;
+    color: red;
+}

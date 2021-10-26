@@ -14,6 +14,9 @@ function inicializar(){
 function agregarEventoEnBotones(){
     document.querySelector("#btnRegistrarPersona").addEventListener("click", registroPersona);
     // document.querySelector("#btnBuscarEmpresa").addEventListener("click", buscarEmpresa);
+    document.querySelector("#btnTipoDeCuenta").addEventListener("click",seleccionarTipoDeCuentaARegistrar);
+    document.querySelector("#btnLogIn").addEventListener("click",logIn);
+
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -255,4 +258,33 @@ function cambiarEstadoDeEmpresa(empresa) {
 
 function buscarEmpresa() {
     
+}
+
+function seleccionarTipoDeCuentaARegistrar(){
+    let tipoDeCuenta = document.querySelector("#tipoDeCuenta").value;
+    displayRegistrarEmpresaPersona(tipoDeCuenta);
+}
+
+function logIn(){
+    let user = document.querySelector("#ingresoUsuario").value;
+    let pass = document.querySelector("#ingresoPassword").value
+    let i = 0;
+    let j = 0;
+    let k = 0;
+    let encontrado = false;
+    let mensaje = '';
+    while(i<admins.length || !encontrado){
+        if((admins[i].username).toUpperCase() === (user).toUpperCase()){
+            if (admins[i].pass === pass){
+                mensaje = "Bienvenido "+ admins[i].username;
+                encontrado = true;
+                displayNavPanel("Admin");
+            } else {
+                document.querySelector("#mensajeLogIn").innerHTML = "El nombre de ususario y/o contraseña no son correctos.";
+            }
+        }
+        i++;
+    }
+    document.querySelector("#ingresoUsuario").value = ''
+    document.querySelector("#ingresoPassword").value = ''
 }

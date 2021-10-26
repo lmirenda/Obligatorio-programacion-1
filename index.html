@@ -23,6 +23,23 @@
         </form>
     </nav>
 
+    <div id="panelAdmin" class="container">
+        <h2>Panel Administrador</h2>
+        <div id="adminPanelNav">
+            <button class="btn btn-primary">Listado de Empresas</button>
+            <button class="btn btn-primary">Crear tipos de vehiculos</button>
+            <button class="btn btn-primary">Visualizar informacion estadistica</button>
+        </div>
+    </div>
+
+    <div id="panelEmpresa" class="container">
+        <h2>Panel Empresa</h2>
+    </div>
+
+    <div id="panelPersona" class="container">
+        <h2>Panel Persona</h2>
+    </div>
+
 
     <div id="funcionalidad1" class="container">
         <h2>Ingresar a la aplicación</h2>
@@ -32,7 +49,8 @@
         <label for="ingresoPassword" class="control-label">Contraseña: </label>
         <input type="password" placeholder="Ingresar contraseña..." id="ingresoPassword" class="form-control">
         <br><br>
-        <button id="btn1" class="btn btn-secondary">Log In</button>
+        <button id="btnLogIn" class="btn btn-secondary">Log In</button>
+        <p id="mensajeLogIn" class="errorMsj"></p>
         <hr>
     </div>
     
@@ -279,14 +297,14 @@
         <h2>Registrarse en la aplicacion</h2>
         <br>
         <label for="tipoDeCuenta">Seleccione el tipo de cuenta: </label>
-        <select name="" id="tipoDeCuenta">
-            <option value="0">Seleccionar tipo</option>
-            <option value="1">Empresa</option>
-            <option value="2">Usuario</option>
+        <select name="" id="tipoDeCuenta"  class="form-select form-select-lg mb-3">
+            <option value="Empresa">Empresa</option>
+            <option value="Persona">Persona</option>
         </select>
+        <button id="btnTipoDeCuenta" class="btn btn-secondary">Seleccionar</button>
         <br><br>
         <div id="registroUsuario">
-            <h3>Registro Usuario</h3>
+            <h3>Usuario: Persona</h3>
             <br>
             <label for="registroAliasUsuarioPersonaF5">Nombre de Usuario: </label>
             <input type="text" id="registroAliasUsuarioPersonaF5" placeholder="Nombre de usuario">
@@ -306,7 +324,7 @@
             <button class=" btn btn-secondary" id="btnRegistrarPersona">Registrar</button>
         </div>
         <div id="registroEmpresa">
-            <h3>Registro Empresa</h3>
+            <h3>Usuario: Empresa</h3>
             <br>
             <label for="registroAliasEmpresaF5">Nombre de usuario: </label>
             <input type="text" id="registroAliasEmpresaF5">
@@ -473,8 +491,8 @@
     <script src="constructores.js"></script>
     
     <!-- ARCHIVO PRINCIPAL -->
-    <script src="codigo.js"></script>
     <script src=display.js></script>
+    <script src="codigo.js"></script>
 </body>
 
 </html>
