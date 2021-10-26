@@ -14,6 +14,15 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Obligatorio Programación 1</a>
+        <form class="form-inline">
+            <button class="btn btn-success" type="btn" id="btnDisplayLogIn">Iniciar Sesión</button>
+            <button class="btn btn-success" type="btn" id="btnDisplayRegistrar">Registrarse</button>
+            <button class="btn btn-danger" type="btn" id="btnDisplayCerrarSesion" display="hidden">Cerrar Sesion</button>
+        </form>
+    </nav>
+
 
     <div id="funcionalidad1" class="container">
         <h2>Ingresar a la aplicación</h2>
@@ -54,7 +63,7 @@
                         <td>123</td>
                         <td>Razon social empresa 1</td>
                         <td>Habilitada</td>
-                        <td><i class="bi bi-x-circle"></i></i></td>
+                        <td><i class="bi bi-x-circle"></i></td>
                     </tr>
                     <tr>
                         <td>Nombre empresa 2</td>
@@ -68,7 +77,7 @@
                         <td>789</td>
                         <td>Razon social empresa 1</td>
                         <td>Habilitada</td>
-                        <td><i class="bi bi-x-circle"></i></i></td>
+                        <td><i class="bi bi-x-circle"></i></td>
                     </tr>
                 </tbody>
             </table>
@@ -461,6 +470,7 @@
     <!-- --------------------------------------------------------------- -->
     <!-- LINKEO CON ARCHIVOS JS -->
     <!-- CLASES -->
+    <script src=display.js></script>
     <script src="constructores.js"></script>
 
     <!-- ARCHIVO PRINCIPAL -->

@@ -8,14 +8,16 @@ inicializar();
 function inicializar(){
     precargaDeDatos();
     agregarEventoEnBotones();
+    ocultarPantallas();
 }
 
 function agregarEventoEnBotones(){
-    document.querySelector("#btnRegistrarPersona").addEventListene("click", registroPersona);
-    document.querySelector("#btnRegistrarEmpresa").addEventListene("click", registroEmpresa);
+    document.querySelector("#btnRegistrarPersona").addEventListener("click", registroPersona);
+    document.querySelector("#btnBuscarEmpresa").addEventListener("click", buscarEmpresa);
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
+
 
 function precargaDeDatos(){
     precargaDeVehiculos();
@@ -47,7 +49,7 @@ function precargaDeUsuariosEmpresa() {
 }
 
 function precargaDeUsuariosAdmin() {
-    admins.push(new UsuarioAdmin("Admin","Admin01"))
+    admins.push(new UsuarioAdmin("Admin","Admin01"))                    
 }
 
 function agregarVehiculo(tipo){                                     // Agregar un nuevo vehiculo al sistema
@@ -67,12 +69,12 @@ function agregarVehiculo(tipo){                                     // Agregar u
     
 }
 
-function obtenerNuevoID(nombreVehiculo){            // Genera un ID (diferente a los existentes) a partir de la primera letra del vehiculo y un numero random entre 0  y 1000
+function obtenerNuevoID(){            // Genera un ID (diferente a los existentes) a partir de la primera letra del vehiculo y un numero random entre 0  y 1000
     let i = 0;
     let nuevoID = '';        
     while (i < vehiculos.length){
         if (i == 0){
-            nuevoID = nombreVehiculo[0] + Math.floor(Math.random()*1000);
+            nuevoID = Math.floor(Math.random()*1000 - 100)) + 100; //Fuente https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/random
         }
         if (vehiculos[i].id === nuevoID){
             i = 0
@@ -83,28 +85,27 @@ function obtenerNuevoID(nombreVehiculo){            // Genera un ID (diferente a
     return nuevoID
 }
 
-function registroPersona(){
-    let aliasIngresado = document.querySelector("#registroAliasUsuarioPersonaF5").value;
-    let passIngresado = document.querySelector("#registroPassUsuarioPersonaF5").value;
-    let ciIngresado = document.querySelector("#registroCIUsuarioPersonaF5").value;
-    let nombreIngresado = document.querySelector("#registroNombreUsuarioPersonaF5").value;
-    let apellidoIngresado = document.querySelector("#registroApellidoUsuarioPersonaF5").value;
-    aliasIngresado = aliasIngresado.trim();
-    passIngresado = passIngresado.trim();
-    ciIngresado = ciIngresado.trim();
-    nombreIngresado = nombreIngresado.trim();
-    apellidoIngresado = apellidoIngresado.trim();
+function registroPersona(){            // Registra un nuevo usuario en el sistema
+    let aliasIngresado = document.querySelector("#registroAliasUsuarioPersonaF5").value.trim();
+    let passIngresado = document.querySelector("#registroPassUsuarioPersonaF5").value.trim();
+    let ciIngresado = parseInt(document.querySelector("#registroCIUsuarioPersonaF5").value);
+    let nombreIngresado = document.querySelector("#registroNombreUsuarioPersonaF5").value.trim();
+    let apellidoIngresado = document.querySelector("#registroApellidoUsuarioPersonaF5").value.trim();
+
+    let noEsNumero = isNaN(ciIngresado);
     
     if (aliasIngresado && passIngresado && ciIngresado && nombreIngresado && apellidoIngresado) {
-        let contraseniaValida = !validarPassword(passIngresado)
+        let contraseniaNoEsValida = !validarPassword(passIngresado)
         let usuarioExistente = existeUsuarioPorUsuario(aliasIngresado);
         
-        if (contraseniaValida) {
+        if (contraseniaNoEsValida) {
             alert("La contraseña no cumple con los requisitos.");
         } else if (usuarioExistente) {
             alert("Ya existe un usuario con ese nickname.");
+        } else if (noEsNumero){
+            alert("la cédula debe contener solo números");
         } else {
-            registrarUsuario(aliasIngresado, passIngresado, ciIngresado, nombreIngresado, apellidoIngresado);
+            registrarUsuarioPersona(aliasIngresado, passIngresado, ciIngresado, nombreIngresado, apellidoIngresado);
             alert("Usuario registrado con exito.");
         }
     } else {
@@ -155,9 +156,74 @@ function passwordTieneNumero(password) {            //Verificar si un texto cont
 function existeUsuarioPorUsuario(alias) {            //Verificar si ya existe un usuario con ese alias
     let existe = false;
     let i = 0;
-    while (!existe && i < alias.length) {
-        let aliasGuardado = alias[i];
-        if (alias === usuarioGuardado.alias) {
+    while (!existe && i < usuariosPersona.length) {
+        if (alias === usuariosPersona[i].alias) {
+            existe = true;
+        }
+        i++;
+    }
+
+    while (!existe && i < usuariosEmpresa.length) {
+        if (alias === usuariosEmpresa[i].alias) {
+            existe = true;
+        }
+        i++;
+    }
+    
+    while (!existe && i < admins.length) {
+        if (alias === admins[i].alias) {
+            existe = true;
+        }
+        i++;
+    }
+     
+    return existe;
+}
+
+function registrarUsuarioPersona(alias, pass, ci, nombre, apellido) {            //Agregar una nueva persona al sistema
+    let nuevoUsuarioPersona = new UsuarioPersona(alias, pass, ci, nombre, apellido);
+    usuariosPersona.push(nuevoUsuarioPersona);
+}
+
+
+function registroEmpresa(){
+    let aliasIngresado = document.querySelector("#registroAliasUsuarioEmpresa").value.trim();
+    let passIngresado = document.querySelector("#registroPassUsuarioEmpresa").value.trim();
+    let fantasiaIngresada = document.querySelector("#registroFantasiaUsuarioEmpresa").value.trim();
+    let rutIngresado = parseInt(document.querySelector("#registroRutUsuarioEmpresa").value);
+    let razonSocialIngresada = document.querySelector("#registroRazSocUsuarioEmpresa").value.trim();
+    let vehiculoAsociado = document.querySelector("#registroVehiculoUsuarioEmpresa").value.trim();
+    
+    if (aliasIngresado && passIngresado && fantasiaIngresada && rutIngresado && razonSocialIngresada && vehiculoAsociado) {
+        let contraseniaNoEsValida = !validarPassword(passIngresado);
+        let usuarioExistente = existeUsuarioPorUsuario(aliasIngresado);
+        let razonSocialUnica = existeRazonSocialPorUsuarioEmpresa(razonSocialIngresada);
+        let rutUnico = existeRUTPorUsuarioEmpresa(rutIngresado);
+        
+        if (contraseniaNoEsValida) {
+            alert("La contraseña no cumple con los requisitos.");
+        } else if (usuarioExistente) {
+            alert("Ya existe un usuario con ese nickname.");
+        } else if (razonSocialUnica){
+            alert("Ya existe un usuario con esa razón social.");
+        } else if (rutUnico){
+            alert("Ya existe un usuario con ese RUT.");
+        } else {
+            registrarUsuarioEmpresa(aliasIngresado, passIngresado, fantasiaIngresada, rutIngresado, razonSocialIngresada, vehiculoAsociado);
+            alert("Usuario registrado con exito.");
+        }
+    } else {
+       alert("Se deben ingresar todos los datos");
+    }
+
+    
+}
+
+function existeRazonSocialPorUsuarioEmpresa(razonSocial) {            // Checkear entre las empresas registradas si ya existe la razón social ingresada. SI existe devuelve 'true', sino exite 'false'
+    let existe = false;
+    let i = 0;
+    while (!existe && i < usuariosEmpresa.length) {
+        if (razonSocial === usuariosEmpresa[i].razonSocial) {
             existe = true;
         }
         i++;
@@ -165,23 +231,28 @@ function existeUsuarioPorUsuario(alias) {            //Verificar si ya existe un
     return existe;
 }
 
-function registrarUsuario(alias, pass, ci, nombre, apellido) {            //Agregar un nuevo usuario al sistema
-    let nuevoUsuario = new UsuarioPersona(alias, pass, ci, nombre, apellido);
-    usuariosPersona.push(nuevoUsuario);
+function existeRUTPorUsuarioEmpresa(rut) {            // Checkear entre las empresas registradas si ya existe el rut ingresado. Si existe devuelve 'true', sino exite 'false'
+    let existe = false;
+    let i = 0;
+    while (!existe && i < usuariosEmpresa.length) {
+        if (rut === usuariosEmpresa[i].rut) {
+            existe = true;
+        }
+        i++;
+    }
+    return existe;
 }
 
-function registroEmpresa(){
-    let mensaje = "";
-    let aliasIngresado = document.querySelector("#registroAliasUsuarioEmpresa").value.trim();
-    let passIngresado = document.querySelector("#registroPassUsuarioEmpresa").value.trim();
-    let fantasiaIngresada = document.querySelector("#registroFantasiaUsuarioEmpresa").value.trim();
-    let rutIngresado = document.querySelector("#registroRutUsuarioEmpresa").value.trim();
-    let razonSocialIngresada = document.querySelector("#registroRazSocUsuarioEmpresa").value.trim();
-    let vehiculoAsociado = document.querySelector("#registroVehiculoUsuarioEmpresa").value.trim();
 
-    if (aliasIngresado && passIngresado && fantasiaIngresada && rutIngresado && razonSocialIngresada && vehiculoAsociado) {
+function registrarUsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo) {            //Agregar una nueva empresa al sistema
+    let nuevoUsuarioEmpresa = new UsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo);
+    usuariosEmpresa.push(nuevoUsuarioEmpresa);
+}
 
-    } else {
-        mensaje = "Se deben ingresar todos los datos"
-    }
+function cambiarEstadoDeEmpresa(empresa) {
+    return !empresa.habilitacion
+}
+
+function buscarEmpresa() {
+    
 }

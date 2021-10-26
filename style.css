@@ -36,12 +36,12 @@ div{
 }
 
 select {
-    margin-bottom; 5px:
+    margin-bottom: 5px;
 }
 
-#estadoSolicitudEmpresaF4 {
+/* #estadoSolicitudEmpresaF4 {
 
-}
+} */
 
 #labBusquedaEmpresas {
     margin-left: 22px;
@@ -50,4 +50,20 @@ select {
 
 h2 {
     margin: 25px auto;
+}
+
+
+.form-inline{
+    margin-left:70%;
+}
+
+.form-inline{
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 15px;
+}
+
+.navbar-brand{
+    color: white;
+    margin-left: 284px;
 }
