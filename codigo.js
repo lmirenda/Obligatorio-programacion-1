@@ -13,7 +13,7 @@ function inicializar(){
 
 function agregarEventoEnBotones(){
     document.querySelector("#btnRegistrarPersona").addEventListener("click", registroPersona);
-    document.querySelector("#btnBuscarEmpresa").addEventListener("click", buscarEmpresa);
+    // document.querySelector("#btnBuscarEmpresa").addEventListener("click", buscarEmpresa);
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
