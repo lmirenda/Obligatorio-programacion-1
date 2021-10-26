@@ -10,10 +10,13 @@ btnCerrarSesion = addEventListener('click', ocultarPantallas);
 
 // FUNCIONES // 
 function toggleLogIn(){
-    ocultarPantallas();
     document.querySelector("#funcionalidad1").style.display="block";       
 }
 
+function toggleRegister(){
+    document.querySelector("#funcionalidad5").style.display="block";
+    console.log(document.querySelector("#funcionalidad5"))
+}
 
 function ocultarPantallas() {                                               // Ocultar todas las pantallas
     document.querySelector("#funcionalidad1").style.display="none";        // Log In
@@ -32,39 +35,39 @@ function ocultarPantallas() {                                               // O
 
 
 /*---------------------------------Bruno-------------------------------------*/ 
-function ocultarPantallas() {
-    ocultarPantallaLogin();
-    document.querySelector("#pantallaGestionUsuarios").style.display = "none";
-    ocultarPantallaRegistroUsuario();
-}
+// function ocultarPantallas() {
+//     ocultarPantallaLogin();
+//     document.querySelector("#pantallaGestionUsuarios").style.display = "none";
+//     ocultarPantallaRegistroUsuario();
+// }
 
-function ocultarPantallaLogin() {
-    document.querySelector("#pantallaLogin").style.display = "none";
-    document.querySelector("#txtLoginUsuario").value = 'bdiaz';
-    document.querySelector("#txtLoginPassword").value = '123';
-    document.querySelector("#divLoginMensajes").innerHTML = '';
-}
+// function ocultarPantallaLogin() {
+//     document.querySelector("#pantallaLogin").style.display = "none";
+//     document.querySelector("#txtLoginUsuario").value = 'bdiaz';
+//     document.querySelector("#txtLoginPassword").value = '123';
+//     document.querySelector("#divLoginMensajes").innerHTML = '';
+// }
 
-function ocultarPantallaRegistroUsuario() {
-    document.querySelector("#pantallaRegistroUsuario").style.display = "none";
-    document.querySelector("#txtRegistroUsuarioUsuario").value = '';
-    document.querySelector("#txtRegistroUsuarioPassword").value = '';
-    document.querySelector("#divRegistroUsuarioMensajes").innerHTML = '';
-}
+// function ocultarPantallaRegistroUsuario() {
+//     document.querySelector("#pantallaRegistroUsuario").style.display = "none";
+//     document.querySelector("#txtRegistroUsuarioUsuario").value = '';
+//     document.querySelector("#txtRegistroUsuarioPassword").value = '';
+//     document.querySelector("#divRegistroUsuarioMensajes").innerHTML = '';
+// }
 
-function mostrarPantallaLogin() {
-    ocultarPantallas();
-    document.querySelector("#pantallaLogin").style.display = "block";
-}
+// function mostrarPantallaLogin() {
+//     ocultarPantallas();
+//     document.querySelector("#pantallaLogin").style.display = "block";
+// }
 
-function mostrarPantallaRegistroUsuario() {
-    ocultarPantallas();
-    document.querySelector("#pantallaRegistroUsuario").style.display = "block";
-}
+// function mostrarPantallaRegistroUsuario() {
+//     ocultarPantallas();
+//     document.querySelector("#pantallaRegistroUsuario").style.display = "block";
+// }
 
-function mostrarPantallaGestionUsuarios() {
-    ocultarPantallas();
-    actualizarTablaDeUsuarios();
-    document.querySelector("#pantallaGestionUsuarios").style.display = "block";
-}
-/*--------------------------------------------------------------------------------------------*/
+// function mostrarPantallaGestionUsuarios() {
+//     ocultarPantallas();
+//     actualizarTablaDeUsuarios();
+//     document.querySelector("#pantallaGestionUsuarios").style.display = "block";
+// }
+// /*--------------------------------------------------------------------------------------------*/
