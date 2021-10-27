@@ -19,16 +19,17 @@
         <form class="form-inline">
             <button class="btn btn-success" type="button" id="btnDisplayLogIn">Iniciar Sesión</button>
             <button class="btn btn-success" type="button" id="btnDisplayRegistrar">Registrarse</button>
-            <button class="btn btn-danger" type="button" id="btnDisplayCerrarSesion" display="hidden">Cerrar Sesion</button>
+            <button class="btn btn-danger" type="button" id="btnDisplayCerrarSesion" display="hidden">Cerrar
+                Sesion</button>
         </form>
     </nav>
 
     <div id="panelAdmin" class="container">
         <h2>Panel Administrador</h2>
         <div id="adminPanelNav">
-            <button class="btn btn-primary">Listado de Empresas</button>
-            <button class="btn btn-primary">Crear tipos de vehiculos</button>
-            <button class="btn btn-primary">Visualizar informacion estadistica</button>
+            <button class="btn btn-primary" id="btnAdminListarEmpresas">Listado de Empresas</button>
+            <button class="btn btn-primary" id="btnAdminCrearVehiculos">Crear tipos de vehiculos</button>
+            <button class="btn btn-primary" id="btnAdminEstadistica">Visualizar informacion estadistica</button>
         </div>
     </div>
 
@@ -41,7 +42,7 @@
     </div>
 
 
-    <div id="funcionalidad1" class="container">
+    <div id="panelLogInF1" class="container">
         <h2>Ingresar a la aplicación</h2>
         <label for="ingresoUsuario" class="control-label">Usuario: </label>
         <input type="text" placeholder="Nombre de usuario" class="form-control" id="ingresoUsuario">
@@ -51,88 +52,29 @@
         <br><br>
         <button id="btnLogIn" class="btn btn-secondary">Log In</button>
         <p id="mensajeLogIn" class="errorMsj"></p>
+        <p id="mensajeLogInNuevoUsuario" class="welcomeMsj"></p>
         <hr>
     </div>
-    
-    
-    
+
+
+
     <!-- FUNCIONALIDAD 2 - HABILITAR DESHABILITAR EMPRESAS -->
-    <div id="funcionalidad2" class="container">
+    <div id="listadoDeEmpresasF2" class="container">
         <h2>Habilitar/Deshabilitar empresa</h2>
         <div id="listadoEmpresas">
-            <label for="textoBusquedaEmpresaF2" id="labBusquedaEmpresas" class="control-label">Buscar por razón social:</label> 
+            <label for="textoBusquedaEmpresaF2" id="labBusquedaEmpresas" class="control-label">Buscar por razón
+                social:</label>
             <label for="textoBusquedaEmpresaF2"> <i class="bi bi-search"></i> </label>
             <input type="text" id="textoBusquedaEmpresaF2" placeholder="Buscar..." class="form-control-busqueda">
             <br><br>
             <input type="button" id="btnMostrarEmpresasF2" value="Mostrar filtrado" class="btn btn-secondary">
-            <table class="table">
-                <header>
-                    <tr>
-                        <th>Nombre empresa</th>
-                        <th>RUT</th>
-                        <th>Razon social</th>
-                        <th>Estado</th>
-                        <th>Habilitar/Deshabilitar</th>
-                    </tr>
-                </header>
-                <tbody>
-                    <tr>
-                        <td>Nombre empresa 1</td>
-                        <td>123</td>
-                        <td>Razon social empresa 1</td>
-                        <td>Habilitada</td>
-                        <td><i class="bi bi-x-circle"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Nombre empresa 2</td>
-                        <td>456</td>
-                        <td>Razon social empresa 1</td>
-                        <td>Deshabilitada</td>
-                        <td><i class="bi bi-check-circle"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Nombre empresa 3</td>
-                        <td>789</td>
-                        <td>Razon social empresa 1</td>
-                        <td>Habilitada</td>
-                        <td><i class="bi bi-x-circle"></i></td>
-                    </tr>
-                </tbody>
+            <table class="table" id="tableListadoEmpresas">
             </table>
-            
-            <!-- BUSQUEDA DE EMPRESA FUNCIONALIDAD 2 - MUESTRA BUSQUEDA -->
-            <!-- <br><br><br><br><br><br>
-            <h2>Muestra de busqueda</h2> 
-            <label for="textoBusquedaEmpresaF2" id="labBusquedaEmpresas" class="control-label">Buscar por razón social:</label> 
-            <label for="textoBusquedaEmpresaF2"> <i class="bi bi-search"></i> </label>
-            <input type="text" id="textoBusquedaEmpresaF2" class="form-control-busqueda" value="Nombre empresa 3">
-            <br><br>
-            <input type="button" id="btnMostrarTodoEmpresasF2" value="Mostrar todo" class="btn btn-secondary">
-            <table class="table">
-                <header>
-                    <tr>
-                        <th>Nombre empresa</th>
-                        <th>RUT</th>
-                        <th>Razon social</th>
-                        <th>Estado</th>
-                        <th>Habilitar/Deshabilitar</th>
-                    </tr>
-                </header>
-                <tbody>
-                    <tr>
-                        <td>Nombre empresa 3</td>
-                        <td>789</td>
-                        <td>Razon social empresa 1</td>
-                        <td>Deshabilitada</td>
-                        <td><i class="bi bi-x-circle"></i></i></td>
-                    </tr>
-                </tbody>
-            </table> -->
         </div>
         <hr>
     </div>
 
-    <div id="funcionalidad3" class="container">
+    <div id="panelCreacionVehiculosF3" class="container">
         <h2>Crear tipos de vehiculos</h2>
         <div id="listadoVehiculos">
             <table class="table">
@@ -168,7 +110,7 @@
         <hr>
     </div>
 
-    <div id="funcionalidad4" class="container">
+    <div id="verInfoEstadisticaF4" class="container">
         <h2>Visualizar informacion estadistica</h2>
         <br><br>
         <h3>Informacion de empresas: Admin</h3>
@@ -293,67 +235,71 @@
         <hr>
     </div>
 
-    <div id="funcionalidad5" class="container">
+    <div id="panelRegistroF5" class="container">
         <h2>Registrarse en la aplicacion</h2>
         <br>
         <label for="tipoDeCuenta">Seleccione el tipo de cuenta: </label>
-        <select name="" id="tipoDeCuenta"  class="form-select form-select-lg mb-3">
+        <select name="" id="tipoDeCuenta" class="form-select form-select-lg mb-3">
+            <option disabled selected value="">Seleccione un tipo</option>
             <option value="Empresa">Empresa</option>
             <option value="Persona">Persona</option>
         </select>
         <button id="btnTipoDeCuenta" class="btn btn-secondary">Seleccionar</button>
+        <p class="errorMsj" id="pErrorSelectTipocuenta"></p>
         <br><br>
         <div id="registroUsuario">
             <h3>Usuario: Persona</h3>
             <br>
             <label for="registroAliasUsuarioPersonaF5">Nombre de Usuario: </label>
-            <input type="text" id="registroAliasUsuarioPersonaF5" placeholder="Nombre de usuario">
+            <input type="text" id="registroAliasUsuarioPersonaF5" placeholder="jfernandez">
             <br><br>
             <label for="registroPassUsuarioPersonaF5">Contraseña: </label>
-            <input type="password" id="registroPassUsuarioPersonaF5" placeholder="Contraseña">
+            <input type="password" id="registroPassUsuarioPersonaF5" placeholder="Ab12345">
             <br><br>
             <label for="registroCIUsuarioPersonaF5">CI: </label>
-            <input type="password" id="registroCIUsuarioPersonaF5" placeholder="12345678">
+            <input type="text" id="registroCIUsuarioPersonaF5" placeholder="12345678">
             <br><br>
             <label for="registroNombreUsuarioPersonaF5">Nombre: </label>
-            <input type="text" id="registroNombreUsuarioPersonaF5" placeholder="Nombre">
+            <input type="text" id="registroNombreUsuarioPersonaF5" placeholder="Juan">
             <br><br>
             <label for="registroApellidoUsuarioPersonaF5">Apellido: </label>
-            <input type="text" id="registroApellidoUsuarioPersonaF5" placeholder="Apellido">
+            <input type="text" id="registroApellidoUsuarioPersonaF5" placeholder="Fernandez">
             <br><br>
             <button class=" btn btn-secondary" id="btnRegistrarPersona">Registrar</button>
+            <p id="pParaDesplegarErroresPersona" class="errorMsj"></p>
         </div>
         <div id="registroEmpresa">
             <h3>Usuario: Empresa</h3>
             <br>
             <label for="registroAliasEmpresaF5">Nombre de usuario: </label>
-            <input type="text" id="registroAliasEmpresaF5">
+            <input type="text" id="registroAliasEmpresaF5" placeholder="nombre123">
             <br><br>
             <label for="registroNombreEmpresaF5">Nombre de fantasia: </label>
-            <input type="text" id="registroNombreEmpresaF5">
+            <input type="text" id="registroNombreEmpresaF5" placeholder="Empresa SA">
             <br><br>
             <label for="registroRUTEmpresaF5">RUT:</label>
-            <input type="number" id="registroRUTEmpresaF5">
+            <input type="number" id="registroRUTEmpresaF5" placeholder="123456">
             <br><br>
             <label for="registroRazonSocialEmpresaF5">Razon Social:</label>
-            <input type="text" id="registroRazonSocialEmpresaF5">
+            <input type="text" id="registroRazonSocialEmpresaF5" placeholder="Razon social registrada">
             <br><br>
             <label for="registroPassEmpresaF5">Contraseña: </label>
-            <input type="password" id="registroPassEmpresaF5" placeholder="Contraseña">
+            <input type="password" id="registroPassEmpresaF5" placeholder="Ab12345">
             <br><br>
             <label for="registroVehiculoEmpresa">Tipo de vehiculo: </label>
             <select id="registroVehiculoEmpresa">
-                <option value="Moto">Moto</option>
+                <!-- <option value="Moto">Moto</option>
                 <option value="Camion">Camion</option>
-                <option value="Avion">Avion</option>
+                <option value="Avion">Avion</option> -->
             </select>
             <br><br>
             <button class=" btn btn-secondary" id="btnRegistrarEmpresa">Registrar</button>
+            <p id="pParaDesplegarErroresEmpresa" class="errorMsj"></p>
         </div>
         <hr>
     </div>
 
-    <div id="funcionalidad6" class="container">
+    <div id="solicitudEnvioF6" class="container">
         <h2>Realizar solicitud de envío</h2>
         <label for="solitudEnvioVehiculo">Tipo de vehiculo: </label>
         <select id="solicitudEnvioVehiculo">
@@ -374,7 +320,7 @@
         <button id="btn6" class="btn btn-secondary">Ingresar solicitud</button>
     </div>
 
-    <div id="funcionalidad7" class="container">
+    <div id="listadoEnviosF7" class="container">
         <h2>Ver listado de envíos del cliente</h2>
         <table class="table">
             <header>
@@ -408,7 +354,7 @@
         </table>
     </div>
 
-    <div id="funcionalidad8" class="container">
+    <div id="listadoEnviosPendientesF8" class="container">
         <h2>Ver listado de solicitudes pendientes especificas para empresas</h2>
         <table class="table">
             <header>
@@ -446,7 +392,7 @@
         </table>
     </div>
 
-    <div id="funcionalidad9" class="container">
+    <div id="listadoEnviosTomadosF9" class="container">
         <h2>Ver listado de solicitudes tomadas</h2>
         <table class="table">
             <header>
@@ -484,12 +430,12 @@
         </table>
 
     </div>
-    
+
     <!-- --------------------------------------------------------------- -->
     <!-- LINKEO CON ARCHIVOS JS -->
     <!-- CLASES -->
     <script src="constructores.js"></script>
-    
+
     <!-- ARCHIVO PRINCIPAL -->
     <script src=display.js></script>
     <script src="codigo.js"></script>

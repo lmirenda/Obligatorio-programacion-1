@@ -48,9 +48,10 @@ class Envio {
 }
 
 class Vehiculo {
-    constructor(_tipo,_codigo){
+    constructor(_tipo){
         this.tipo = _tipo;
-        this.id = _codigo;
+        this.id = codigoVehiculo;
+        codigoVehiculo++
     }
 }
 

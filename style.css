@@ -74,4 +74,10 @@ a {
 .errorMsj {
     margin-top: 25px;
     color: red;
+    font-size: 21px;
+}
+.welcomeMsj {
+    margin-top: 25px;
+    color: rgb(0, 134, 29);
+    font-size: 21px;
 }
