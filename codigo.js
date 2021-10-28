@@ -167,6 +167,20 @@ function existeUsuarioPorUsuario(alias) {            //Verificar si ya existe un
     return existe;
 }
 
+function objUsuarioPorUsuario(username){               // Recibe como parametro el nombre de un ususario y en caso de existir retorna el objeto con ese nombre de usuario
+    let encontrado = false;
+    let i=0;
+    let objetoUsuario = null;
+    while(!encontrado && i<usuarios.length){
+        if((usuarios[i].username).toUpperCase() == username.toUpperCase()){
+            encontrado = true;
+            objetoUsuario = usuarios[i]
+        }
+        i++
+    }
+    return objetoUsuario
+}
+
 function registrarUsuarioPersona(alias, pass, ci, nombre, apellido) {            //Agregar una nueva persona al sistema
     let nuevoUsuarioPersona = new UsuarioPersona(alias, pass, ci, nombre, apellido);
     usuarios.push(nuevoUsuarioPersona);
@@ -294,18 +308,67 @@ function crearListaDeEmpresas() {
     
     for (let i = 0; i < usuarios.length; i++) {
         let usuarioActual = usuarios[i];
-        
+        let estadoParaModificar = mostrarTextoHabilitarDeshabilitar(usuarioActual)
+        let estadoActual = leerEstado(usuarioActual);
+
         if (usuarioActual.tipo == "Empresa") {
             tablaEmpresas += `
             <tr>
                 <td>${usuarioActual.fantasia}</td>
                 <td>${usuarioActual.rut}</td>
                 <td>${usuarioActual.razonSocial}</td>
-                <td>${usuarioActual.habilitacion}</td>
-                <td><button>BTN</button></td>
+                <td>${estadoActual}</td>
+                <td><button class="btn btn-warning btnCambioEstado" btnempresaUsername="${usuarioActual.username}">${estadoParaModificar}</button></td>
             </tr>`
         } 
     }
     tablaEmpresas += `</tbody>`
     table.innerHTML = tablaEmpresas;
+    activarBotonesCambioDeEstado();
 }
+
+function mostrarTextoHabilitarDeshabilitar(usuarioEmpresa) {        // Leer el estado (habilitado o deshabilitado) de la empresa. Devuelve "habilitar" o "deshabilitar"
+    if (usuarioEmpresa.tipo=="Empresa"){
+        if (usuarioEmpresa.habilitacion){
+            return "Deshabilitar"
+        } else {
+            return "Habilitar"
+        }
+    }
+}
+
+function leerEstado(usuarioEmpresa){        // Leer el estado de la empresa y devolverlo
+    if (usuarioEmpresa.tipo=="Empresa"){
+        if (usuarioEmpresa.habilitacion){
+            return "Habilitado"
+        } else {
+            return "Deshabilitado"
+        }
+    }
+}
+
+function cambiarEstadoDeEmpresa(){   // Recibe como parametro una empresa, cambia su estado de habilitado a deshabilitado o viceversa
+    let empresaUsernameClickeado = this.getAttribute("btnempresaUsername")
+    console.log(empresaUsernameClickeado)
+    let empresa = objUsuarioPorUsuario(empresaUsernameClickeado);
+    console.log(empresa)
+    console.log(empresa.habilitacion)
+    if (empresa.habilitacion){
+        empresa.habilitacion = false;
+    }else{
+        empresa.habilitacion = true;
+    }
+    crearListaDeEmpresas();                 // Actualizar el listado de empresas
+    console.log('click');
+}
+
+function activarBotonesCambioDeEstado(){                    // Activa todos los botones de "Habilitar/Deshabilitar" en la lista de empresas del panel de administrador
+    let listaBotones = document.querySelectorAll(".btnCambioEstado"); // guardar todos los botones con el Tag indicado en un array
+    for(let i = 0; i<listaBotones.length;i++){
+        listaBotones[i].addEventListener('click',cambiarEstadoDeEmpresa);
+    }
+    
+}
+
+
+
