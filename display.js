@@ -6,6 +6,8 @@ const selectTipoCuenta = document.querySelector("#tipoDeCuenta");
 const btnAdminEmpresas = document.querySelector("#btnAdminListarEmpresas");
 const btnAdminVehiculo = document.querySelector("#btnAdminCrearVehiculos")
 const btnAdminEstadistica = document.querySelector("#btnAdminEstadistica")
+const btnMostrarEmpresasFiltradas = document.querySelector("#btnMostrarEmpresasF2")
+const pMensajeErrorFiltrarEmpresas = document.querySelector("#mensajeErrorFiltrarEmpresas");
 
 // EVENT LISTENERS // 
 btnMostrarLogIn.addEventListener('click', toggleLogIn);
@@ -16,9 +18,9 @@ selectTipoCuenta.addEventListener('click', displayBtnSelect);
 btnAdminEmpresas.addEventListener('click', adminDisplayEmpresas);
 btnAdminVehiculo.addEventListener('click', adminDisplayVehiculos);
 btnAdminEstadistica.addEventListener('click', adminDisplayEstadistica);
+btnMostrarEmpresasFiltradas.addEventListener('click', adminDisplayEmpresasFiltradas);
 
 // FUNCIONES // 
-
 function cerrarSesion() {
     ocultarPantallas();
     btnMostrarRegister.style.display = "inline-block"
@@ -55,6 +57,7 @@ function ocultarPantallas() {                                                   
     document.querySelector("#panelAdmin").style.display = "none"
     document.querySelector("#panelEmpresa").style.display = "none"
     document.querySelector("#panelPersona").style.display = "none"
+    pMensajeErrorFiltrarEmpresas.style.display = "none"
     btnCerrarSesion.style.display = "none";
 }
 
@@ -120,6 +123,11 @@ function adminDisplayEmpresas() {
     document.querySelector("#listadoDeEmpresasF2").style.display = "block";
     document.querySelector("#panelCreacionVehiculosF3").style.display = "none"
     document.querySelector("#verInfoEstadisticaF4").style.display = "none"
+    document.querySelector("#tableListadoEmpresasFiltrado").style.display = "none" // Ocultar las empresas filtradas
+    document.querySelector("#tableListadoEmpresas").style.display = "table"         // Mostrar todas las empresas
+    pMensajeErrorFiltrarEmpresas.style.display = "none"                             // Ocultar msj de error
+
+
 }
 function adminDisplayVehiculos() {
     document.querySelector("#listadoDeEmpresasF2").style.display = "none";
@@ -130,4 +138,20 @@ function adminDisplayEstadistica() {
     document.querySelector("#listadoDeEmpresasF2").style.display = "none";
     document.querySelector("#panelCreacionVehiculosF3").style.display = "none"
     document.querySelector("#verInfoEstadisticaF4").style.display = "block"
+}
+
+function adminDisplayEmpresasFiltradas(){
+    document.querySelector("#tableListadoEmpresas").style.display = "none"              // Oculta la tabla con todas las empresas
+    crearListaDeEmpresasFiltrado();                                                                 // Genera la tabla con los criterios de busqueda
+    document.querySelector("#tableListadoEmpresasFiltrado").style.display = "table"     // Muestra unicamente las empresas de la tabla filtrada
+}
+
+function displayErrorBusquedaON() {
+    pMensajeErrorFiltrarEmpresas.style.display = "block"
+    document.querySelector("#tableListadoEmpresas").style.display = "none"              // Oculta la tabla con todas las empresas
+    document.querySelector("#tableListadoEmpresasFiltrado").style.display = "none"     // Muestra unicamente las empresas de la tabla filtrada
+}
+function displayErrorBusquedaOFF() {
+    pMensajeErrorFiltrarEmpresas.style.display = "none"
+    
 }

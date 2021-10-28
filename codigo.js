@@ -10,13 +10,11 @@ function inicializar() {
     ocultarPantallas();
     toggleLogIn();
     updateSelectVehiculos();
-    console.log(vehiculos)
 }
 
 function agregarEventoEnBotones() {
     document.querySelector("#btnRegistrarPersona").addEventListener("click", registroPersona);
     document.querySelector("#btnRegistrarEmpresa").addEventListener("click", registroEmpresa);
-    // document.querySelector("#btnBuscarEmpresa").addEventListener("click", buscarEmpresa);
     document.querySelector("#btnTipoDeCuenta").addEventListener("click", seleccionarTipoDeCuentaARegistrar);
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
 
@@ -179,6 +177,41 @@ function objUsuarioPorUsuario(username){               // Recibe como parametro 
         i++
     }
     return objetoUsuario
+}
+
+function objUsuarioPorRazonSocial(razonSocial){               // Recibe como parametro una razon social y en caso de existir retorna un AI con los objetos con dicha RZ.
+    let arrayObjetos = [];
+    let i=0;
+    while(i<usuarios.length){
+        if(usuarios[i].tipo == "Empresa"){
+            if((usuarios[i].razonSocial).toUpperCase() == razonSocial.toUpperCase()){
+                arrayObjetos.push(usuarios[i]);
+            }
+
+        }
+        i++
+    }
+    if(arrayObjetos.length>0){
+        return arrayObjetos
+    }
+}
+
+function objUsuarioPorNombreFantasia(nombreFantasia){          // Recibe como parametro un nombde de fantasia y en caso de existir retorna un AI con los objetos con dicha NF.
+    let i=0;
+    let arrayObjetos = [];
+    
+    while(i<usuarios.length){
+        if(usuarios[i].tipo == "Empresa"){
+
+            if((usuarios[i].fantasia).toUpperCase() == nombreFantasia.toUpperCase()){
+                arrayObjetos.push(usuarios[i]);
+            }
+        }
+        i++
+    }
+    if(arrayObjetos.length>0){
+        return arrayObjetos
+    }
 }
 
 function registrarUsuarioPersona(alias, pass, ci, nombre, apellido) {            //Agregar una nueva persona al sistema
@@ -349,26 +382,77 @@ function leerEstado(usuarioEmpresa){        // Leer el estado de la empresa y de
 
 function cambiarEstadoDeEmpresa(){   // Recibe como parametro una empresa, cambia su estado de habilitado a deshabilitado o viceversa
     let empresaUsernameClickeado = this.getAttribute("btnempresaUsername")
-    console.log(empresaUsernameClickeado)
     let empresa = objUsuarioPorUsuario(empresaUsernameClickeado);
-    console.log(empresa)
-    console.log(empresa.habilitacion)
+   
     if (empresa.habilitacion){
         empresa.habilitacion = false;
     }else{
         empresa.habilitacion = true;
     }
-    crearListaDeEmpresas();                 // Actualizar el listado de empresas
+    crearListaDeEmpresas();                                                                     // Actualizar el listado de empresas
+    crearListaDeEmpresasFiltrado();                                                                     // Actualizar el listado de empresas
     console.log('click');
 }
 
-function activarBotonesCambioDeEstado(){                    // Activa todos los botones de "Habilitar/Deshabilitar" en la lista de empresas del panel de administrador
-    let listaBotones = document.querySelectorAll(".btnCambioEstado"); // guardar todos los botones con el Tag indicado en un array
+function activarBotonesCambioDeEstado(){                                                        // Activa todos los botones de "Habilitar/Deshabilitar" en la lista de empresas del panel de administrador
+    let listaBotones = document.querySelectorAll(".btnCambioEstado");                           // guardar todos los botones con el Tag indicado en un array
     for(let i = 0; i<listaBotones.length;i++){
         listaBotones[i].addEventListener('click',cambiarEstadoDeEmpresa);
     }
     
 }
 
+function buscadorEmpresas(input){                                                                    // Generar una tabla con todas las empresas que cumplan el criterio de busqueda
+    let criterioDeBusqueda = input.trim();
+    let empresasEncontradasPorRZ = objUsuarioPorRazonSocial(criterioDeBusqueda) 
+    let empresasEncontradasPorNF = objUsuarioPorNombreFantasia(criterioDeBusqueda)
+    
+    if(empresasEncontradasPorRZ){                                                               // Buscamos primero por Razon Social
+        return empresasEncontradasPorRZ;                                 // En caso de encontrar generamos la tabla con las empresas encontradas
+    }
+    else if (empresasEncontradasPorNF){                                                         // En caso de no encontrar nada por RZ buscamos por NF
+        return empresasEncontradasPorNF;                                 // En caso de encontrar generamos la tabla con las empresas encontradas
 
+    } else {                                                                                    // En caso de no encontrar resultados por ningun metodo desplegar msj de error
+        return "Error";
+    }
+}
 
+function crearListaDeEmpresasFiltrado() {
+    let criterioDeBusqueda = document.querySelector("#textoBusquedaEmpresaF2").value;           // Leer del HTML lo esrito en el input field
+    let arrayEmpresas = buscadorEmpresas(criterioDeBusqueda)
+    let table = document.querySelector("#tableListadoEmpresasFiltrado");
+    if (arrayEmpresas == "Error"){
+        displayErrorBusquedaON();
+    } else {
+        displayErrorBusquedaOFF();
+        table.innerHTML = ` <theader>
+                                <tr>
+                                    <th>Nombre de fantasia</th>
+                                    <th>RUT</th>
+                                    <th>Razon social</th>
+                                    <th>Estado</th>
+                                    <th>Habilitar/Deshabilitar</th>
+                                </tr>
+                            <tbody>
+        `;
+                      
+        for (let i = 0; i < arrayEmpresas.length; i++) {
+            let estadoParaModificar = mostrarTextoHabilitarDeshabilitar(arrayEmpresas[i])
+            let estadoActual = leerEstado(arrayEmpresas[i]);
+    
+            table.innerHTML += `  <tr>
+                            <td>${arrayEmpresas[i].fantasia}</td>
+                            <td>${arrayEmpresas[i].rut}</td>
+                            <td>${arrayEmpresas[i].razonSocial}</td>
+                            <td>${estadoActual}</td>
+                            <td><button class="btn btn-warning btnCambioEstado" btnempresaUsername="${arrayEmpresas[i].username}">${estadoParaModificar}</button></td>
+                        </tr>`
+                  
+                
+        }
+        table.innerHTML += `</tbody>`
+        activarBotonesCambioDeEstado();
+    }
+    
+}
