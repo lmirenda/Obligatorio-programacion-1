@@ -61,9 +61,17 @@ function precargaDeUsuariosAdmin() {
 }
 
 function precargaDeEnvios() {
-    envios.push(new Envio(1000, 5, "Envio de supermercado", "img/envioSuper.jpg", null, "Pendiente", "bdiaz"));
-    envios.push(new Envio(1001, 10, "Motosierra", "img/motosierra.jpg", null, "Pendiente", "amayes"));
-    envios.push(new Envio(1002, 5, "Mudanza de muebles", "img/mudanza.jpg", null, "Pendiente", "lmirenda"));
+    let pedido = new Envio(1000, 5, "Envio de supermercado", "img/envioSuper.jpg", null, "Pendiente", usuarios[0])
+    envios.push(pedido);
+    usuarios[0].pedidos.push(pedido);
+    
+    pedido = new Envio(1001, 10, "Motosierra", "img/motosierra.jpg", null, "Pendiente", usuarios[1]);
+    envios.push(pedido);
+    usuarios[1].pedidos.push(pedido);
+    
+    pedido = new Envio(1002, 5, "Mudanza de muebles", "img/mudanza.jpg", null, "Pendiente", usuarios[2]);
+    envios.push(pedido);
+    usuarios[2].pedidos.push(pedido);
 }
 
 function agregarVehiculo(tipo) {                                     // Agregar un nuevo vehiculo al sistema. No agrega vehiculos ya existentes. Devuelve true si existe, false si no.
@@ -514,7 +522,6 @@ function btnSolicitudEnvioHandler(tipoVehiculo, distancia, descripcion, foto) {
     envios.push(pedido);
     let i = posUsuarioPorUsuario(usuarioLoggeado.username);
     usuarios[i].pedidos.push(pedido);
-    idEnvio++
 }
 
 function agregarVehiculoAlSistemaHandler(){
