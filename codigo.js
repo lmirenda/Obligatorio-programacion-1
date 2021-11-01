@@ -7,8 +7,6 @@ let usuarioLoggeado = null;
 
 inicializar();
 
-btnSolicitudEnvio.addEventListener('click', realizarSolicitudEnvio);
-
 function inicializar() {
     precargaDeDatos();
     agregarEventoEnBotones();
@@ -23,6 +21,7 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnTipoDeCuenta").addEventListener("click", seleccionarTipoDeCuentaARegistrar);
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
     document.querySelector("#btnIngresarVehiculo").addEventListener('click',agregarVehiculoAlSistemaHandler);
+    document.querySelector("#btnEnviarSolicitudEnvio6").addEventListener('click', realizarSolicitudEnvio);
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -62,9 +61,9 @@ function precargaDeUsuariosAdmin() {
 }
 
 function precargaDeEnvios() {
-    envios.push(new Envio("Moto", 5, "Envio de supermercado", "img/envioSuper.jpg", null, "Pendiente", "bdiaz"));
-    envios.push(new Envio("Camioneta", 10, "Motosierra", "img/motosierra.jpg", null, "Pendiente", "amayes"));
-    envios.push(new Envio("Camion", 5, "Mudanza de muebles", "img/mudanza.jpg", null, "Pendiente", "lmirenda"));
+    envios.push(new Envio(1000, 5, "Envio de supermercado", "img/envioSuper.jpg", null, "Pendiente", "bdiaz"));
+    envios.push(new Envio(1001, 10, "Motosierra", "img/motosierra.jpg", null, "Pendiente", "amayes"));
+    envios.push(new Envio(1002, 5, "Mudanza de muebles", "img/mudanza.jpg", null, "Pendiente", "lmirenda"));
 }
 
 function agregarVehiculo(tipo) {                                     // Agregar un nuevo vehiculo al sistema. No agrega vehiculos ya existentes. Devuelve true si existe, false si no.
@@ -188,6 +187,17 @@ function objUsuarioPorUsuario(username){               // Recibe como parametro 
         i++
     }
     return objetoUsuario
+}
+function posUsuarioPorUsuario(username){               // Recibe como parametro el nombre de un ususario y en caso de existir retorna la posicion en el array ususarios[]
+    let encontrado = false;
+    let i=0;
+    while(!encontrado && i<usuarios.length){
+        if((usuarios[i].username).toUpperCase() == username.toUpperCase()){
+            encontrado = true;
+            return i
+        }
+        i++
+    }
 }
 
 function objUsuarioPorRazonSocial(razonSocial){               // Recibe como parametro una razon social y en caso de existir retorna un AI con los objetos con dicha RZ.
@@ -411,7 +421,6 @@ function cambiarEstadoDeEmpresa(){   // Recibe como parametro una empresa, cambi
     }
     crearListaDeEmpresas();                                                                     // Actualizar el listado de empresas
     crearListaDeEmpresasFiltrado();                                                                     // Actualizar el listado de empresas
-    console.log('click');
 }
 
 function activarBotonesCambioDeEstado(){                                                        // Activa todos los botones de "Habilitar/Deshabilitar" en la lista de empresas del panel de administrador
@@ -474,7 +483,6 @@ function crearListaDeEmpresasFiltrado() {
 }
 
 function realizarSolicitudEnvio() {
-    console.log('click');
     let tipoVehiculoIngresado = document.querySelector("#solicitudEnvioVehiculo").value;
     let distanciaIngresada = document.querySelector("#solicitudEnvioDistancia").value;
     let descripcionIngresada = document.querySelector("#solicitudEnvioDescripcion").value;
@@ -484,10 +492,11 @@ function realizarSolicitudEnvio() {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
             btnSolicitudEnvioHandler(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada);
-            document.querySelector("#solicitudEnvioVehiculo").value = "" ;
+            document.querySelector("#solicitudEnvioVehiculo").value = 0;
             document.querySelector("#solicitudEnvioDistancia").value = "";
             document.querySelector("#solicitudEnvioDescripcion").value = "";
             document.querySelector("#solicitudEnvioFoto").value = "";
+            document.querySelector("#pErroresSolicitudEnvio").innerHTML = "Envio ingresado";
         } else {
             document.querySelector("#pErroresSolicitudEnvio").innerHTML = "La distancia ingresada debe ser numerica";
         }
@@ -496,8 +505,16 @@ function realizarSolicitudEnvio() {
     }
 }
 
-function btnSolicitudEnvioHandler(tipoVehiculo, distancia, descripcion, foto, persona) {
-    envios.push(new Envio(tipoVehiculo, distancia, descripcion, foto, null, "Pendiente", usuarioLoggeado))
+function crearListadoEnviosPendientes() {
+    
+}
+
+function btnSolicitudEnvioHandler(tipoVehiculo, distancia, descripcion, foto) {
+    let pedido = new Envio(tipoVehiculo, distancia, descripcion, foto, null, "Pendiente", usuarioLoggeado);
+    envios.push(pedido);
+    let i = posUsuarioPorUsuario(usuarioLoggeado.username);
+    usuarios[i].pedidos.push(pedido);
+    idEnvio++
 }
 
 function agregarVehiculoAlSistemaHandler(){
