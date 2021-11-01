@@ -19,8 +19,7 @@
         <form class="form-inline">
             <button class="btn btn-success" type="button" id="btnDisplayLogIn">Iniciar Sesión</button>
             <button class="btn btn-success" type="button" id="btnDisplayRegistrar">Registrarse</button>
-            <button class="btn btn-danger" type="button" id="btnDisplayCerrarSesion" display="hidden">Cerrar
-                Sesion</button>
+            <button class="btn btn-danger" type="button" id="btnDisplayCerrarSesion" display="hidden">Cerrar Sesion</button>
         </form>
     </nav>
 
@@ -28,7 +27,7 @@
         <h2>Panel Administrador</h2>
         <div id="adminPanelNav">
             <button class="btn btn-primary" id="btnAdminListarEmpresas">Listado de Empresas</button>
-            <button class="btn btn-primary" id="btnAdminCrearVehiculos">Crear tipos de vehiculos</button>
+            <button class="btn btn-primary" id="btnAdminCrearVehiculos">Listado de vehiculos</button>
             <button class="btn btn-primary" id="btnAdminEstadistica">Visualizar informacion estadistica</button>
         </div>
     </div>
@@ -39,6 +38,9 @@
 
     <div id="panelPersona" class="container">
         <h2>Panel Persona</h2>
+        <button class="btn btn-primary" id="btnPersonaRealizarSolicitudEnvio">Realizar solicitud de envio</button>
+        <button class="btn btn-primary" id="btnPersonaListadoEnvios">Listado de envios</button>
+        <button class="btn btn-primary" id="btnPersonaEstadistica">Visualizar informacion estadistica</button>
     </div>
 
 
@@ -78,9 +80,9 @@
     </div>
 
     <div id="panelCreacionVehiculosF3" class="container">
-        <h2>Crear tipos de vehiculos</h2>
-        <div id="listadoVehiculos">
-            <table class="table">
+        <h2>Listado de vehiculos</h2>
+        <div>
+            <table class="table" id="listadoVehiculos">
                 <header>
                     <tr>
                         <th>Tipo</th>
@@ -106,9 +108,10 @@
         <div id="agregarVehiculos">
             <h3>Agregar Vehiculos</h3>
             <label for="tipoVehiculo" class="control-label">Tipo de vehiculo: </label>
-            <input type="text" placeholder="Vehiculo" id="tipos" class="form-control">
+            <input type="text" placeholder="Vehiculo" id="tipoNuevoVehiculo" class="form-control">
             <br><br>
-            <button class="btn btn-secondary">Ingresar vehiculo al sistema</button>
+            <button class="btn btn-secondary" id="btnIngresarVehiculo">Ingresar vehiculo al sistema</button>
+            <p id="mensajeErrorVehiculos" class="errorMsj"></p>
         </div>
         <hr>
     </div>
@@ -214,28 +217,31 @@
                 </tr>
             </tbody>
         </table>
+
         <br><br>
-        <h3>Informacion de pedidos: Usuario</h3>
-        <h4>Ej: Usuario 1</h4>
-        <p>Pedidos pendientes: 3 </p>
-        <p>Pedidos en transito: 1 </p>
-        <p>Pedidos finalizados: 6 </p>
-        <p>Pedidos aceptados: 70%</p>
-        <table class="table">
-            <header>
-                <th>Estado de la solicitud</th>
-                <th>Estado del pedido</th>
-                <th>Empresa asociada</th>
-            </header>
-            <tbody>
-                <tr>
-                    <td>Aceptada</td>
-                    <td>En transito</td>
-                    <td>Empresa 1</td>
-                </tr>
-            </tbody>
-        </table>
-        <hr>
+        <div id="infoEstadisticaUsuario">
+            <h3>Informacion de pedidos: Usuario</h3>
+            <h4>Ej: Usuario 1</h4>
+            <p>Pedidos pendientes: 3 </p>
+            <p>Pedidos en transito: 1 </p>
+            <p>Pedidos finalizados: 6 </p>
+            <p>Pedidos aceptados: 70%</p>
+            <table class="table">
+                <header>
+                    <th>Estado de la solicitud</th>
+                    <th>Estado del pedido</th>
+                    <th>Empresa asociada</th>
+                </header>
+                <tbody>
+                    <tr>
+                        <td>Aceptada</td>
+                        <td>En transito</td>
+                        <td>Empresa 1</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
     </div>
 
     <div id="panelRegistroF5" class="container">
@@ -306,21 +312,18 @@
         <h2>Realizar solicitud de envío</h2>
         <label for="solicitudEnvioVehiculo">Tipo de vehiculo: </label>
         <select id="solicitudEnvioVehiculo">
-            <option value="Moto">Moto</option>
-            <option value="Camion">Camion</option>
-            <option value="Avion">Avion</option>
         </select>
         <br><br>
-        <label for="solitudEnvioDistancia">Distancia: </label>
+        <label for="solicitudEnvioDistancia">Distancia: </label>
         <input type="number" id="solicitudEnvioDistancia" placeholder="Distancia en Km">
         <br><br>
-        <label for="solitudEnvioDescripcion">Descripción: </label>
-        <input type="text" placeholder="Breve descripcion">
+        <label for="solicitudEnvioDescripcion">Descripción: </label>
+        <input type="text" placeholder="Breve descripcion" id="solicitudEnvioDescripcion">
         <br><br>
-        <label for="solitudEnvioFoto">Imagen:</label>
-        <input type="file" placeholder="URL">
+        <label for="solicitudEnvioFoto">Imagen:</label>
+        <input type="file" placeholder="URL" id="solicitudEnvioFoto">
         <br><br>
-        <button id="btn6" class="btn btn-secondary">Ingresar solicitud</button>
+        <button id="btnEnviarSolicitudEnvio6" class="btn btn-secondary">Ingresar solicitud</button>
         <p id="pErroresSolicitudEnvio" class="errorMsj"></p>
     </div>
 

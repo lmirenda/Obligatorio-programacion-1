@@ -3,8 +3,11 @@ let vehiculos = [];
 let codigoVehiculo = 1000;
 let envios = [];
 let idEnvio = 1;
+let usuarioLoggeado = null;
 
 inicializar();
+
+btnSolicitudEnvio.addEventListener('click', realizarSolicitudEnvio);
 
 function inicializar() {
     precargaDeDatos();
@@ -19,6 +22,7 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnRegistrarEmpresa").addEventListener("click", registroEmpresa);
     document.querySelector("#btnTipoDeCuenta").addEventListener("click", seleccionarTipoDeCuentaARegistrar);
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
+    document.querySelector("#btnIngresarVehiculo").addEventListener('click',agregarVehiculoAlSistemaHandler);
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -63,20 +67,20 @@ function precargaDeEnvios() {
     envios.push(new Envio("Camion", 5, "Mudanza de muebles", "img/mudanza.jpg", null, "Pendiente", "lmirenda"));
 }
 
-function agregarVehiculo(tipo) {                                     // Agregar un nuevo vehiculo al sistema
-
+function agregarVehiculo(tipo) {                                     // Agregar un nuevo vehiculo al sistema. No agrega vehiculos ya existentes. Devuelve true si existe, false si no.
     let vehiculoExitente = false;
     let i = 0;
-    while (i < vehiculos.length || vehiculoExitente == false) {         // Verificar que el vehiculo no existe en el sistema
-        if ((vehiculos[i].tipo).toUpperCase == tipo.toUpperCase()) {
+    while (i < vehiculos.length && vehiculoExitente == false) {         // Verificar que el vehiculo no existe en el sistema
+        if ((vehiculos[i].tipo).toUpperCase() == tipo.toUpperCase()) {
             vehiculoExitente = true
         }
         i++
     }
     if (i == vehiculos.length) {
-        let nuevoVehiculo = new Vehiculo(tipo, obtenerNuevoID(tipo))
+        let nuevoVehiculo = new Vehiculo(tipo)
         vehiculos.push(nuevoVehiculo)
     }
+    return 
 }
 
 function registroPersona() {            // Registra un nuevo usuario en el sistema
@@ -221,6 +225,18 @@ function objUsuarioPorNombreFantasia(nombreFantasia){          // Recibe como pa
     }
 }
 
+function checkVehiculoPorTipo(tipo){                    // Verifica si existe un vehiculo por nombre
+    let existe = false;
+    let i = 0;
+    while(!existe && i < vehiculos.length){
+        if((vehiculos[i].tipo).toUpperCase() == tipo.toUpperCase()){
+            existe = true;
+        }
+        i++
+    }
+    return existe
+}
+
 function registrarUsuarioPersona(alias, pass, ci, nombre, apellido) {            //Agregar una nueva persona al sistema
     let nuevoUsuarioPersona = new UsuarioPersona(alias, pass, ci, nombre, apellido);
     usuarios.push(nuevoUsuarioPersona);
@@ -304,12 +320,15 @@ function logIn() {
     let mensaje = document.querySelector("#mensajeLogIn");
 
     while (i < usuarios.length && !encontrado) {
-        if (usuarios[i].tipo == "Empresa" && usuarios[i].estado == false){
-            mensaje.innerHTML = "Su cuenta aun no ha sido activada por el administrador."
-        } else if (usuarios[i].pass == pass && (usuarios[i].username).toUpperCase() === (user).toUpperCase()) {
-            mensaje.innerHTML = "Bienvenido " + usuarios[i].username;
-            let displayPanel = usuarios[i].tipo;
-            displayNavPanel(displayPanel);
+       
+        if (usuarios[i].pass == pass && (usuarios[i].username).toUpperCase() === (user).toUpperCase()) {
+            if (usuarios[i].tipo == "Empresa" && usuarios[i].habilitacion == false){
+                mensaje.innerHTML = "Su cuenta aun no ha sido activada por el administrador."
+            }else {
+                let displayPanel = usuarios[i].tipo;
+                displayNavPanel(displayPanel);
+                usuarioLoggeado = usuarios[i];
+            }
             encontrado = true;
         } else if(pass =='' || user==''){
            mensaje.innerHTML = 'Se deben completar todos los campos.'
@@ -317,14 +336,11 @@ function logIn() {
             mensaje.innerHTML = "El nombre de ususario y/o contraseña no son correctos.";
         }
         
-        
         i++;
-        document.querySelector("#ingresoUsuario").value = ''
-        document.querySelector("#ingresoPassword").value = ''
+        document.querySelector("#ingresoUsuario").value = '';
+        document.querySelector("#ingresoPassword").value = '';
         document.querySelector("#mensajeLogInNuevoUsuario").innerHTML = '';
-
     }
-
 }
 
 function crearListaDeEmpresas() {
@@ -458,16 +474,20 @@ function crearListaDeEmpresasFiltrado() {
 }
 
 function realizarSolicitudEnvio() {
-    updateSelectVehiculos("#solicitudEnvioVehiculo");
+    console.log('click');
     let tipoVehiculoIngresado = document.querySelector("#solicitudEnvioVehiculo").value;
-    let distanciaIngresada = document.querySelector("#solitudEnvioDistancia").value;
-    let descripcionIngresada = document.querySelector("#solitudEnvioDescripcion").value;
-    let fotoIngresada = document.querySelector("#solitudEnvioFoto").value;
-
+    let distanciaIngresada = document.querySelector("#solicitudEnvioDistancia").value;
+    let descripcionIngresada = document.querySelector("#solicitudEnvioDescripcion").value;
+    let fotoIngresada = document.querySelector("#solicitudEnvioFoto").value;
+    
     if (tipoVehiculoIngresado && distanciaIngresada && descripcionIngresada && fotoIngresada) {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
-            envios.push(new Envio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada, null, "Pendiente", null))
+            btnSolicitudEnvioHandler(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada);
+            document.querySelector("#solicitudEnvioVehiculo").value = "" ;
+            document.querySelector("#solicitudEnvioDistancia").value = "";
+            document.querySelector("#solicitudEnvioDescripcion").value = "";
+            document.querySelector("#solicitudEnvioFoto").value = "";
         } else {
             document.querySelector("#pErroresSolicitudEnvio").innerHTML = "La distancia ingresada debe ser numerica";
         }
@@ -475,3 +495,43 @@ function realizarSolicitudEnvio() {
         document.querySelector("#pErroresSolicitudEnvio").innerHTML = "Debe completar todos los datos";
     }
 }
+
+function btnSolicitudEnvioHandler(tipoVehiculo, distancia, descripcion, foto, persona) {
+    envios.push(new Envio(tipoVehiculo, distancia, descripcion, foto, null, "Pendiente", usuarioLoggeado))
+}
+
+function agregarVehiculoAlSistemaHandler(){
+    let vehiculoLeido = document.querySelector("#tipoNuevoVehiculo").value;
+    if (vehiculoLeido == '') {
+        displayMensajeErrorVehiculoON("Se debe completar el campo.")
+    } else {
+        if(!checkVehiculoPorTipo(vehiculoLeido)){
+            agregarVehiculo(vehiculoLeido);
+            displayMensajeErrorVehiculoOFF();
+            crearListaDeVehiculos();
+        } else {
+            displayMensajeErrorVehiculoON("El vehiculo ya existe en el sistema.");
+        }
+    }
+    document.querySelector("#tipoNuevoVehiculo").value = ""
+}
+
+function crearListaDeVehiculos(){
+    let table = document.querySelector("#listadoVehiculos");
+    table.innerHTML = ` <theader>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>ID</th>
+                                </tr>
+                        </theader>
+                        <tbody>
+        `;
+    for(let i = 0; i < vehiculos.length; i++){
+        table.innerHTML += `<tr>
+                                <td>${vehiculos[i].tipo}</td>
+                                <td>${vehiculos[i].id}</td>
+                            </tr>`
+    }
+    table.innerHTML += `</tbody>`
+}
+

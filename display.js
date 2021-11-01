@@ -6,8 +6,11 @@ const selectTipoCuenta = document.querySelector("#tipoDeCuenta");
 const btnAdminEmpresas = document.querySelector("#btnAdminListarEmpresas");
 const btnAdminVehiculo = document.querySelector("#btnAdminCrearVehiculos")
 const btnAdminEstadistica = document.querySelector("#btnAdminEstadistica")
-const btnMostrarEmpresasFiltradas = document.querySelector("#btnMostrarEmpresasF2")
+const btnMostrarEmpresasFiltradas = document.querySelector("#btnMostrarEmpresasF2");
 const pMensajeErrorFiltrarEmpresas = document.querySelector("#mensajeErrorFiltrarEmpresas");
+const pMensajeErrorIngresarVehiculo = document.querySelector("#mensajeErrorVehiculos");
+const btnDisplaySolicitudEnvio = document.querySelector("#btnPersonaRealizarSolicitudEnvio");
+const btnSolicitudEnvio = document.querySelector("#btnEnviarSolicitudEnvio6");
 
 // EVENT LISTENERS // 
 btnMostrarLogIn.addEventListener('click', toggleLogIn);
@@ -20,8 +23,15 @@ btnAdminVehiculo.addEventListener('click', adminDisplayVehiculos);
 btnAdminEstadistica.addEventListener('click', adminDisplayEstadistica);
 btnMostrarEmpresasFiltradas.addEventListener('click', adminDisplayEmpresasFiltradas);
 
+btnDisplaySolicitudEnvio.addEventListener('click', personaDisplaySolicitudEnvio);
+
+
+
+
+
 // FUNCIONES // 
 function cerrarSesion() {
+    usuarioLoggeado = null;
     ocultarPantallas();
     btnMostrarRegister.style.display = "inline-block"
     btnCerrarSesion.style.display = "none";
@@ -57,7 +67,8 @@ function ocultarPantallas() {                                                   
     document.querySelector("#panelAdmin").style.display = "none"
     document.querySelector("#panelEmpresa").style.display = "none"
     document.querySelector("#panelPersona").style.display = "none"
-    pMensajeErrorFiltrarEmpresas.style.display = "none"
+    pMensajeErrorFiltrarEmpresas.style.display = "none";
+    pMensajeErrorIngresarVehiculo.style.display = "none";
     btnCerrarSesion.style.display = "none";
 }
 
@@ -77,27 +88,27 @@ function displayRegistrarEmpresaPersona(usuario) {
 function displayNavPanel(tipo) {
     switch (tipo) {
         case "Administrador":
-            document.querySelector("#panelAdmin").style.display = "block"
-            document.querySelector("#panelLogInF1").style.display = "none"
-            btnMostrarLogIn.style.display = "none"
-            btnMostrarRegister.style.display = "none"
-            btnCerrarSesion.style.display = "block"
+            document.querySelector("#panelAdmin").style.display = "block";
+            document.querySelector("#panelLogInF1").style.display = "none";
+            btnMostrarLogIn.style.display = "none";
+            btnMostrarRegister.style.display = "none";
+            btnCerrarSesion.style.display = "block";
             break;
 
         case "Empresa":
-            document.querySelector("#panelEmpresa").style.display = "block"
-            document.querySelector("#panelLogInF1").style.display = "none"
-            btnMostrarLogIn.style.display = "none"
-            btnMostrarRegister.style.display = "none"
-            btnCerrarSesion.style.display = "block"
+            document.querySelector("#panelEmpresa").style.display = "block";
+            document.querySelector("#panelLogInF1").style.display = "none";
+            btnMostrarLogIn.style.display = "none";
+            btnMostrarRegister.style.display = "none";
+            btnCerrarSesion.style.display = "block";
             break;
 
         case "Persona":
-            document.querySelector("#panelPersona").style.display = "block"
-            document.querySelector("#panelLogInF1").style.display = "none"
-            btnMostrarLogIn.style.display = "none"
-            btnMostrarRegister.style.display = "none"
-            btnCerrarSesion.style.display = "block"
+            document.querySelector("#panelPersona").style.display = "block";
+            document.querySelector("#panelLogInF1").style.display = "none";
+            btnMostrarLogIn.style.display = "none";
+            btnMostrarRegister.style.display = "none";
+            btnCerrarSesion.style.display = "block";
             break;
 
         default:
@@ -127,13 +138,13 @@ function adminDisplayEmpresas() {
     document.querySelector("#tableListadoEmpresas").style.display = "table"         // Mostrar todas las empresas
     pMensajeErrorFiltrarEmpresas.style.display = "none"                             // Ocultar msj de error
     displayErrorBusquedaOFF();
-    displayErrorBusquedaOFF();
 }
 
 function adminDisplayVehiculos() {
     document.querySelector("#listadoDeEmpresasF2").style.display = "none";
     document.querySelector("#panelCreacionVehiculosF3").style.display = "block"
     document.querySelector("#verInfoEstadisticaF4").style.display = "none"
+    crearListaDeVehiculos();
 }
 
 function adminDisplayEstadistica() {
@@ -163,4 +174,22 @@ function displayErrorBusquedaON() {
 }
 function displayErrorBusquedaOFF() {
     pMensajeErrorFiltrarEmpresas.style.sdisplay = "none"
+}
+
+function personaDisplaySolicitudEnvio() {
+    updateSelectVehiculos("#solicitudEnvioVehiculo");
+    document.querySelector("#solicitudEnvioF6").style.display = "block";     // Muestra unicamente las empresas de la tabla filtrada
+    // TODO: Ocultar los otros paneles despues //
+    document.querySelector("#listadoEnviosF7").style.display = "none";     // Muestra unicamente las empresas de la tabla filtrada
+    document.querySelector("#infoEstadisticaUsuario").style.display = "none";     // Muestra unicamente las empresas de la tabla filtrada
+}
+
+function displayMensajeErrorVehiculoON(mensaje){
+    pMensajeErrorIngresarVehiculo.innerHTML = mensaje;
+    pMensajeErrorIngresarVehiculo.style.display = "block";
+    // TODO: Agregar mensaje de error por estar vacio // 
+}
+
+function displayMensajeErrorVehiculoOFF(){
+    pMensajeErrorIngresarVehiculo.style.display = "none";
 }
