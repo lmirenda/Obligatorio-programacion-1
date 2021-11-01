@@ -62,7 +62,7 @@ function ocultarPantallas() {                                                   
 }
 
 function displayRegistrarEmpresaPersona(usuario) {
-    updateSelectVehiculos();
+    updateSelectVehiculos("#registroVehiculoEmpresa");
     if (usuario == "Empresa") {                                              // Muestra unicamente las opciones de registro de Empresa
         document.querySelector("#registroUsuario").style.display = "none"
         document.querySelector("#registroEmpresa").style.display = "block"
@@ -105,10 +105,10 @@ function displayNavPanel(tipo) {
     }
 }
 
-function updateSelectVehiculos() {
-    document.querySelector("#registroVehiculoEmpresa").innerHTML = ''
+function updateSelectVehiculos(id) {
+    document.querySelector(id).innerHTML = ''
     for (let i = 0; i < vehiculos.length; i++) {
-        document.querySelector("#registroVehiculoEmpresa").innerHTML += `<option value=${vehiculos[i].id}>${vehiculos[i].tipo}</option>`
+        document.querySelector(id).innerHTML += `<option value=${vehiculos[i].id}>${vehiculos[i].tipo}</option>`
     }
 }
 
@@ -126,14 +126,16 @@ function adminDisplayEmpresas() {
     document.querySelector("#tableListadoEmpresasFiltrado").style.display = "none" // Ocultar las empresas filtradas
     document.querySelector("#tableListadoEmpresas").style.display = "table"         // Mostrar todas las empresas
     pMensajeErrorFiltrarEmpresas.style.display = "none"                             // Ocultar msj de error
-
-
+    displayErrorBusquedaOFF();
+    displayErrorBusquedaOFF();
 }
+
 function adminDisplayVehiculos() {
     document.querySelector("#listadoDeEmpresasF2").style.display = "none";
     document.querySelector("#panelCreacionVehiculosF3").style.display = "block"
     document.querySelector("#verInfoEstadisticaF4").style.display = "none"
 }
+
 function adminDisplayEstadistica() {
     document.querySelector("#listadoDeEmpresasF2").style.display = "none";
     document.querySelector("#panelCreacionVehiculosF3").style.display = "none"
@@ -141,9 +143,17 @@ function adminDisplayEstadistica() {
 }
 
 function adminDisplayEmpresasFiltradas(){
-    document.querySelector("#tableListadoEmpresas").style.display = "none"              // Oculta la tabla con todas las empresas
-    crearListaDeEmpresasFiltrado();                                                                 // Genera la tabla con los criterios de busqueda
-    document.querySelector("#tableListadoEmpresasFiltrado").style.display = "table"     // Muestra unicamente las empresas de la tabla filtrada
+    let criterioDeBusqueda = document.querySelector("#textoBusquedaEmpresaF2").value;    // Leer del HTML lo esrito en el input field
+    let arrayEmpresas = buscadorEmpresas(criterioDeBusqueda)
+
+        if (arrayEmpresas == "Error"){
+            displayErrorBusquedaON();
+        } else {
+            displayErrorBusquedaOFF();
+            document.querySelector("#tableListadoEmpresas").style.display = "none"              // Oculta la tabla con todas las empresas
+            crearListaDeEmpresasFiltrado();                                                                 // Genera la tabla con los criterios de busqueda
+            document.querySelector("#tableListadoEmpresasFiltrado").style.display = "table"     // Muestra unicamente las empresas de la tabla filtrada
+        }
 }
 
 function displayErrorBusquedaON() {
@@ -152,6 +162,5 @@ function displayErrorBusquedaON() {
     document.querySelector("#tableListadoEmpresasFiltrado").style.display = "none"     // Muestra unicamente las empresas de la tabla filtrada
 }
 function displayErrorBusquedaOFF() {
-    pMensajeErrorFiltrarEmpresas.style.display = "none"
-    
+    pMensajeErrorFiltrarEmpresas.style.sdisplay = "none"
 }

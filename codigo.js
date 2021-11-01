@@ -1,6 +1,8 @@
 let usuarios = [];
 let vehiculos = [];
 let codigoVehiculo = 1000;
+let envios = [];
+let idEnvio = 1;
 
 inicializar();
 
@@ -9,7 +11,7 @@ function inicializar() {
     agregarEventoEnBotones();
     ocultarPantallas();
     toggleLogIn();
-    updateSelectVehiculos();
+    updateSelectVehiculos("#registroVehiculoEmpresa");
 }
 
 function agregarEventoEnBotones() {
@@ -17,7 +19,6 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnRegistrarEmpresa").addEventListener("click", registroEmpresa);
     document.querySelector("#btnTipoDeCuenta").addEventListener("click", seleccionarTipoDeCuentaARegistrar);
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
-
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -28,6 +29,7 @@ function precargaDeDatos() {
     precargaDeUsuariosPersona();
     precargaDeUsuariosEmpresa();
     precargaDeUsuariosAdmin();
+    precargaDeEnvios();
 }
 
 function precargaDeVehiculos() {
@@ -53,6 +55,12 @@ function precargaDeUsuariosEmpresa() {
 
 function precargaDeUsuariosAdmin() {
     usuarios.push(new UsuarioAdmin("Admin", "Admin01"))
+}
+
+function precargaDeEnvios() {
+    envios.push(new Envio("Moto", 5, "Envio de supermercado", "img/envioSuper.jpg", null, "Pendiente", "bdiaz"));
+    envios.push(new Envio("Camioneta", 10, "Motosierra", "img/motosierra.jpg", null, "Pendiente", "amayes"));
+    envios.push(new Envio("Camion", 5, "Mudanza de muebles", "img/mudanza.jpg", null, "Pendiente", "lmirenda"));
 }
 
 function agregarVehiculo(tipo) {                                     // Agregar un nuevo vehiculo al sistema
@@ -149,7 +157,6 @@ function passwordTieneNumero(password) {            //Verificar si un texto cont
 
     return tieneNumero
 }
-
 
 function existeUsuarioPorUsuario(alias) {            //Verificar si ya existe un usuario con ese alias
     let existe = false;
@@ -284,14 +291,6 @@ function registrarUsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehicu
     usuarios.push(nuevoUsuarioEmpresa);
 }
 
-function cambiarEstadoDeEmpresa(empresa) {
-    return !empresa.habilitacion
-}
-
-function buscarEmpresa() {
-
-}
-
 function seleccionarTipoDeCuentaARegistrar() {
     let tipoDeCuenta = document.querySelector("#tipoDeCuenta").value;
     displayRegistrarEmpresaPersona(tipoDeCuenta);
@@ -302,18 +301,22 @@ function logIn() {
     let pass = document.querySelector("#ingresoPassword").value
     let i = 0;
     let encontrado = false;
+    let mensaje = document.querySelector("#mensajeLogIn");
 
     while (i < usuarios.length && !encontrado) {
-        if (usuarios[i].pass == pass && (usuarios[i].username).toUpperCase() === (user).toUpperCase()) {
-            mensaje = "Bienvenido " + usuarios[i].username;
+        if (usuarios[i].tipo == "Empresa" && usuarios[i].estado == false){
+            mensaje.innerHTML = "Su cuenta aun no ha sido activada por el administrador."
+        } else if (usuarios[i].pass == pass && (usuarios[i].username).toUpperCase() === (user).toUpperCase()) {
+            mensaje.innerHTML = "Bienvenido " + usuarios[i].username;
             let displayPanel = usuarios[i].tipo;
             displayNavPanel(displayPanel);
             encontrado = true;
         } else if(pass =='' || user==''){
-            document.querySelector("#mensajeLogIn").innerHTML = 'Se deben completar todos los campos.'
+           mensaje.innerHTML = 'Se deben completar todos los campos.'
         } else {
-            document.querySelector("#mensajeLogIn").innerHTML = "El nombre de ususario y/o contraseña no son correctos.";
+            mensaje.innerHTML = "El nombre de ususario y/o contraseña no son correctos.";
         }
+        
         
         i++;
         document.querySelector("#ingresoUsuario").value = ''
@@ -325,6 +328,7 @@ function logIn() {
 }
 
 function crearListaDeEmpresas() {
+    displayErrorBusquedaOFF();
     let table = document.querySelector("#tableListadoEmpresas")
     let tablaEmpresas = `
         
@@ -421,11 +425,8 @@ function buscadorEmpresas(input){                                               
 function crearListaDeEmpresasFiltrado() {
     let criterioDeBusqueda = document.querySelector("#textoBusquedaEmpresaF2").value;           // Leer del HTML lo esrito en el input field
     let arrayEmpresas = buscadorEmpresas(criterioDeBusqueda)
-    let table = document.querySelector("#tableListadoEmpresasFiltrado");
-    if (arrayEmpresas == "Error"){
-        displayErrorBusquedaON();
-    } else {
-        displayErrorBusquedaOFF();
+    if (arrayEmpresas != 'Error'){
+        let table = document.querySelector("#tableListadoEmpresasFiltrado");
         table.innerHTML = ` <theader>
                                 <tr>
                                     <th>Nombre de fantasia</th>
@@ -436,7 +437,7 @@ function crearListaDeEmpresasFiltrado() {
                                 </tr>
                             <tbody>
         `;
-                      
+                        
         for (let i = 0; i < arrayEmpresas.length; i++) {
             let estadoParaModificar = mostrarTextoHabilitarDeshabilitar(arrayEmpresas[i])
             let estadoActual = leerEstado(arrayEmpresas[i]);
@@ -448,11 +449,29 @@ function crearListaDeEmpresasFiltrado() {
                             <td>${estadoActual}</td>
                             <td><button class="btn btn-warning btnCambioEstado" btnempresaUsername="${arrayEmpresas[i].username}">${estadoParaModificar}</button></td>
                         </tr>`
-                  
+                    
                 
         }
         table.innerHTML += `</tbody>`
-        activarBotonesCambioDeEstado();
     }
-    
+    activarBotonesCambioDeEstado();    
+}
+
+function realizarSolicitudEnvio() {
+    updateSelectVehiculos("#solicitudEnvioVehiculo");
+    let tipoVehiculoIngresado = document.querySelector("#solicitudEnvioVehiculo").value;
+    let distanciaIngresada = document.querySelector("#solitudEnvioDistancia").value;
+    let descripcionIngresada = document.querySelector("#solitudEnvioDescripcion").value;
+    let fotoIngresada = document.querySelector("#solitudEnvioFoto").value;
+
+    if (tipoVehiculoIngresado && distanciaIngresada && descripcionIngresada && fotoIngresada) {
+        if (!isNaN(distanciaIngresada)) {
+            let distanciaNumerica = parseInt(distanciaIngresada);
+            envios.push(new Envio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada, null, "Pendiente", null))
+        } else {
+            document.querySelector("#pErroresSolicitudEnvio").innerHTML = "La distancia ingresada debe ser numerica";
+        }
+    } else {
+        document.querySelector("#pErroresSolicitudEnvio").innerHTML = "Debe completar todos los datos";
+    }
 }
