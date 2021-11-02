@@ -20,8 +20,11 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnRegistrarEmpresa").addEventListener("click", registroEmpresa);
     document.querySelector("#btnTipoDeCuenta").addEventListener("click", seleccionarTipoDeCuentaARegistrar);
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
-    document.querySelector("#btnIngresarVehiculo").addEventListener('click',agregarVehiculoAlSistemaHandler);
+    document.querySelector("#btnIngresarVehiculo").addEventListener('click', agregarVehiculoAlSistemaHandler);
     document.querySelector("#btnEnviarSolicitudEnvio6").addEventListener('click', realizarSolicitudEnvio);
+    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', crearListadoEnvios);
+    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', calcularInfoEstadisticaPersona);
+
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -61,15 +64,15 @@ function precargaDeUsuariosAdmin() {
 }
 
 function precargaDeEnvios() {
-    let pedido = new Envio(1000, 5, "Envio de supermercado", "img/envioSuper.jpg", null, "Pendiente", usuarios[0])
+    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", null, "Pendiente", usuarios[0])
     envios.push(pedido);
     usuarios[0].pedidos.push(pedido);
     
-    pedido = new Envio(1001, 10, "Motosierra", "img/motosierra.jpg", null, "Pendiente", usuarios[1]);
+    pedido = new Envio(1001, 10, "Motosierra", "motosierra.jpg", null, "Pendiente", usuarios[1]);
     envios.push(pedido);
     usuarios[1].pedidos.push(pedido);
     
-    pedido = new Envio(1002, 5, "Mudanza de muebles", "img/mudanza.jpg", null, "Pendiente", usuarios[2]);
+    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", null, "Pendiente", usuarios[2]);
     envios.push(pedido);
     usuarios[2].pedidos.push(pedido);
 }
@@ -499,12 +502,16 @@ function realizarSolicitudEnvio() {
     if (tipoVehiculoIngresado && distanciaIngresada && descripcionIngresada && fotoIngresada) {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
-            btnSolicitudEnvioHandler(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada);
-            document.querySelector("#solicitudEnvioVehiculo").value = 0;
-            document.querySelector("#solicitudEnvioDistancia").value = "";
-            document.querySelector("#solicitudEnvioDescripcion").value = "";
-            document.querySelector("#solicitudEnvioFoto").value = "";
-            document.querySelector("#pErroresSolicitudEnvio").innerHTML = "Envio ingresado";
+            if (distanciaNumerica > 0) {
+                btnSolicitudEnvioHandler(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada);
+                document.querySelector("#solicitudEnvioVehiculo").value = 0;
+                document.querySelector("#solicitudEnvioDistancia").value = "";
+                document.querySelector("#solicitudEnvioDescripcion").value = "";
+                document.querySelector("#solicitudEnvioFoto").value = "";
+                document.querySelector("#pErroresSolicitudEnvio").innerHTML = "Envio ingresado";
+            } else {
+                document.querySelector("#pErroresSolicitudEnvio").innerHTML = "La cantidad de km ingresada debe ser mayor a cero";
+            }
         } else {
             document.querySelector("#pErroresSolicitudEnvio").innerHTML = "La distancia ingresada debe ser numerica";
         }
@@ -513,8 +520,76 @@ function realizarSolicitudEnvio() {
     }
 }
 
-function crearListadoEnviosPendientes() {
+function crearListadoEnvios() {
+    console.log("click")
+    let table = document.querySelector("#listadoDeEnviosPersona");
+    let tableListadoEnvios = ` 
+        <header>
+            <tr>
+                <th>Foto</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Empresa</th>
+            </tr>
+        </header>
+    <body id="bodyListadoDeEnvios">`;
     
+    let bodyListado = armarBodyListadoEnvios();
+    if (!bodyListado) {
+        resultado = "No tiene pedidos asignados";
+    } else {
+        resultado = tableListadoEnvios + bodyListado
+    }
+    
+    table.innerHTML = resultado
+}
+
+function armarBodyListadoEnvios() {
+    let bodyListadoEnvios = ``;
+    for (let i = 0; i < envios.length; i++) {
+        let envioActual = envios[i];
+        if (usuarioLoggeado.username == envioActual.persona.username) {
+            bodyListadoEnvios += `  
+            <tr>
+                <td><img alt="Foto de envio" src="img/${envioActual.img}"></td>
+                <td>${envioActual.descripcion}</td>
+                <td>${envioActual.estado}</td>
+                <td>${envioActual.empresa}</td>
+            </tr>`
+        }
+    }
+    bodyListadoEnvios += `</tbody>`
+    return bodyListadoEnvios
+}
+
+function calcularInfoEstadisticaPersona() {
+    let contadorPendientes = 0;
+    let contadorEnTransito = 0;
+    let contadorFinalizado = 0;
+
+    for (let i = 0; i < envios.length; i++) {
+        let envioActual = envios[i];
+        if (envioActual.persona.username == usuarioLoggeado.username) {
+            if (envioActual.estado = "Pendiente") {
+                contadorPendientes++;
+            } else if (envioActual.estado = "Transito") {
+                contadorEnTransito++;
+            } else if (envioActual.estado = "Finalizado") {
+                contadorFinalizado++;
+            }
+        }
+    }
+
+    let pedidosTotales = contadorPendientes + contadorEnTransito + contadorFinalizado;
+    let porcentajeTomados = (contadorEnTransito + contadorFinalizado) / pedidosTotales * 100 + "%";
+
+    let resultado = `Envios totales: ${pedidosTotales}<br>
+    Envios pendientes: ${contadorPendientes}<br>
+    Envios en transito: ${contadorEnTransito}<br>
+    Envios finalizados: ${contadorFinalizado}<br>
+    Porcentaje de solicitud de envios tomados: ${porcentajeTomados}`
+
+    document.querySelector("#infoEstadistica").innerHTML = resultado;
 }
 
 function btnSolicitudEnvioHandler(tipoVehiculo, distancia, descripcion, foto) {
@@ -539,6 +614,7 @@ function agregarVehiculoAlSistemaHandler(){
     }
     document.querySelector("#tipoNuevoVehiculo").value = ""
 }
+
 
 function crearListaDeVehiculos(){
     let table = document.querySelector("#listadoVehiculos");

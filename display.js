@@ -50,6 +50,8 @@ function cerrarSesion() {
 function toggleLogIn() {
     ocultarPantallas();
     document.querySelector("#panelLogInF1").style.display = "block";
+    document.querySelector("#ingresoUsuario").value = "amayes";
+    document.querySelector("#ingresoPassword").value = "456";
     document.querySelector("#mensajeLogInNuevoUsuario").innerHTML = '';
 }
 
@@ -197,19 +199,33 @@ function adminDisplayEmpresasFiltradas(){
 
 function personaDisplaySolicitudEnvio() {
     updateSelectVehiculos("#solicitudEnvioVehiculo");
-    document.querySelector("#solicitudEnvioF6").style.display = "block";            // Muestra unicamente las empresas de la tabla filtrada
-    document.querySelector("#listadoEnviosF7").style.display = "none";              // Muestra unicamente las empresas de la tabla filtrada
-    document.querySelector("#infoEstadisticaUsuario").style.display = "none";       // Muestra unicamente las empresas de la tabla filtrada
+    document.querySelector("#solicitudEnvioF6").style.display = "block";            
+    document.querySelector("#listadoEnviosF7").style.display = "none";              
+    document.querySelector("#infoEstadisticaUsuario").style.display = "none";       
 }
 
 function personaDisplayListadoEnvio(){
     document.querySelector("#solicitudEnvioF6").style.display = "none";
+    document.querySelector("#solicitudEnvioVehiculo").value = 0;
+    document.querySelector("#solicitudEnvioDistancia").value = "";
+    document.querySelector("#solicitudEnvioDescripcion").value = "";
+    document.querySelector("#solicitudEnvioFoto").value = "";
+    document.querySelector("#pErroresSolicitudEnvio").innerHTML = "";
+    
     document.querySelector("#listadoEnviosF7").style.display = "block";  
-    document.querySelector("#infoEstadisticaUsuario").style.display = "none";    
+    
+    document.querySelector("#infoEstadisticaUsuario").style.display = "none";
 }
 
 function personaDisplayEstadistica(){
     document.querySelector("#solicitudEnvioF6").style.display = "none";
+    document.querySelector("#solicitudEnvioVehiculo").value = 0;
+    document.querySelector("#solicitudEnvioDistancia").value = "";
+    document.querySelector("#solicitudEnvioDescripcion").value = "";
+    document.querySelector("#solicitudEnvioFoto").value = "";
+    document.querySelector("#pErroresSolicitudEnvio").innerHTML = "";
+    
     document.querySelector("#listadoEnviosF7").style.display = "none";  
+
     document.querySelector("#infoEstadisticaUsuario").style.display = "block";   
 }

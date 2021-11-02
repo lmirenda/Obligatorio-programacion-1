@@ -81,3 +81,8 @@ a {
     color: rgb(0, 134, 29);
     font-size: 21px;
 }
+
+table img {
+    height: 120px;
+    width: 200px
+}

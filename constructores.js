@@ -52,10 +52,7 @@ class Envio {
 class Vehiculo {
     constructor(_tipo){
         this.tipo = _tipo;
-        this.id = parseInt(codigoVehiculo);
+        this.id = codigoVehiculo;
         codigoVehiculo++
     }
 }
-
-
-
