@@ -6,7 +6,7 @@ class UsuarioPersona{
         this.nombre = _nombre;
         this.apellido = _apellido;
         this.pedidos = [];
-        this.tipo = "Persona"
+        this.tipo = "Persona";
     }
 }
 

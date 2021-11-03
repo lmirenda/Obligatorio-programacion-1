@@ -36,6 +36,7 @@ btnPersonaSolicitudEnvio.addEventListener('click', personaDisplaySolicitudEnvio)
 btnPersonaListadoEnvios.addEventListener('click', personaDisplayListadoEnvio);
 
 btnEmpresaListadoEnvios.addEventListener('click', empresaDisplayListadoEnvio);
+btnEmpresaEstadistica.addEventListener('click', empresaDisplayEstadistica)
 
 
 
@@ -79,6 +80,7 @@ function ocultarPantallas() {                                                   
     document.querySelector("#panelAdmin").style.display = "none"
     document.querySelector("#panelEmpresa").style.display = "none"
     document.querySelector("#panelPersona").style.display = "none"
+    document.querySelector("#infoEstadisticaEmpresa").style.display = "none";
     pMensajeErrorFiltrarEmpresas.style.display = "none";
     pMensajeErrorIngresarVehiculo.style.display = "none";
     btnCerrarSesion.style.display = "none";
@@ -267,8 +269,17 @@ function displayMensajeErrorSolicitudesEnTransitoYFinalizadosON(mensaje) {
 }
 
 function empresaDisplayListadoEnvio() {
-    document.querySelector("#listadoEnviosPendientesF8").style.display = "block"
-    document.querySelector("#listadoEnviosTomadosF9").style.display = "block"
+    document.querySelector("#listadoEnviosPendientesF8").style.display = "block";
+    document.querySelector("#listadoEnviosTomadosF9").style.display = "block";
+    document.querySelector("#infoEstadisticaEmpresa").style.display = "none";
     crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
     crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
+}
+
+function empresaDisplayEstadistica(mensaje) {
+    document.querySelector("#listadoEnviosPendientesF8").style.display = "none";
+    document.querySelector("#listadoEnviosTomadosF9").style.display = "none";
+    document.querySelector("#infoEstadisticaEmpresa").style.display = "block";
+    document.querySelector("#infoEstadisticaEmpresa").innerHTML = mensaje;
+
 }
