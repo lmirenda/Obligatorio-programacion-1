@@ -567,11 +567,11 @@ function calcularInfoEstadisticaPersona() {
     for (let i = 0; i < envios.length; i++) {
         let envioActual = envios[i];
         if (envioActual.persona == usuarioLoggeado.username) {
-            if (envioActual.estado = "Pendiente") {
+            if (envioActual.estado == "Pendiente") {
                 contadorPendientes++;
-            } else if (envioActual.estado = "En transito") {
+            } else if (envioActual.estado == "En transito") {
                 contadorEnTransito++;
-            } else if (envioActual.estado = "Finalizado") {
+            } else if (envioActual.estado == "Finalizado") {
                 contadorFinalizado++;
             }
         }
@@ -714,8 +714,9 @@ function activarBotonesAceptarSolicitudesPendientes(){                          
 function aceptarPedido(){
     let envioIdClickeado = this.getAttribute("btnEnvioId")
     let j = buscarPosEnvioPorId(envioIdClickeado);
-    envios[j].estado = "En transito"
-    console.log('click')
+    envios[j].estado = "En transito";
+    
+    envios[j].empresa = usuarioLoggeado.razonSocial;
     
     crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
     crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
