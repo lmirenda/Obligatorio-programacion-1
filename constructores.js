@@ -22,6 +22,7 @@ class UsuarioEmpresa {
         this.habilitacion = _habilitacion;  // True = empresa habilitada. False = empresa deshabilitada. 
         this.km = _totalKM;
         this.empleado = _empleado;
+        this.pedidos = [];
         this.tipo = "Empresa"
     }
 }

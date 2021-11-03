@@ -39,6 +39,8 @@
 
     <div id="panelEmpresa" class="container">
         <h2>Panel Empresa</h2>
+        <button class="btn btn-primary" id="btnEmpresaListadoEnvios">Listado de envios</button>
+        <button class="btn btn-primary" id="btnEmpresaEstadistica">Visualizar informacion estadistica</button>
     </div>
 
     <div id="panelPersona" class="container">
@@ -328,7 +330,8 @@
         <input type="file" placeholder="URL" id="solicitudEnvioFoto">
         <br><br>
         <button id="btnEnviarSolicitudEnvio6" class="btn btn-secondary">Ingresar solicitud</button>
-        <p id="pErroresSolicitudEnvio" class="errorMsj"></p>
+        <p id="pErrorSolicitudEnvio" class="errorMsj"></p>
+        <p id="pSuccessSolicitudEnvio" class="successMsj">Envio ingresado.</p>
     </div>
 
     <div id="listadoEnviosF7" class="container">
@@ -341,78 +344,28 @@
 
     <div id="listadoEnviosPendientesF8" class="container">
         <h2>Ver listado de solicitudes pendientes especificas para empresas</h2>
-        <table class="table">
+        <table class="table" >
             <header>
                 <tr>
-                    <th>Estado</th>
+                    <th>Foto</th>
                     <th>Vehiculo</th>
                     <th>Distancia</th>
-                    <th>Foto</th>
+                    <th>Estado</th>
                     <th>Nombre del solicitante</th>
                     <th>Apellido del solicitante</th>
                     <th>Aceptar envío</th>
                 </tr>
             </header>
-            <tbody>
-                <tr>
-                    <td>No aceptado</td>
-                    <td>Moto</td>
-                    <td>5 km</td>
-                    <td><img src="" alt="img"></td>
-                    <td>Lorem Ipsum</td>
-                    <td>Lorem Ipsum</td>
-                    <td><i class="bi bi-plus-square"></i></td>
-                </tr>
-                <tr>
-                    <td>No aceptado</td>
-                    <td>Camion</td>
-                    <td>45 km</td>
-                    <td><img src="" alt="img"></td>
-                    <td>Lorem Ipsum</td>
-                    <td>Lorem Ipsum</td>
-                    <td><i class="bi bi-plus-square"></i></td>
-                </tr>
-
+            <tbody id="bodyListadoEnviosPendientesEmpresa">
             </tbody>
         </table>
     </div>
 
     <div id="listadoEnviosTomadosF9" class="container">
         <h2>Ver listado de solicitudes tomadas</h2>
-        <table class="table">
-            <header>
-                <tr>
-                    <th>Estado</th>
-                    <th>Vehiculo</th>
-                    <th>Distancia</th>
-                    <th>Foto</th>
-                    <th>Nombre del solicitante</th>
-                    <th>Apellido del solicitante</th>
-                    <th>Asignar envío</th>
-                </tr>
-            </header>
-            <tbody>
-                <tr>
-                    <td>Aceptado</td>
-                    <td>Moto</td>
-                    <td>5 km</td>
-                    <td><img src="" alt="img"></td>
-                    <td>Lorem Ipsum</td>
-                    <td>Lorem Ipsum</td>
-                    <td><i class="bi bi-plus-square"></i></td>
-                </tr>
-                <tr>
-                    <td>Aceptado</td>
-                    <td>Camion</td>
-                    <td>45 km</td>
-                    <td><img src="" alt="img"></td>
-                    <td>Lorem Ipsum</td>
-                    <td>Lorem Ipsum</td>
-                    <td><i class="bi bi-plus-square"></i></td>
-                </tr>
-
-            </tbody>
+        <table class="table" id="tablaEnviosTomadosF9">
         </table>
+        <p id="pErrorListadoEnviosTomadosF9"></p>
 
     </div>
 

@@ -16,7 +16,10 @@ const pMensajeErrorIngresarVehiculo = document.querySelector("#mensajeErrorVehic
 //--Usuario: Persona--//
 const btnPersonaSolicitudEnvio = document.querySelector("#btnPersonaRealizarSolicitudEnvio");
 const btnPersonaListadoEnvios = document.querySelector("#btnPersonaListadoEnvios");
-const btnPersonaEstadistica = document.querySelector("#btnPersonaEstadistica");
+
+//--Usuario: Empresa--//
+const btnEmpresaListadoEnvios = document.querySelector("#btnEmpresaListadoEnvios");
+const btnEmpresaEstadistica = document.querySelector("#btnEmpresaEstadistica");
 
 // EVENT LISTENERS // 
 btnMostrarLogIn.addEventListener('click', toggleLogIn);
@@ -31,8 +34,8 @@ btnMostrarEmpresasFiltradas.addEventListener('click', adminDisplayEmpresasFiltra
 
 btnPersonaSolicitudEnvio.addEventListener('click', personaDisplaySolicitudEnvio);
 btnPersonaListadoEnvios.addEventListener('click', personaDisplayListadoEnvio);
-btnPersonaEstadistica.addEventListener('click', personaDisplayEstadistica)
 
+btnEmpresaListadoEnvios.addEventListener('click', empresaDisplayListadoEnvio);
 
 
 
@@ -50,8 +53,8 @@ function cerrarSesion() {
 function toggleLogIn() {
     ocultarPantallas();
     document.querySelector("#panelLogInF1").style.display = "block";
-    document.querySelector("#ingresoUsuario").value = "amayes";
-    document.querySelector("#ingresoPassword").value = "456";
+    document.querySelector("#ingresoUsuario").value = "Empresa1";
+    document.querySelector("#ingresoPassword").value = "Empresa01";
     document.querySelector("#mensajeLogInNuevoUsuario").innerHTML = '';
 }
 
@@ -184,7 +187,7 @@ function adminDisplayEstadistica() {
 }
 
 function adminDisplayEmpresasFiltradas(){
-    let criterioDeBusqueda = document.querySelector("#textoBusquedaEmpresaF2").value;    // Leer del HTML lo esrito en el input field
+    let criterioDeBusqueda = document.querySelector("#textoBusquedaEmpresaF2").value;    // Leer del HTML lo escrito en el input field
     let arrayEmpresas = buscadorEmpresas(criterioDeBusqueda)
 
         if (arrayEmpresas == "Error"){
@@ -198,10 +201,36 @@ function adminDisplayEmpresasFiltradas(){
 }
 
 function personaDisplaySolicitudEnvio() {
+    displayErrorSolicitudEnvioOFF();
+    displaySuccessSolicitudEnvioOFF();
     updateSelectVehiculos("#solicitudEnvioVehiculo");
     document.querySelector("#solicitudEnvioF6").style.display = "block";            
     document.querySelector("#listadoEnviosF7").style.display = "none";              
-    document.querySelector("#infoEstadisticaUsuario").style.display = "none";       
+    document.querySelector("#infoEstadisticaUsuario").style.display = "none";  
+         
+}
+
+function displayErrorSolicitudEnvioON(mensaje){                                                 // Display el error correspondiente en el panel de persona para ingresar pedido
+    let mensajeError = document.querySelector("#pErrorSolicitudEnvio")
+    mensajeError.style.display = "block";
+    mensajeError.innerHTML = mensaje;
+}
+
+function displayErrorSolicitudEnvioOFF(){
+    document.querySelector("#pErrorSolicitudEnvio").style.display = "none";
+    
+}
+
+function displaySuccessSolicitudEnvioON(){
+    document.querySelector("#solicitudEnvioVehiculo").value = 0;
+    document.querySelector("#solicitudEnvioDistancia").value = "";
+    document.querySelector("#solicitudEnvioDescripcion").value = "";
+    document.querySelector("#solicitudEnvioFoto").value = "";
+    document.querySelector("#pSuccessSolicitudEnvio").style.display = "block"
+}
+
+function displaySuccessSolicitudEnvioOFF(){
+    document.querySelector("#pSuccessSolicitudEnvio").style.display = "none"
 }
 
 function personaDisplayListadoEnvio(){
@@ -210,7 +239,7 @@ function personaDisplayListadoEnvio(){
     document.querySelector("#solicitudEnvioDistancia").value = "";
     document.querySelector("#solicitudEnvioDescripcion").value = "";
     document.querySelector("#solicitudEnvioFoto").value = "";
-    document.querySelector("#pErroresSolicitudEnvio").innerHTML = "";
+    document.querySelector("#pErrorSolicitudEnvio").innerHTML = "";
     
     document.querySelector("#listadoEnviosF7").style.display = "block";  
     
@@ -223,9 +252,23 @@ function personaDisplayEstadistica(){
     document.querySelector("#solicitudEnvioDistancia").value = "";
     document.querySelector("#solicitudEnvioDescripcion").value = "";
     document.querySelector("#solicitudEnvioFoto").value = "";
-    document.querySelector("#pErroresSolicitudEnvio").innerHTML = "";
-    
+    document.querySelector("#pErroresSolicitudEnvio").innerHTML = ""; 
     document.querySelector("#listadoEnviosF7").style.display = "none";  
-
     document.querySelector("#infoEstadisticaUsuario").style.display = "block";   
+}
+
+function displayMensajeErrorSolicitudesPendientesON() {
+    // TODO: mensaje error si no hay pedidos para aceptar
+}
+
+function displayMensajeErrorSolicitudesEnTransitoYFinalizadosON(mensaje) {
+    document.querySelector("#pErrorListadoEnviosTomadosF9").style.display = "block";
+    document.querySelector("#pErrorListadoEnviosTomadosF9").innerHTML = mensaje;
+}
+
+function empresaDisplayListadoEnvio() {
+    document.querySelector("#listadoEnviosPendientesF8").style.display = "block"
+    document.querySelector("#listadoEnviosTomadosF9").style.display = "block"
+    crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
+    crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
 }

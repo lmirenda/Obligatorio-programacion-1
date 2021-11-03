@@ -82,6 +82,12 @@ a {
     font-size: 21px;
 }
 
+.successMsj {
+    margin-top: 25px;
+    color: rgb(0, 134, 29);
+    font-size: 21px;
+}
+
 table img {
     height: 120px;
     width: 200px

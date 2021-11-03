@@ -2,7 +2,7 @@ let usuarios = [];
 let vehiculos = [];
 let codigoVehiculo = 1000;
 let envios = [];
-let idEnvio = 1;
+let idEnvio = 0;
 let usuarioLoggeado = null;
 
 inicializar();
@@ -21,10 +21,9 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnTipoDeCuenta").addEventListener("click", seleccionarTipoDeCuentaARegistrar);
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
     document.querySelector("#btnIngresarVehiculo").addEventListener('click', agregarVehiculoAlSistemaHandler);
-    document.querySelector("#btnEnviarSolicitudEnvio6").addEventListener('click', realizarSolicitudEnvio);
-    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', crearListadoEnvios);
+    document.querySelector("#btnEnviarSolicitudEnvio6").addEventListener('click', btnSolicitudEnvioHandler);
+    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', crearListadoEnviosPersona);
     document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', calcularInfoEstadisticaPersona);
-
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -52,11 +51,11 @@ function precargaDeUsuariosPersona() {
 }
 
 function precargaDeUsuariosEmpresa() {
-    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", "Moto", true, 0, "Empleado 1"))
-    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", "Camioneta", true, 0, "Empleado 2"))
-    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", "Camion", true, 0, "Empleado 3"))
-    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", "Camion", false, 0, "Empleado 4"))
-    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", "Camion", false, 0, "Empleado 5"))
+    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", 1000, true, 0, "Empleado 1",[0].id))
+    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", 1001, true, 0, "Empleado 2",[]))
+    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", 1002, true, 0, "Empleado 3",[]))
+    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", 1002, false, 0, "Empleado 4",[]))
+    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", 1002, false, 0, "Empleado 5",[]))
 }
 
 function precargaDeUsuariosAdmin() {
@@ -64,33 +63,19 @@ function precargaDeUsuariosAdmin() {
 }
 
 function precargaDeEnvios() {
-    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", null, "Pendiente", usuarios[0])
+    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", "Empresa Cero Uno", "Pendiente", usuarios[0].username)
     envios.push(pedido);
-    usuarios[0].pedidos.push(pedido);
+    usuarios[0].pedidos.push(pedido.id);
+    usuarios[4].pedidos.push(pedido.id);
     
-    pedido = new Envio(1001, 10, "Motosierra", "motosierra.jpg", null, "Pendiente", usuarios[1]);
+    pedido = new Envio(1001, 10, "Motosierra", "motosierra.jpg", "Empresa Cero Uno", "En transito", usuarios[1].username);
     envios.push(pedido);
-    usuarios[1].pedidos.push(pedido);
+    usuarios[1].pedidos.push(pedido.id);
     
-    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", null, "Pendiente", usuarios[2]);
+    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "Finalizado", usuarios[2].username);
     envios.push(pedido);
-    usuarios[2].pedidos.push(pedido);
-}
-
-function agregarVehiculo(tipo) {                                     // Agregar un nuevo vehiculo al sistema. No agrega vehiculos ya existentes. Devuelve true si existe, false si no.
-    let vehiculoExitente = false;
-    let i = 0;
-    while (i < vehiculos.length && vehiculoExitente == false) {         // Verificar que el vehiculo no existe en el sistema
-        if ((vehiculos[i].tipo).toUpperCase() == tipo.toUpperCase()) {
-            vehiculoExitente = true
-        }
-        i++
-    }
-    if (i == vehiculos.length) {
-        let nuevoVehiculo = new Vehiculo(tipo)
-        vehiculos.push(nuevoVehiculo)
-    }
-    return 
+    usuarios[2].pedidos.push(pedido.id);
+    usuarios[6].pedidos.push(pedido.id);
 }
 
 function registroPersona() {            // Registra un nuevo usuario en el sistema
@@ -244,18 +229,6 @@ function objUsuarioPorNombreFantasia(nombreFantasia){          // Recibe como pa
     if(arrayObjetos.length>0){
         return arrayObjetos
     }
-}
-
-function checkVehiculoPorTipo(tipo){                    // Verifica si existe un vehiculo por nombre
-    let existe = false;
-    let i = 0;
-    while(!existe && i < vehiculos.length){
-        if((vehiculos[i].tipo).toUpperCase() == tipo.toUpperCase()){
-            existe = true;
-        }
-        i++
-    }
-    return existe
 }
 
 function registrarUsuarioPersona(alias, pass, ci, nombre, apellido) {            //Agregar una nueva persona al sistema
@@ -493,7 +466,7 @@ function crearListaDeEmpresasFiltrado() {
     activarBotonesCambioDeEstado();    
 }
 
-function realizarSolicitudEnvio() {
+function btnSolicitudEnvioHandler() {
     let tipoVehiculoIngresado = document.querySelector("#solicitudEnvioVehiculo").value;
     let distanciaIngresada = document.querySelector("#solicitudEnvioDistancia").value;
     let descripcionIngresada = document.querySelector("#solicitudEnvioDescripcion").value;
@@ -503,52 +476,76 @@ function realizarSolicitudEnvio() {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
             if (distanciaNumerica > 0) {
-                btnSolicitudEnvioHandler(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada);
-                document.querySelector("#solicitudEnvioVehiculo").value = 0;
-                document.querySelector("#solicitudEnvioDistancia").value = "";
-                document.querySelector("#solicitudEnvioDescripcion").value = "";
-                document.querySelector("#solicitudEnvioFoto").value = "";
-                document.querySelector("#pErroresSolicitudEnvio").innerHTML = "Envio ingresado";
+                realizarSolicitudEnvio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada);
+                displaySuccessSolicitudEnvioON();
+                displayErrorSolicitudEnvioOFF();
             } else {
-                document.querySelector("#pErroresSolicitudEnvio").innerHTML = "La cantidad de km ingresada debe ser mayor a cero";
+                displayErrorSolicitudEnvioON("La cantidad de km ingresada debe ser mayor a cero");
+                displaySuccessSolicitudEnvioOFF();
             }
         } else {
-            document.querySelector("#pErroresSolicitudEnvio").innerHTML = "La distancia ingresada debe ser numerica";
+           displayErrorSolicitudEnvioON("La distancia ingresada debe ser numerica");
+           displaySuccessSolicitudEnvioOFF();
         }
     } else {
-        document.querySelector("#pErroresSolicitudEnvio").innerHTML = "Debe completar todos los datos";
+        displayErrorSolicitudEnvioON("Completar todos los datos");
+        displaySuccessSolicitudEnvioOFF();
     }
 }
 
-function crearListadoEnvios() {
-    console.log("click")
+
+
+function realizarSolicitudEnvio(tipoVehiculo, distancia, descripcion, foto) {
+    let pedido = new Envio(tipoVehiculo, distancia, descripcion, foto, null, "Pendiente", usuarioLoggeado.username);
+    envios.push(pedido);
+    let i = posUsuarioPorUsuario(usuarioLoggeado.username);
+    usuarios[i].pedidos.push(pedido.id);
+}
+
+function crearListadoEnviosPersona() {
     let table = document.querySelector("#listadoDeEnviosPersona");
     let tableListadoEnvios = ` 
-        <header>
-            <tr>
-                <th>Foto</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-                <th>Empresa</th>
-            </tr>
-        </header>
-    <body id="bodyListadoDeEnvios">`;
-    
-    let bodyListado = armarBodyListadoEnvios();
-    if (!bodyListado) {
+    <header>
+        <tr>
+            <th>Foto</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Empresa</th>
+        </tr>
+    </header>
+    <body id="bodyListadoDeEnviosPersona"></tbody>`;
+                
+    let hayEnvios = hayEnviosParaAgregar();
+    if (!hayEnvios) {
         resultado = "No tiene pedidos asignados";
     } else {
+        let bodyListado = armarBodyListadoEnviosPersona();
         resultado = tableListadoEnvios + bodyListado
     }
     
     table.innerHTML = resultado
 }
 
-function armarBodyListadoEnvios() {
+function hayEnviosParaAgregar() {
+    let hayEnvios = false;
+
+    let i = 0;
+    while (i < envios.length && !hayEnvios) {
+        let envioActual = envios[i];
+        if (usuarioLoggeado.username == envioActual.persona) {
+            hayEnvios = true;
+        }
+        i++
+    }  
+
+    return hayEnvios
+}
+
+function armarBodyListadoEnviosPersona() {
     let bodyListadoEnvios = ``;
     for (let i = 0; i < envios.length; i++) {
         let envioActual = envios[i];
-        if (usuarioLoggeado.username == envioActual.persona.username) {
+        if (usuarioLoggeado.username == envioActual.persona) {
             bodyListadoEnvios += `  
             <tr>
                 <td><img alt="Foto de envio" src="img/${envioActual.img}"></td>
@@ -558,9 +555,9 @@ function armarBodyListadoEnvios() {
             </tr>`
         }
     }
-    bodyListadoEnvios += `</tbody>`
     return bodyListadoEnvios
 }
+
 
 function calcularInfoEstadisticaPersona() {
     let contadorPendientes = 0;
@@ -569,10 +566,10 @@ function calcularInfoEstadisticaPersona() {
 
     for (let i = 0; i < envios.length; i++) {
         let envioActual = envios[i];
-        if (envioActual.persona.username == usuarioLoggeado.username) {
+        if (envioActual.persona == usuarioLoggeado.username) {
             if (envioActual.estado = "Pendiente") {
                 contadorPendientes++;
-            } else if (envioActual.estado = "Transito") {
+            } else if (envioActual.estado = "En transito") {
                 contadorEnTransito++;
             } else if (envioActual.estado = "Finalizado") {
                 contadorFinalizado++;
@@ -592,12 +589,21 @@ function calcularInfoEstadisticaPersona() {
     document.querySelector("#infoEstadistica").innerHTML = resultado;
 }
 
-function btnSolicitudEnvioHandler(tipoVehiculo, distancia, descripcion, foto) {
-    let pedido = new Envio(tipoVehiculo, distancia, descripcion, foto, null, "Pendiente", usuarioLoggeado);
-    envios.push(pedido);
-    let i = posUsuarioPorUsuario(usuarioLoggeado.username);
-    usuarios[i].pedidos.push(pedido);
+function agregarVehiculo(tipo) {                                     // Agregar un nuevo vehiculo al sistema. No agrega vehiculos ya existentes. Devuelve true si existe, false si no.
+    let vehiculoExistente = false;
+    let i = 0;
+    while (i < vehiculos.length && vehiculoExistente == false) {         // Verificar que el vehiculo no existe en el sistema
+        if ((vehiculos[i].tipo).toUpperCase() == tipo.toUpperCase()) {
+            vehiculoExistente = true
+        }
+        i++
+    }
+    if (i == vehiculos.length) {
+        let nuevoVehiculo = new Vehiculo(tipo)
+        vehiculos.push(nuevoVehiculo)
+    }
 }
+
 
 function agregarVehiculoAlSistemaHandler(){
     let vehiculoLeido = document.querySelector("#tipoNuevoVehiculo").value;
@@ -615,6 +621,29 @@ function agregarVehiculoAlSistemaHandler(){
     document.querySelector("#tipoNuevoVehiculo").value = ""
 }
 
+function checkVehiculoPorTipo(tipo){                    // Verifica si existe un vehiculo por nombre
+    let existe = false;
+    let i = 0;
+    while(!existe && i < vehiculos.length){
+        if((vehiculos[i].tipo).toUpperCase() == tipo.toUpperCase()){
+            existe = true;
+        }
+        i++
+    }
+    return existe
+}
+
+function tipoVehiculoPorId(id){                             // Recibe como parametro un id y busca a que vehiculo corresponde (ej 1000 corresponde a Moto)
+    let existe = false;
+    let i=0;
+    while(i<vehiculos.length && !existe) {
+        if(vehiculos[i].id == id){
+            existe = true;
+            return vehiculos[i].tipo
+        }
+        i++
+    }
+}
 
 function crearListaDeVehiculos(){
     let table = document.querySelector("#listadoVehiculos");
@@ -635,3 +664,142 @@ function crearListaDeVehiculos(){
     table.innerHTML += `</tbody>`
 }
 
+// -- Listado solicitudes pendientes para usuario tipo empresa -- // 
+
+function buscarPedidosDisponiblesPorVehiculo(objEmpresa){      // Recibe como parametro un objeto empresa y retorna un array con los objetos de pedidos que puede tomar (segun tipo vehiculo y disp)
+    let arrayPedidos = [];
+    for (let i = 0; i<envios.length; i++){
+        if(envios[i].estado == "Pendiente" && envios[i].vehiculo == objEmpresa.vehiculo){
+            arrayPedidos.push(envios[i]);
+        }
+    }
+    return arrayPedidos
+}
+
+
+function crearListaDeSolicitudesPendientesEmpresa(){                    // Genera la tabla con los pedidos que puede aceptar la empresa loggeada
+    let enviosPosibles = buscarPedidosDisponiblesPorVehiculo(usuarioLoggeado);
+    let tableBody = document.querySelector("#bodyListadoEnviosPendientesEmpresa");
+    tableBody.innerHTML = ''
+    console.log(enviosPosibles)
+    if(enviosPosibles.length > 0){
+        for(let i = 0; i< enviosPosibles.length; i++){
+            let j = buscarPosEnvioPorId(enviosPosibles[i].id);
+            let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
+            let usuarioPersona = objUsuarioPorUsuario(envios[j].persona);
+            tableBody.innerHTML += `<tr>
+                                        <td><img alt="Foto de envio" src="img/${envios[j].foto}"></td>
+                                        <td>${vehiculo}</td>
+                                        <td>${envios[j].distancia}</td>
+                                        <td>${envios[j].estado}</td>
+                                        <td>${usuarioPersona.nombre}</td>
+                                        <td>${usuarioPersona.apellido}</td>
+                                        <td><button class="btn btn-success btnAceptarPedido" btnEnvioId="${envios[j].id}">Aceptar</button></td>
+                                    </tr>`
+        }
+        
+    } else {
+        displayMensajeErrorSolicitudesPendientesON()
+    }
+    activarBotonesAceptarSolicitudesPendientes();
+}
+
+function activarBotonesAceptarSolicitudesPendientes(){                                           // Activa todos los botones de "Aceptar" en la lista de solicitudes pendientes para empresa
+    let listaBotones = document.querySelectorAll(".btnAceptarPedido");                           // guardar todos los botones con el Tag indicado en un array
+    for(let i = 0; i < listaBotones.length;i++){
+        listaBotones[i].addEventListener('click',aceptarPedido);
+    }
+}
+
+function aceptarPedido(){
+    let envioIdClickeado = this.getAttribute("btnEnvioId")
+    let j = buscarPosEnvioPorId(envioIdClickeado);
+    envios[j].estado = "En transito"
+    console.log('click')
+    
+    crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
+    crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
+}
+
+function buscarPosEnvioPorId(id){       // Recibe como parametro el id de un envio, busca en el array de envios la posicion del obj con ese id
+    let i = 0;
+    let existe = false;
+    while(i<envios.length && !existe){
+        if(envios[i].id == id){
+            existe = true;
+            return i
+        }
+        i++
+    }
+}
+
+
+function buscarEnviosPorEmpresa(objEmpresa) {
+    let arrayPedidos = [[],[]];
+    for (let i = 0; i < envios.length; i++){
+        if (envios[i].estado == "En transito" && envios[i].empresa == objEmpresa.razonSocial) {
+            arrayPedidos[0].push(envios[i]);
+        } else if ((envios[i].estado == "Finalizado" && envios[i].empresa == objEmpresa.razonSocial)) {
+            arrayPedidos[1].push(envios[i]);
+        }
+    }
+    return arrayPedidos
+}
+
+function crearListadoDeSolicitudesTomadasEmpresa(){
+    let table = document.querySelector("#tablaEnviosTomadosF9")
+    let enviosEnTransitoYFinalizados = buscarEnviosPorEmpresa(usuarioLoggeado);
+    let enviosEnTransito = enviosEnTransitoYFinalizados[0];
+    let enviosFinalizados = enviosEnTransitoYFinalizados[1];
+
+    if (enviosEnTransito.length > 0 || enviosFinalizados.length > 0){
+        let tablaPedidosTomados =   `<header>
+                                        <tr>
+                                            <td><strong>Foto</strong></td>
+                                            <td><strong>Vehiculo</strong></td>
+                                            <td><strong>Distancia</strong></td>
+                                            <td><strong>Estado</strong></td>
+                                            <td><strong>Nombre</strong></td>
+                                            <td><strong>Apellido</strong></td>
+                                            <td><strong>Cambiar estado de envio</strong></td>
+                                        </tr>
+                                    </header>
+                                    <body>`
+        for(let i = 0; i < enviosEnTransito.length; i++){
+            let j = buscarPosEnvioPorId(enviosEnTransito[i].id);
+            let usuarioPersona = objUsuarioPorUsuario(envios[j].persona)
+            let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
+            tablaPedidosTomados += `<tr>
+                                        <td><img alt="Foto de envio" src="img/${envios[j].foto}"></td>
+                                        <td>${vehiculo}</td>
+                                        <td>${envios[j].distancia}</td>
+                                        <td>${envios[j].estado}</td>
+                                        <td>${usuarioPersona.nombre}</td>
+                                        <td>${usuarioPersona.apellido}</td>
+                                        <td><button class="btn btn-success btnAceptarPedido" btnempresaUsername="${usuarioPersona.username}">Finalizar</button></td>
+                                    </tr>`
+        }
+        
+        for(let i = 0; i < enviosFinalizados.length; i++){
+            let j = buscarPosEnvioPorId(enviosFinalizados[i].id);
+            let usuarioPersona = objUsuarioPorUsuario(envios[j].persona);
+            let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
+            tablaPedidosTomados += `<tr>
+                                        <td><img alt="Foto de envio" src="img/${envios[j].foto}"></td>
+                                        <td>${vehiculo}</td>
+                                        <td>${envios[j].distancia}</td>
+                                        <td>${envios[j].estado}</td>
+                                        <td>${usuarioPersona.nombre}</td>
+                                        <td>${usuarioPersona.apellido}</td>
+                                        <td></td>
+                                    </tr>`;
+        };
+        tablaPedidosTomados += `</body>`;
+        table.innerHTML = tablaPedidosTomados;
+    } else {
+        displayMensajeErrorSolicitudesEnTransitoYFinalizadosON("No hay envios asignados a su empresa.");
+    }
+
+    
+    
+}
