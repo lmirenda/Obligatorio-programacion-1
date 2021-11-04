@@ -22,9 +22,10 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
     document.querySelector("#btnIngresarVehiculo").addEventListener('click', agregarVehiculoAlSistemaHandler);
     document.querySelector("#btnEnviarSolicitudEnvio6").addEventListener('click', btnSolicitudEnvioHandler);
-    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', crearListadoEnviosPersona);
-    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', calcularInfoEstadisticaPersona);
+    document.querySelector("#listadoEnviosTomadosF9").addEventListener('click', crearListadoEnviosPersona);
+    document.querySelector("#listadoEnviosTomadosF9").addEventListener('click', calcularInfoEstadisticaPersona);
     document.querySelector("#btnEmpresaEstadistica").addEventListener('click', calcularInfoEstadisticaEmpresa);
+    document.querySelector("#btnResEnviosPorEstadoEmpresa").addEventListener('click', calcularCantidadEnviosPorEstadoEmpresa);
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -78,7 +79,7 @@ function precargaDeEnvios() {
     usuarios[0].pedidos.push(pedido.id);
     usuarios[4].pedidos.push(pedido.id);
     
-    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "Finalizado", usuarios[2].username);
+    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "En tránsito", usuarios[2].username);
     envios.push(pedido);
     usuarios[2].pedidos.push(pedido.id);
     usuarios[4].pedidos.push(pedido.id);
@@ -813,27 +814,27 @@ function crearListadoDeSolicitudesTomadasEmpresa(){
 }
 
 function calcularInfoEstadisticaEmpresa() {
-    let infoEstadistica = ``;
+    let infoEstadisticaMejoresUsuarios;
+
     let usuariosConMasEnvios = encontrarUsuariosConMasEnvios();
 
     if (usuariosConMasEnvios.length > 0) {
-        infoEstadistica += `La/s personas con mas envios realizados es/son: <br>`;
+        infoEstadisticaMejoresUsuarios = `La/s personas con mas envios realizados es/son: <br>`;
         for (let i = 0; i < usuariosConMasEnvios.length; i++) {
             let usuarioActual = usuariosConMasEnvios[i];
-            infoEstadistica += `${i + 1}. ${usuarioActual.nombre} ${usuarioActual.apellido}.<br>`
+            infoEstadisticaMejoresUsuarios += `${i + 1}. ${usuarioActual.nombre} ${usuarioActual.apellido}.<br>`
         }
+    } else {
+        infoEstadisticaMejoresUsuarios = "No hay pedidos finalizados asignados a esta empresa.";
     }
 
-
-    
-    empresaDisplayEstadistica(infoEstadistica)
+    empresaDisplayEstadisticaMejoresUsuarios(infoEstadisticaMejoresUsuarios);
 }
 
 function encontrarUsuariosConMasEnvios() {
-    let mejoresUsuarios = [];
-    let mayorCantEnvios = encontrarNumMayorDeEnviosFinalizados();
+    let cantPedidosFinalizadosPorUsuario = [];
 
-    for (let i = 0; i < envios.length; i++) {
+    for (let i = 0; i < usuarios.length; i++) {
         let usuarioActual = usuarios[i];
         
         if (usuarioActual.tipo == "Persona") {
@@ -842,15 +843,26 @@ function encontrarUsuariosConMasEnvios() {
             for (let j = 0; j < usuarioActual.pedidos.length; j++) {
                 let idPedidoActual = usuarioActual.pedidos[j];
                 let pedidoActual = buscarPedidoPorId(idPedidoActual);
-                if (pedidoActual.estado == "Finalizado") {
+                console.log(pedidoActual.estado == "Finalizado")
+                console.log(`${idPedidoActual}: ${pedidoActual.empresa} =? ${usuarioLoggeado.razonSocial} = ${pedidoActual.empresa == usuarioLoggeado.razonSocial}`)
+                if (pedidoActual.estado == "Finalizado" && pedidoActual.empresa == usuarioLoggeado.razonSocial) {
                     contEnviosFinalizados++
                 }
             }
 
-            if (contEnviosFinalizados == mayorCantEnvios) {
-                mejoresUsuarios.push(usuarioActual);
-            }            
+            cantPedidosFinalizadosPorUsuario.push(contEnviosFinalizados)
+
+        } else {
+            cantPedidosFinalizadosPorUsuario.push(null)
         }
+    }
+
+    let mayorCantEnvios = encontrarNumMasGrande(cantPedidosFinalizadosPorUsuario);
+
+    let mejoresUsuarios = [];
+
+    if (mayorCantEnvios != 0) {
+        mejoresUsuarios = armarArrayConMejoresUsuarios(mayorCantEnvios, cantPedidosFinalizadosPorUsuario);
     }
     
     return mejoresUsuarios
@@ -873,28 +885,70 @@ function buscarPedidoPorId(idABuscar) {
     return pedido
 }
 
-function encontrarNumMayorDeEnviosFinalizados() {
-    let mayorCantidadFinalizados = Number.NEGATIVE_INFINITY;
+function encontrarNumMasGrande(arrayNumerico) {
+    let numMasGrande = 0;
     
     for (let i = 0; i < envios.length; i++) {
-        let usuarioActual = usuarios[i];
-        
-        if (usuarioActual.tipo == "Persona") {
-            let contEnviosFinalizados = 0;
-            
-            for (let j = 0; j < usuarioActual.pedidos.length; j++) {
-                let idPedidoActual = usuarioActual.pedidos[j];
-                let pedidoActual = buscarPedidoPorId(idPedidoActual);
-                if (pedidoActual.estado == "Finalizado") {
-                    contEnviosFinalizados++
-                }
-            }
-            
-            if (contEnviosFinalizados >= mayorCantidadFinalizados) {
-                mayorCantidadFinalizados = contEnviosFinalizados;
-            }            
+        let numActual = arrayNumerico[i];
+        if (numActual != null && numActual > numMasGrande ) {
+            numMasGrande = numActual
         }
     }
     
-    return mayorCantidadFinalizados
+    return numMasGrande
+}
+
+function armarArrayConMejoresUsuarios(numMasGrande, pedidosPorUsuario) {
+    let mejoresUsuarios = [];
+
+    for (let i = 0; i < pedidosPorUsuario.length; i++) {
+        let numActual = pedidosPorUsuario[i];
+        if (numActual == numMasGrande) {
+            mejoresUsuarios.push(usuarios[i])
+        }
+    }
+
+    return mejoresUsuarios
+}
+
+function calcularCantidadEnviosPorEstadoEmpresa() {
+    let estadoElegidoNumerico = document.querySelector("#selEstadisticaPorEstadoEmpresa").value;
+    let estadoElegido
+    let cantEstadoElegido;
+    let mensaje
+
+    if (estadoElegidoNumerico == 0) {
+        mensaje = "Elija un estado para mostrar.";
+        displayErrorEnviosPorEstadoEmpresaON(mensaje)
+    } else {
+        if (estadoElegidoNumerico == 1) {
+            estadoElegido = "Pendiente"
+        } else if (estadoElegidoNumerico == 2) {
+            estadoElegido = "En tránsito"
+        } else if (estadoElegidoNumerico == 3) {
+            estadoElegido = "Finalizado"
+        }
+        cantEstadoElegido = cantEnviosDeEstado(estadoElegido);
+        mensaje = `Hay ${cantEstadoElegido} envio/s en el estado "${estadoElegido}".`;
+        displaySuccessEnviosPorEstadoEmpresaON(mensaje);
+    }
+}
+
+function cantEnviosDeEstado(estadoElegido) {
+    let contDeEnvios = 0;
+
+    if (usuarioLoggeado.pedidos.length > 0) {
+        let arrIdsDeEnviosDeEmpresa = usuarioLoggeado.pedidos;
+
+        for (let i = 0; i < arrIdsDeEnviosDeEmpresa.length; i++) {
+            let idActual = arrIdsDeEnviosDeEmpresa[i]
+            let pedidoActual = buscarPedidoPorId(idActual)
+            
+            if (pedidoActual.estado == estadoElegido) {
+                contDeEnvios++
+            }
+        }
+    }
+
+    return contDeEnvios
 }

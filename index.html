@@ -349,7 +349,19 @@
 
     </div>
 
-    <div id="infoEstadisticaEmpresa" class="container">
+    <div id="infoEstadisticaEmpresaMejoresUsuarios" class="container">
+    </div>
+    <div id="infoEstadisticaEmpresaCantidadPorEstado" class="container">
+        <label for="selEstadisticaPorEstadoEmpresa">Seleccione una opcion: </label>
+        <select id="selEstadisticaPorEstadoEmpresa">
+            <option value=0 disabled selected>Elegir estado</option>
+            <option value=1>Pendiente</option>
+            <option value=2>En tránsito</option>
+            <option value=3>Finalizado</option>
+        </select>
+        <input id="btnResEnviosPorEstadoEmpresa" type="button" class="btn btn-secondary" value="Mostrar resultado">
+        <p id="pErrorEstadisticaCantPorEstadoEmpresa" class="errorMsj"></p>
+        <p id="pSuccessEstadisticaCantPorEstadoEmpresa" class="successMsj"></p>
     </div>
 
     <!-- --------------------------------------------------------------- -->

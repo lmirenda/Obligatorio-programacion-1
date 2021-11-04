@@ -36,7 +36,8 @@ btnPersonaSolicitudEnvio.addEventListener('click', personaDisplaySolicitudEnvio)
 btnPersonaListadoEnvios.addEventListener('click', personaDisplayListadoEnvio);
 
 btnEmpresaListadoEnvios.addEventListener('click', empresaDisplayListadoEnvio);
-btnEmpresaEstadistica.addEventListener('click', empresaDisplayEstadistica)
+btnEmpresaEstadistica.addEventListener('click', empresaDisplayEstadisticaMejoresUsuarios)
+btnEmpresaEstadistica.addEventListener('click', empresaDisplayEstadisticaEnviosPorEstado)
 
 
 
@@ -80,7 +81,11 @@ function ocultarPantallas() {                                                   
     document.querySelector("#panelAdmin").style.display = "none"
     document.querySelector("#panelEmpresa").style.display = "none"
     document.querySelector("#panelPersona").style.display = "none"
-    document.querySelector("#infoEstadisticaEmpresa").style.display = "none";
+    document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").style.display = "none";
+    document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "none";
+    document.querySelector("#selEstadisticaPorEstadoEmpresa").value = 0;
+    document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
+    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
     pMensajeErrorFiltrarEmpresas.style.display = "none";
     pMensajeErrorIngresarVehiculo.style.display = "none";
     btnCerrarSesion.style.display = "none";
@@ -266,20 +271,45 @@ function displayMensajeErrorSolicitudesPendientesON() {
 function displayMensajeErrorSolicitudesEnTransitoYFinalizadosON(mensaje) {
     document.querySelector("#pErrorListadoEnviosTomadosF9").style.display = "block";
     document.querySelector("#pErrorListadoEnviosTomadosF9").innerHTML = mensaje;
+    document.querySelector("#tablaEnviosTomadosF9").style.display = "none";
+
 }
 
 function empresaDisplayListadoEnvio() {
     document.querySelector("#listadoEnviosPendientesF8").style.display = "block";
     document.querySelector("#listadoEnviosTomadosF9").style.display = "block";
-    document.querySelector("#infoEstadisticaEmpresa").style.display = "none";
+    document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").style.display = "none";
+    document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "none";
     crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
     crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
+    
+    // Pasado de resultados de estadisticas por estado del envio a vacio
+    document.querySelector("#selEstadisticaPorEstadoEmpresa").value = 0;
+    document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
+    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
 }
 
-function empresaDisplayEstadistica(mensaje) {
+function empresaDisplayEstadisticaMejoresUsuarios(mensaje) {
     document.querySelector("#listadoEnviosPendientesF8").style.display = "none";
     document.querySelector("#listadoEnviosTomadosF9").style.display = "none";
-    document.querySelector("#infoEstadisticaEmpresa").style.display = "block";
-    document.querySelector("#infoEstadisticaEmpresa").innerHTML = mensaje;
+    document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").style.display = "block";
+    document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").innerHTML = mensaje;
+}
 
+function empresaDisplayEstadisticaEnviosPorEstado() {
+    document.querySelector("#listadoEnviosPendientesF8").style.display = "none";
+    document.querySelector("#listadoEnviosTomadosF9").style.display = "none";
+    document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "block";
+}
+
+function displayErrorEnviosPorEstadoEmpresaON(mensaje) {
+    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "block";
+    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").innerHTML = mensaje;
+    document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
+}
+
+function displaySuccessEnviosPorEstadoEmpresaON(mensaje) {
+    document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "block";
+    document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").innerHTML = mensaje;
+    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
 }
