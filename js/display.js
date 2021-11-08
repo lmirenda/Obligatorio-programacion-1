@@ -139,7 +139,7 @@ function updateSelectVehiculos(id) {
     document.querySelector(id).innerHTML = ''
     for (let i = 0; i < vehiculos.length; i++) {
         if (i == 0) {
-            document.querySelector(id).innerHTML += `<option value = 0>Ingrese una opcion</option>`
+            document.querySelector(id).innerHTML += `<option selected disabled value = 0>Ingrese una opcion</option>`
         }
         document.querySelector(id).innerHTML += `<option value=${vehiculos[i].id}>${vehiculos[i].tipo}</option>`
     }
@@ -250,7 +250,7 @@ function personaDisplayListadoEnvio(){
     
     document.querySelector("#listadoEnviosF7").style.display = "block";  
     
-    document.querySelector("#infoEstadisticaUsuario").style.display = "none";
+    document.querySelector("#infoEstadisticaUsuario").style.display = "block";
 }
 
 function personaDisplayEstadistica(){

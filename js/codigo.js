@@ -22,8 +22,8 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnLogIn").addEventListener("click", logIn);
     document.querySelector("#btnIngresarVehiculo").addEventListener('click', agregarVehiculoAlSistemaHandler);
     document.querySelector("#btnEnviarSolicitudEnvio6").addEventListener('click', btnSolicitudEnvioHandler);
-    document.querySelector("#listadoEnviosTomadosF9").addEventListener('click', crearListadoEnviosPersona);
-    document.querySelector("#listadoEnviosTomadosF9").addEventListener('click', calcularInfoEstadisticaPersona);
+    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', crearListadoEnviosPersona);
+    document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', calcularInfoEstadisticaPersona);
     document.querySelector("#btnEmpresaEstadistica").addEventListener('click', calcularInfoEstadisticaEmpresa);
     document.querySelector("#btnResEnviosPorEstadoEmpresa").addEventListener('click', calcularCantidadEnviosPorEstadoEmpresa);
 }
@@ -65,7 +65,7 @@ function precargaDeUsuariosAdmin() {
 }
 
 function precargaDeEnvios() {
-    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", "Empresa Cero Uno", "Finalizado", usuarios[0].username)
+    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", "Empresa Cero Uno", "Pendiente", usuarios[0].username)
     envios.push(pedido);
     usuarios[0].pedidos.push(pedido.id);
     usuarios[4].pedidos.push(pedido.id);
@@ -479,6 +479,27 @@ function crearListaDeEmpresasFiltrado() {
     activarBotonesCambioDeEstado();    
 }
 
+function cortarPath(path) {
+    let posDeArranquePath = posicionUltimoSlash(path) + 1;
+
+    let nuevoPath = path.slice(posDeArranquePath);
+
+    return nuevoPath
+}
+
+function posicionUltimoSlash(path) {
+    let posUltimoBackSlash = -1;
+
+    for (let i = 0; i < path.length; i++) {
+        if (path[i] == "\\") {
+            posUltimoBackSlash = i;
+        }
+    }
+
+    console.log(path.slice(posUltimoBackSlash))
+    return posUltimoBackSlash
+}
+
 function btnSolicitudEnvioHandler() {
     let tipoVehiculoIngresado = document.querySelector("#solicitudEnvioVehiculo").value;
     let distanciaIngresada = document.querySelector("#solicitudEnvioDistancia").value;
@@ -488,8 +509,9 @@ function btnSolicitudEnvioHandler() {
     if (tipoVehiculoIngresado && distanciaIngresada && descripcionIngresada && fotoIngresada) {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
+            let fotoIngresadaValidada = cortarPath(fotoIngresada)
             if (distanciaNumerica > 0) {
-                realizarSolicitudEnvio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresada);
+                realizarSolicitudEnvio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresadaValidada);
                 displaySuccessSolicitudEnvioON();
                 displayErrorSolicitudEnvioOFF();
             } else {
@@ -559,7 +581,7 @@ function armarBodyListadoEnviosPersona() {
         if (usuarioLoggeado.username == envioActual.persona) {
             bodyListadoEnvios += `  
             <tr>
-                <td><img alt="Foto de envio" src="img/${envioActual.img}"></td>
+                <td><img alt="Foto de envio" src="../img/${envioActual.img}"></td>
                 <td>${envioActual.descripcion}</td>
                 <td>${envioActual.estado}</td>
                 <td>${envioActual.empresa}</td>
@@ -699,7 +721,7 @@ function crearListaDeSolicitudesPendientesEmpresa(){                    // Gener
             let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
             let usuarioPersona = objUsuarioPorUsuario(envios[j].persona);
             tableBody.innerHTML += `<tr>
-                                        <td><img alt="Foto de envio" src="img/${envios[j].foto}"></td>
+                                        <td><img alt="Foto de envio" src="../img/${envios[j].foto}"></td>
                                         <td>${vehiculo}</td>
                                         <td>${envios[j].distancia}</td>
                                         <td>${envios[j].estado}</td>
@@ -782,7 +804,7 @@ function crearListadoDeSolicitudesTomadasEmpresa(){
             let usuarioPersona = objUsuarioPorUsuario(envios[j].persona)
             let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
             tablaPedidosTomados += `<tr>
-                                        <td><img alt="Foto de envio" src="img/${envios[j].foto}"></td>
+                                        <td><img alt="Foto de envio" src="..\\img\\${envios[j].foto}"></td>
                                         <td>${vehiculo}</td>
                                         <td>${envios[j].distancia}</td>
                                         <td>${envios[j].estado}</td>
@@ -797,7 +819,7 @@ function crearListadoDeSolicitudesTomadasEmpresa(){
             let usuarioPersona = objUsuarioPorUsuario(envios[j].persona);
             let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
             tablaPedidosTomados += `<tr>
-                                        <td><img alt="Foto de envio" src="img/${envios[j].foto}"></td>
+                                        <td><img alt="Foto de envio" src="..\\img\\${envios[j].foto}"></td>
                                         <td>${vehiculo}</td>
                                         <td>${envios[j].distancia}</td>
                                         <td>${envios[j].estado}</td>
