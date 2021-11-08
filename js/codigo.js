@@ -26,6 +26,7 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', calcularInfoEstadisticaPersona);
     document.querySelector("#btnEmpresaEstadistica").addEventListener('click', calcularInfoEstadisticaEmpresa);
     document.querySelector("#btnResEnviosPorEstadoEmpresa").addEventListener('click', calcularCantidadEnviosPorEstadoEmpresa);
+    document.querySelector("#btnAdminEstadistica").addEventListener("click", calcularInfoEstadisticaAdmin);
 }
 
 // PRECARGA DE DATOS AL SISTEMA // 
@@ -46,45 +47,46 @@ function precargaDeVehiculos() {
 }
 
 function precargaDeUsuariosPersona() {
-    usuarios.push(new UsuarioPersona("bdiaz", 123, 12345678, "Bruno", "Diaz", []))
-    usuarios.push(new UsuarioPersona("amayes", 456, 4928922, "Andres", "Mayes", []))
-    usuarios.push(new UsuarioPersona("fcaillabet", 789, 87654321, "Felipe", "Caillabet", []))
-    usuarios.push(new UsuarioPersona("lmirenda", 123, 14725836, "Luca", "Mirenda", []))
+    usuarios.push(new UsuarioPersona("bdiaz", 123, 12345678, "Bruno", "Diaz", []));
+    usuarios.push(new UsuarioPersona("amayes", 456, 4928922, "Andres", "Mayes", []));
+    usuarios.push(new UsuarioPersona("fcaillabet", 789, 87654321, "Felipe", "Caillabet", []));
+    usuarios.push(new UsuarioPersona("lmirenda", 123, 14725836, "Luca", "Mirenda", []));
 }
 
 function precargaDeUsuariosEmpresa() {
-    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", 1000, true, 0, "Empleado 1",[0].id))
-    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", 1001, true, 0, "Empleado 2",[]))
-    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", 1002, true, 0, "Empleado 3",[]))
-    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", 1002, false, 0, "Empleado 4",[]))
-    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", 1002, false, 0, "Empleado 5",[]))
+    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", 1000, true, 0, "Empleado 1"));
+    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", 1001, true, 0, "Empleado 2"));
+    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", 1001, true, 0, "Empleado 3"));
+    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", 1002, false, 0, "Empleado 4"));
+    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", 1002, false, 0, "Empleado 5"));
 }
 
 function precargaDeUsuariosAdmin() {
-    usuarios.push(new UsuarioAdmin("Admin", "Admin01"))
+    usuarios.push(new UsuarioAdmin("Admin", "Admin01"));
 }
 
 function precargaDeEnvios() {
-    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", "Empresa Cero Uno", "Pendiente", usuarios[0].username)
+    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", "Empresa Cero Uno", "En tránsito", usuarios[0].username);
     envios.push(pedido);
     usuarios[0].pedidos.push(pedido.id);
     usuarios[4].pedidos.push(pedido.id);
     
-    pedido = new Envio(1001, 10, "Motosierra", "motosierra.jpg", "Empresa Cero Uno", "En tránsito", usuarios[1].username);
+    pedido = new Envio(1001, 10, "Motosierra", "motosierra.jpg", "Empresa Cero Dos", "En tránsito", usuarios[1].username);
     envios.push(pedido);
     usuarios[1].pedidos.push(pedido.id);
+    usuarios[5].pedidos.push(pedido.id);
     
-    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "Finalizado", usuarios[0].username);
+    pedido = new Envio(1000, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "Finalizado", usuarios[0].username);
     envios.push(pedido);
     usuarios[0].pedidos.push(pedido.id);
     usuarios[4].pedidos.push(pedido.id);
     
-    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "En tránsito", usuarios[2].username);
+    pedido = new Envio(1000, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "En tránsito", usuarios[2].username);
     envios.push(pedido);
     usuarios[2].pedidos.push(pedido.id);
     usuarios[4].pedidos.push(pedido.id);
     
-    pedido = new Envio(1002, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "Finalizado", usuarios[2].username);
+    pedido = new Envio(1000, 5, "Mudanza de muebles", "mudanza.jpg", "Empresa Cero Uno", "Finalizado", usuarios[2].username);
     envios.push(pedido);
     usuarios[2].pedidos.push(pedido.id);
     usuarios[4].pedidos.push(pedido.id);
@@ -484,6 +486,8 @@ function cortarPath(path) {
 
     let nuevoPath = path.slice(posDeArranquePath);
 
+    console.log(nuevoPath);
+
     return nuevoPath
 }
 
@@ -501,7 +505,7 @@ function posicionUltimoSlash(path) {
 }
 
 function btnSolicitudEnvioHandler() {
-    let tipoVehiculoIngresado = document.querySelector("#solicitudEnvioVehiculo").value;
+    let tipoVehiculoIngresado = parseInt(document.querySelector("#solicitudEnvioVehiculo").value);
     let distanciaIngresada = document.querySelector("#solicitudEnvioDistancia").value;
     let descripcionIngresada = document.querySelector("#solicitudEnvioDescripcion").value;
     let fotoIngresada = document.querySelector("#solicitudEnvioFoto").value;
@@ -509,7 +513,8 @@ function btnSolicitudEnvioHandler() {
     if (tipoVehiculoIngresado && distanciaIngresada && descripcionIngresada && fotoIngresada) {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
-            let fotoIngresadaValidada = cortarPath(fotoIngresada)
+            let fotoIngresadaValidada = cortarPath(fotoIngresada);
+            console.log(fotoIngresadaValidada)
             if (distanciaNumerica > 0) {
                 realizarSolicitudEnvio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresadaValidada);
                 displaySuccessSolicitudEnvioON();
@@ -578,17 +583,26 @@ function armarBodyListadoEnviosPersona() {
     let bodyListadoEnvios = ``;
     for (let i = 0; i < envios.length; i++) {
         let envioActual = envios[i];
+        let empresaAsignada = buscarEmpresaPorEnvio(envioActual);
         if (usuarioLoggeado.username == envioActual.persona) {
             bodyListadoEnvios += `  
             <tr>
                 <td><img alt="Foto de envio" src="../img/${envioActual.img}"></td>
                 <td>${envioActual.descripcion}</td>
                 <td>${envioActual.estado}</td>
-                <td>${envioActual.empresa}</td>
+                <td>${empresaAsignada}</td>
             </tr>`
         }
     }
     return bodyListadoEnvios
+}
+
+function buscarEmpresaPorEnvio(objEnvio){
+    if (objEnvio.empresa == null){
+        return "No hay empresa asignada"
+    } else {
+        return objEnvio.empresa
+    }
 }
 
 
@@ -721,7 +735,7 @@ function crearListaDeSolicitudesPendientesEmpresa(){                    // Gener
             let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
             let usuarioPersona = objUsuarioPorUsuario(envios[j].persona);
             tableBody.innerHTML += `<tr>
-                                        <td><img alt="Foto de envio" src="../img/${envios[j].foto}"></td>
+                                        <td><img alt="Foto de envio" src="../img/${envios[j].img}"></td>
                                         <td>${vehiculo}</td>
                                         <td>${envios[j].distancia}</td>
                                         <td>${envios[j].estado}</td>
@@ -744,15 +758,32 @@ function activarBotonesAceptarSolicitudesPendientes(){                          
     }
 }
 
+function activarBotonesFinalizarSolicitudesTransito(){                                           // Activa todos los botones de "Finalizar" en la lista de solicitudes aceptadas para empresa
+    let listaBotones = document.querySelectorAll(".btnFinalizarPedido");                         // guardar todos los botones con el Tag indicado en un array
+    for(let i = 0; i < listaBotones.length;i++){
+        listaBotones[i].addEventListener('click',finalizarPedido);                                  // A todos los botones les asigna un event listener de click, que corre la funcion finalizarPedido()
+    }
+}
+
 function aceptarPedido(){
     let envioIdClickeado = this.getAttribute("btnEnvioId")
     let j = buscarPosEnvioPorId(envioIdClickeado);
     envios[j].estado = "En tránsito";
     
     envios[j].empresa = usuarioLoggeado.razonSocial;
+
+    usuarioLoggeado.pedidos.push(j);
     
     crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
     crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
+}
+
+function finalizarPedido(){                                                                     // Cambiar el estado del envio de "En transito" a "Finalizado" y actualizar la tabla
+    let envioIdClickeado = this.getAttribute("btnEnvioId")                                      // Obtener el ID del envio
+    let j = buscarPosEnvioPorId(envioIdClickeado);                                              // Buscar el envio por ID
+    envios[j].estado = "Finalizado";                                                            // Modificar su estado
+
+    crearListadoDeSolicitudesTomadasEmpresa()                                                   // Actualizar el listado de solicitudes "En transito" y "Finalizadas"
 }
 
 function buscarPosEnvioPorId(id){       // Recibe como parametro el id de un envio, busca en el array de envios la posicion del obj con ese id
@@ -767,7 +798,6 @@ function buscarPosEnvioPorId(id){       // Recibe como parametro el id de un env
     }
 }
 
-
 function buscarEnviosPorEmpresa(objEmpresa) {
     let arrayPedidos = [[],[]];
     for (let i = 0; i < envios.length; i++){
@@ -781,10 +811,11 @@ function buscarEnviosPorEmpresa(objEmpresa) {
 }
 
 function crearListadoDeSolicitudesTomadasEmpresa(){
-    let table = document.querySelector("#tablaEnviosTomadosF9")
+    let table = document.querySelector("#tablaEnviosTomadosF9");
     let enviosEnTransitoYFinalizados = buscarEnviosPorEmpresa(usuarioLoggeado);
     let enviosEnTransito = enviosEnTransitoYFinalizados[0];
     let enviosFinalizados = enviosEnTransitoYFinalizados[1];
+    let vehiculoEmpresa = tipoVehiculoPorId(usuarioLoggeado.vehiculo)
 
     if (enviosEnTransito.length > 0 || enviosFinalizados.length > 0){
         let tablaPedidosTomados =   `<header>
@@ -795,44 +826,49 @@ function crearListadoDeSolicitudesTomadasEmpresa(){
                                             <td><strong>Estado</strong></td>
                                             <td><strong>Nombre</strong></td>
                                             <td><strong>Apellido</strong></td>
-                                            <td><strong>Cambiar estado de envio</strong></td>
+                                            <td><strong>Finalizar envio</strong></td>
                                         </tr>
                                     </header>
                                     <body>`
         for(let i = 0; i < enviosEnTransito.length; i++){
             let j = buscarPosEnvioPorId(enviosEnTransito[i].id);
             let usuarioPersona = objUsuarioPorUsuario(envios[j].persona)
-            let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
-            tablaPedidosTomados += `<tr>
-                                        <td><img alt="Foto de envio" src="..\\img\\${envios[j].foto}"></td>
-                                        <td>${vehiculo}</td>
-                                        <td>${envios[j].distancia}</td>
-                                        <td>${envios[j].estado}</td>
-                                        <td>${usuarioPersona.nombre}</td>
-                                        <td>${usuarioPersona.apellido}</td>
-                                        <td><button class="btn btn-success btnAceptarPedido" btnempresaUsername="${usuarioPersona.username}">Finalizar</button></td>
-                                    </tr>`
+            let vehiculoEnvio = tipoVehiculoPorId(envios[j].vehiculo);
+            if (vehiculoEnvio == vehiculoEmpresa) {
+                tablaPedidosTomados += `<tr>
+                                            <td><img alt="Foto de envio" src="..\\img\\${envios[j].img}"></td>
+                                            <td>${vehiculoEnvio}</td>
+                                            <td>${envios[j].distancia}</td>
+                                            <td>${envios[j].estado}</td>
+                                            <td>${usuarioPersona.nombre}</td>
+                                            <td>${usuarioPersona.apellido}</td>
+                                            <td><button class="btn btn-success btnFinalizarPedido" btnEnvioId="${envios[j].id}">Finalizar</button></td>
+                                        </tr>`
+            }
         }
         
-        for(let i = 0; i < enviosFinalizados.length; i++){
+        for(let i = 0; i < enviosFinalizados.length; i++) {
             let j = buscarPosEnvioPorId(enviosFinalizados[i].id);
             let usuarioPersona = objUsuarioPorUsuario(envios[j].persona);
-            let vehiculo = tipoVehiculoPorId(envios[j].vehiculo);
-            tablaPedidosTomados += `<tr>
-                                        <td><img alt="Foto de envio" src="..\\img\\${envios[j].foto}"></td>
-                                        <td>${vehiculo}</td>
-                                        <td>${envios[j].distancia}</td>
-                                        <td>${envios[j].estado}</td>
-                                        <td>${usuarioPersona.nombre}</td>
-                                        <td>${usuarioPersona.apellido}</td>
-                                        <td></td>
-                                    </tr>`;
-        };
+            let vehiculoEnvio = tipoVehiculoPorId(envios[j].vehiculo);
+            if (vehiculoEnvio == vehiculoEmpresa) {
+                tablaPedidosTomados += `<tr>
+                                            <td><img alt="Foto de envio" src="..\\img\\${envios[j].img}"></td>
+                                            <td>${vehiculoEnvio}</td>
+                                            <td>${envios[j].distancia}</td>
+                                            <td>${envios[j].estado}</td>
+                                            <td>${usuarioPersona.nombre}</td>
+                                            <td>${usuarioPersona.apellido}</td>
+                                            <td><button class="btn btn-dark" disabled>Finalizado</button></td>
+                                        </tr>`;
+            };
+        }
         tablaPedidosTomados += `</body>`;
         table.innerHTML = tablaPedidosTomados;
     } else {
         displayMensajeErrorSolicitudesEnTransitoYFinalizadosON("No hay envios asignados a su empresa.");
     }
+    activarBotonesFinalizarSolicitudesTransito();
 }
 
 function calcularInfoEstadisticaEmpresa() {
@@ -944,7 +980,7 @@ function calcularCantidadEnviosPorEstadoEmpresa() {
         displayErrorEnviosPorEstadoEmpresaON(mensaje)
     } else {
         if (estadoElegidoNumerico == 1) {
-            estadoElegido = "Pendiente"
+            estadoElegido = "Pendiente" 
         } else if (estadoElegidoNumerico == 2) {
             estadoElegido = "En tránsito"
         } else if (estadoElegidoNumerico == 3) {
@@ -973,4 +1009,44 @@ function cantEnviosDeEstado(estadoElegido) {
     }
 
     return contDeEnvios
+}
+
+function calcularInfoEstadisticaAdmin() {
+    let tableBody = document.querySelector("#tablaInfoEstadisticaKMAdminBody");
+    tableBody.innerHTML = '';
+    
+    for(let i = 0; i < usuarios.length; i++) {
+        if (usuarios[i].tipo == "Empresa") {
+            let nombreEmpresa = usuarios[i].razonSocial;
+            let kmTotales = kmPorEmpresa(nombreEmpresa);
+            let totalFinalizados = enviosFinalizadosPorEmpresa(nombreEmpresa)
+            tableBody.innerHTML +=  `<tr>
+                                        <td>${nombreEmpresa}</td>
+                                        <td>${kmTotales}</td>
+                                        <td>${totalFinalizados}</td>
+                                    </tr>`
+        } 
+    }
+}
+
+function kmPorEmpresa(empresa){                                                         // Recibe como parametro la razon social y suma todos los km de los envios finalizados
+    let total = 0;
+
+    for (let i=0; i < envios.length; i++) {
+        if (envios[i].empresa == empresa && envios[i].estado == "Finalizado") {
+            total += envios[i].distancia;
+        }
+    }
+
+    return total;
+}
+
+function enviosFinalizadosPorEmpresa(empresa){                                          // Recibe como parametro la razon social y suma la cantidad de envios finalizados
+    let totalFinalizados = 0;
+    for(let i=0; i<envios.length;i++){
+        if(envios[i].empresa == empresa && envios[i].estado == "Finalizado"){
+            totalFinalizados++;
+        }
+    }
+    return totalFinalizados
 }

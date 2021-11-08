@@ -89,26 +89,7 @@
         <h2>Listado de vehiculos</h2>
         <div>
             <table class="table" id="listadoVehiculos">
-                <header>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>ID</th>
-                    </tr>
-                    <tbody>
-                        <tr>
-                            <td>Moto</td>
-                            <td>837401</td>
-                        </tr>
-                        <tr>
-                            <td>Camion</td>
-                            <td>023764</td>
-                        </tr>
-                        <tr>
-                            <td>Avion</td>
-                            <td>262345</td>
-                        </tr>
-                    </tbody>
-                </header>
+                
             </table>
         </div>
         <div id="agregarVehiculos">
@@ -128,72 +109,15 @@
         <h3>Informacion de empresas: Admin</h3>
         <table class="table">
             <header>
-                <th>Nombre empresa</th>
-                <th>Total de KM recorridos</th>
-                <th>Empleado con mayor cantidad de entregas</th>
-                <th>Pedidos aceptados</th>
+                <th>Empresa</th>
+                <th>Km totales</th>
+                <th>Pedidos finalizados</th>
             </header>
-            <tbody>
-                <tr>
-                    <td>Empresa 1</td>
-                    <td>8192 km</td>
-                    <td>Lorem ipsum</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>Empresa 2</td>
-                    <td>2341 km</td>
-                    <td>Lorem ipsum</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>Empresa 3</td>
-                    <td>8345 km</td>
-                    <td>Lorem ipsum</td>
-                    <td>3</td>
-                </tr>
+            <tbody id="tablaInfoEstadisticaKMAdminBody">
+                
             </tbody>
         </table>
-        <br><br><br>
-        <h3>Informacion de pedidos: Empresa</h3>
-        <h4>Ej: Empresa 1</h4>
-        <p>Cliente con mas pedidos: Lorem, Ipsum
-            <br>
-            Traslados: 59
-        </p>
-        <label for="estadoSolicitudEmpresaF4" class="control-label"></label>
-        <select id="estadoSolicitudEmpresaF4">
-            <option value="0">Seleccionar estado</option>
-            <option value="1">Pendiente</option>
-            <option value="2">En transito</option>
-            <option value="3">Finalizada</option>
-        </select>
-
-        <div id="resCantidadPorEstadoEmpresaF4">
-            Pendiente: 25 pedidos
-        </div>
-
-
-        <!--         <table class="table">
-            <header>
-                <th>Estado de la solicitud</th>
-                <th>Estado del pedido</th>
-                <th>Nombre del usuario</th>
-            </header>
-            <tbody>
-                <tr>
-                    <td>Aceptada</td>
-                    <td>En transito</td>
-                    <td>Usuario 1</td>
-                </tr>
-                <tr>
-                    <td>Aceptada</td>
-                    <td>En deposito</td>
-                    <td>Usuario 2</td>
-                </tr>
-            </tbody>
-        </table> -->
-        <br><br>
+        <br><br><br><br><br>
         <h3>Informacion de pedidos: Admin</h3>
         <table class="table">
             <header>

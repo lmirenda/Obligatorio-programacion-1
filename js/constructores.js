@@ -42,7 +42,7 @@ class Envio {
         this.distancia = _distancia;
         this.descripcion = _descripcion;
         this.img = _img;
-        this.empresa= _empresa;             // Corresponde a la empresa que toma el pedido
+        this.empresa = _empresa;             // Corresponde a la empresa que toma el pedido
         this.estado = _estado;              // Estado corresponde a: no aceptado, en transito, o completado
         this.persona = _persona;
         this.id = idEnvio;

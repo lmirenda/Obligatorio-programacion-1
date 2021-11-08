@@ -1,4 +1,4 @@
-// SELECTORES // 
+ // SELECTORES // 
 //--Log In & Registro--//
 const btnMostrarLogIn = document.querySelector("#btnDisplayLogIn");
 const btnMostrarRegister = document.querySelector("#btnDisplayRegistrar");
@@ -188,6 +188,7 @@ function displayMensajeErrorVehiculoOFF(){
 }
 
 function adminDisplayEstadistica() {
+    calcularInfoEstadisticaAdmin();                                                     // Actualizar la tabla con informacion 
     document.querySelector("#listadoDeEmpresasF2").style.display = "none";
     document.querySelector("#panelCreacionVehiculosF3").style.display = "none"
     document.querySelector("#verInfoEstadisticaF4").style.display = "block"
