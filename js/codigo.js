@@ -25,7 +25,6 @@ function agregarEventoEnBotones() {
     document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', crearListadoEnviosPersona);
     document.querySelector("#btnPersonaListadoEnvios").addEventListener('click', calcularInfoEstadisticaPersona);
     document.querySelector("#btnEmpresaEstadistica").addEventListener('click', calcularInfoEstadisticaEmpresa);
-    document.querySelector("#btnResEnviosPorEstadoEmpresa").addEventListener('click', calcularCantidadEnviosPorEstadoEmpresa);
     document.querySelector("#btnAdminEstadistica").addEventListener("click", calcularInfoEstadisticaAdmin);
 }
 
@@ -101,8 +100,10 @@ function registroPersona() {            // Registra un nuevo usuario en el siste
     let apellidoIngresado = document.querySelector("#registroApellidoUsuarioPersonaF5").value.trim();
 
     let noEsNumero = isNaN(ciIngresado);
+    console.log(ciIngresado)
+    console.log(noEsNumero)
 
-    if (aliasIngresado && passIngresado && ciIngresado && nombreIngresado && apellidoIngresado) {
+    if (aliasIngresado && passIngresado && ciIngresado != '' && nombreIngresado && apellidoIngresado) {
         if (!validarPassword(passIngresado)) {
             document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "La contraseña debe tener por lo menos una mayúscula, una minúscula y un número." 
         } else if (existeUsuarioPorUsuario(aliasIngresado)) {
@@ -111,6 +112,7 @@ function registroPersona() {            // Registra un nuevo usuario en el siste
             document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "La cédula debe contener solo números";
         } else {
             registrarUsuarioPersona(aliasIngresado, passIngresado, ciIngresado, nombreIngresado, apellidoIngresado);
+            displayBorradoCamposRegistroPersona();
             toggleLogIn();
             document.querySelector("#mensajeLogInNuevoUsuario").innerHTML = `Bienviendo nuevo usuario ${aliasIngresado}. Puedes logearte en la app.`
         }
@@ -253,34 +255,37 @@ function registrarUsuarioPersona(alias, pass, ci, nombre, apellido) {           
 
 
 function registroEmpresa() {
-    let aliasIngresado = document.querySelector("#registroAliasUsuarioEmpresa").value.trim();
-    let passIngresado = document.querySelector("#registroPassUsuarioEmpresa").value.trim();
-    let fantasiaIngresada = document.querySelector("#registroFantasiaUsuarioEmpresa").value.trim();
-    let rutIngresado = parseInt(document.querySelector("#registroRutUsuarioEmpresa").value);
-    let razonSocialIngresada = document.querySelector("#registroRazSocUsuarioEmpresa").value.trim();
-    let vehiculoAsociado = document.querySelector("#registroVehiculoUsuarioEmpresa").value;
+    let aliasIngresado = document.querySelector("#registroAliasEmpresaF5").value.trim();
+    let passIngresado = document.querySelector("#registroPassEmpresaF5").value.trim();
+    let fantasiaIngresada = document.querySelector("#registroNombreEmpresaF5").value.trim();
+    let rutIngresado = parseInt(document.querySelector("#registroRUTEmpresaF5").value);
+    let razonSocialIngresada = document.querySelector("#registroRazonSocialEmpresaF5").value.trim();
+    let vehiculoAsociado = document.querySelector("#registroVehiculoEmpresa").value;
 
-    if (aliasIngresado && passIngresado && fantasiaIngresada && rutIngresado && razonSocialIngresada && vehiculoAsociado) {
+    if (aliasIngresado && passIngresado && fantasiaIngresada && rutIngresado!='' && razonSocialIngresada && vehiculoAsociado!=0) {
         let contraseniaNoEsValida = !validarPassword(passIngresado);
         let usuarioExistente = existeUsuarioPorUsuario(aliasIngresado);
         let razonSocialUnica = existeRazonSocialPorUsuarioEmpresa(razonSocialIngresada);
         let rutUnico = existeRUTPorUsuarioEmpresa(rutIngresado);
 
         if (contraseniaNoEsValida) {
-            document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "La contraseña debe tener por lo menos una mayúscula, una minúscula y un número.";
+            document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "La contraseña debe tener por lo menos una mayúscula, una minúscula y un número.";
         } else if (usuarioExistente) {
-            document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "Ya existe un usuario con ese alias.";
+            document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "Ya existe un usuario con ese alias.";
         } else if (razonSocialUnica) {
-            document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "Ya existe un usuario con esa razón social.";
+            document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "Ya existe un usuario con esa razón social.";
         } else if (rutUnico) {
-            document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "Ya existe un usuario con ese RUT.";
+            document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "Ya existe un usuario con ese RUT.";
+        } else if( isNaN(rutIngresado)){
+            document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "El RUT debe ser un número.";
         } else {
             registrarUsuarioEmpresa(aliasIngresado, passIngresado, fantasiaIngresada, rutIngresado, razonSocialIngresada, vehiculoAsociado);
+            displayBorradoCamposRegistroEmpresa();
             toggleLogIn();
             document.querySelector("#mensajeLogInNuevoUsuario").innerHTML = `Bienviendo nuevo usuario ${aliasIngresado}. Puedes logearte en la app.`
         }
-    } else {
-        document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "Se deben ingresar todos los datos";
+    } else {    
+        document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "Todos los campos son obligatorios.";
     }
 
 
@@ -312,7 +317,7 @@ function existeRUTPorUsuarioEmpresa(rut) {            // Checkear entre las empr
 
 
 function registrarUsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo) {            //Agregar una nueva empresa al sistema
-    let nuevoUsuarioEmpresa = new UsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo);
+    let nuevoUsuarioEmpresa = new UsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo, false, 0, '');
     usuarios.push(nuevoUsuarioEmpresa);
 }
 
@@ -486,8 +491,6 @@ function cortarPath(path) {
 
     let nuevoPath = path.slice(posDeArranquePath);
 
-    console.log(nuevoPath);
-
     return nuevoPath
 }
 
@@ -500,7 +503,6 @@ function posicionUltimoSlash(path) {
         }
     }
 
-    console.log(path.slice(posUltimoBackSlash))
     return posUltimoBackSlash
 }
 
@@ -514,7 +516,6 @@ function btnSolicitudEnvioHandler() {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
             let fotoIngresadaValidada = cortarPath(fotoIngresada);
-            console.log(fotoIngresadaValidada)
             if (distanciaNumerica > 0) {
                 realizarSolicitudEnvio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresadaValidada);
                 displaySuccessSolicitudEnvioON();
@@ -901,8 +902,6 @@ function encontrarUsuariosConMasEnvios() {
             for (let j = 0; j < usuarioActual.pedidos.length; j++) {
                 let idPedidoActual = usuarioActual.pedidos[j];
                 let pedidoActual = buscarPedidoPorId(idPedidoActual);
-                console.log(pedidoActual.estado == "Finalizado")
-                console.log(`${idPedidoActual}: ${pedidoActual.empresa} =? ${usuarioLoggeado.razonSocial} = ${pedidoActual.empresa == usuarioLoggeado.razonSocial}`)
                 if (pedidoActual.estado == "Finalizado" && pedidoActual.empresa == usuarioLoggeado.razonSocial) {
                     contEnviosFinalizados++
                 }
@@ -969,30 +968,8 @@ function armarArrayConMejoresUsuarios(numMasGrande, pedidosPorUsuario) {
     return mejoresUsuarios
 }
 
-function calcularCantidadEnviosPorEstadoEmpresa() {
-    let estadoElegidoNumerico = document.querySelector("#selEstadisticaPorEstadoEmpresa").value;
-    let estadoElegido
-    let cantEstadoElegido;
-    let mensaje
 
-    if (estadoElegidoNumerico == 0) {
-        mensaje = "Elija un estado para mostrar.";
-        displayErrorEnviosPorEstadoEmpresaON(mensaje)
-    } else {
-        if (estadoElegidoNumerico == 1) {
-            estadoElegido = "Pendiente" 
-        } else if (estadoElegidoNumerico == 2) {
-            estadoElegido = "En tránsito"
-        } else if (estadoElegidoNumerico == 3) {
-            estadoElegido = "Finalizado"
-        }
-        cantEstadoElegido = cantEnviosDeEstado(estadoElegido);
-        mensaje = `Hay ${cantEstadoElegido} envio/s en el estado "${estadoElegido}".`;
-        displaySuccessEnviosPorEstadoEmpresaON(mensaje);
-    }
-}
-
-function cantEnviosDeEstado(estadoElegido) {
+function cantEnviosDeEstado(estadoElegido) {                    // Recibe como parametro un estado ("Pendiente", "Finalizado" o "En Transito") y devuelve la cantidad de pedidos con el estado del parametro para la empresa seleccionada
     let contDeEnvios = 0;
 
     if (usuarioLoggeado.pedidos.length > 0) {
@@ -1009,6 +986,36 @@ function cantEnviosDeEstado(estadoElegido) {
     }
 
     return contDeEnvios
+}
+
+function crearTablaDeEnviosPorEstadoEmpresa(){              // Crea la tabla para la empresa loggeada con los envios pendientes, transito y finalizados y sus cantidades.
+    let enviosPendientes = cantEnviosDeEstado("Pendiente");
+    let enviosEnTransito = cantEnviosDeEstado("En tránsito");
+    let enviosFinalizados = cantEnviosDeEstado("Finalizado");
+
+    document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").innerHTML =  `
+                <table class="table">
+                    <header>
+                        <tr>
+                            <td><strong>Estado</strong></td>
+                            <td><strong>Cantidad</strong></td>
+                        </tr>
+                    </header>
+                    <tbody>
+                        <tr>
+                            <td>Pendiente</td>
+                            <td>${enviosPendientes}</td>
+                        </tr>
+                        <tr>
+                            <td>En tránsito</td>
+                            <td>${enviosEnTransito}</td>
+                        </tr>
+                        <tr>
+                            <td>Finalizados</td>
+                            <td>${enviosFinalizados}</td>
+                        </tr>
+                    </tbody>
+                </table>`
 }
 
 function calcularInfoEstadisticaAdmin() {

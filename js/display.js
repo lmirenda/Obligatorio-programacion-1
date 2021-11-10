@@ -55,9 +55,10 @@ function cerrarSesion() {
 function toggleLogIn() {
     ocultarPantallas();
     document.querySelector("#panelLogInF1").style.display = "block";
-    document.querySelector("#ingresoUsuario").value = "Empresa1";
-    document.querySelector("#ingresoPassword").value = "Empresa01";
+    document.querySelector("#ingresoUsuario").value = "amayes";
+    document.querySelector("#ingresoPassword").value = "456";
     document.querySelector("#mensajeLogInNuevoUsuario").innerHTML = '';
+    document.querySelector("#mensajeLogIn").innerHTML = '';
 }
 
 function toggleRegister() {
@@ -83,9 +84,9 @@ function ocultarPantallas() {                                                   
     document.querySelector("#panelPersona").style.display = "none"
     document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").style.display = "none";
     document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "none";
-    document.querySelector("#selEstadisticaPorEstadoEmpresa").value = 0;
-    document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
-    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
+    // document.querySelector("#selEstadisticaPorEstadoEmpresa").value = 0;
+    // document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
+    // document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
     pMensajeErrorFiltrarEmpresas.style.display = "none";
     pMensajeErrorIngresarVehiculo.style.display = "none";
     btnCerrarSesion.style.display = "none";
@@ -94,14 +95,39 @@ function ocultarPantallas() {                                                   
 function displayRegistrarEmpresaPersona(usuario) {
     updateSelectVehiculos("#registroVehiculoEmpresa");
     if (usuario == "Empresa") {                                              // Muestra unicamente las opciones de registro de Empresa
-        document.querySelector("#registroUsuario").style.display = "none"
-        document.querySelector("#registroEmpresa").style.display = "block"
+        document.querySelector("#registroUsuario").style.display = "none";
+        document.querySelector("#registroEmpresa").style.display = "block";
     } else if (usuario == "Persona") {                                       // Muestra unicamente las opciones de registro de Persona
-        document.querySelector("#registroUsuario").style.display = "block"
-        document.querySelector("#registroEmpresa").style.display = "none"
+        document.querySelector("#registroUsuario").style.display = "block";
+        document.querySelector("#registroEmpresa").style.display = "none";
     } else if (usuario == "") {
         document.querySelector("#errorSelectTipocuenta").value = "Debe seleccionar un tipo de dato.";
     }
+    displayBorradoCamposRegistroEmpresa();
+    displayBorradoCamposRegistroPersona();
+}
+
+function displayBorradoCamposRegistroEmpresa() {
+    document.querySelector("#registroAliasEmpresaF5").value = "";
+    document.querySelector("#registroNombreEmpresaF5").value = "";
+    document.querySelector("#registroRUTEmpresaF5").value = "";
+    document.querySelector("#registroRazonSocialEmpresaF5").value = "";
+    document.querySelector("#registroPassEmpresaF5").value = "";
+    document.querySelector("#registroVehiculoEmpresa").value = 0;
+    
+    //Borrar error
+    document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "";
+}
+
+function displayBorradoCamposRegistroPersona() {
+    document.querySelector("#registroAliasUsuarioPersonaF5").value = "";
+    document.querySelector("#registroPassUsuarioPersonaF5").value = "";
+    document.querySelector("#registroCIUsuarioPersonaF5").value = "";
+    document.querySelector("#registroNombreUsuarioPersonaF5").value = "";
+    document.querySelector("#registroApellidoUsuarioPersonaF5").value = "";
+    
+    //Borrar error
+    document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "";
 }
 
 function displayNavPanel(tipo) {
@@ -211,11 +237,17 @@ function adminDisplayEmpresasFiltradas(){
 function personaDisplaySolicitudEnvio() {
     displayErrorSolicitudEnvioOFF();
     displaySuccessSolicitudEnvioOFF();
+    displayBorradoCamposSolicitudEnvioPersona();
     updateSelectVehiculos("#solicitudEnvioVehiculo");
     document.querySelector("#solicitudEnvioF6").style.display = "block";            
-    document.querySelector("#listadoEnviosF7").style.display = "none";              
-    document.querySelector("#infoEstadisticaUsuario").style.display = "none";  
-         
+    document.querySelector("#listadoEnviosF7").style.display = "none";                       
+}
+
+function displayBorradoCamposSolicitudEnvioPersona() {
+    document.querySelector("#solicitudEnvioVehiculo").value = 0;
+    document.querySelector("#solicitudEnvioDistancia").value = "";
+    document.querySelector("#solicitudEnvioDescripcion").value = "";
+    document.querySelector("#solicitudEnvioFoto").value = "";
 }
 
 function displayErrorSolicitudEnvioON(mensaje){                                                 // Display el error correspondiente en el panel de persona para ingresar pedido
@@ -230,10 +262,7 @@ function displayErrorSolicitudEnvioOFF(){
 }
 
 function displaySuccessSolicitudEnvioON(){
-    document.querySelector("#solicitudEnvioVehiculo").value = 0;
-    document.querySelector("#solicitudEnvioDistancia").value = "";
-    document.querySelector("#solicitudEnvioDescripcion").value = "";
-    document.querySelector("#solicitudEnvioFoto").value = "";
+    displayBorradoCamposSolicitudEnvioPersona()
     document.querySelector("#pSuccessSolicitudEnvio").style.display = "block"
 }
 
@@ -243,15 +272,10 @@ function displaySuccessSolicitudEnvioOFF(){
 
 function personaDisplayListadoEnvio(){
     document.querySelector("#solicitudEnvioF6").style.display = "none";
-    document.querySelector("#solicitudEnvioVehiculo").value = 0;
-    document.querySelector("#solicitudEnvioDistancia").value = "";
-    document.querySelector("#solicitudEnvioDescripcion").value = "";
-    document.querySelector("#solicitudEnvioFoto").value = "";
-    document.querySelector("#pErrorSolicitudEnvio").innerHTML = "";
+    displayBorradoCamposSolicitudEnvioPersona()
     
     document.querySelector("#listadoEnviosF7").style.display = "block";  
     
-    document.querySelector("#infoEstadisticaUsuario").style.display = "block";
 }
 
 function personaDisplayEstadistica(){
@@ -285,7 +309,6 @@ function empresaDisplayListadoEnvio() {
     crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
     
     // Pasado de resultados de estadisticas por estado del envio a vacio
-    document.querySelector("#selEstadisticaPorEstadoEmpresa").value = 0;
     document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
     document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
 }
@@ -298,6 +321,7 @@ function empresaDisplayEstadisticaMejoresUsuarios(mensaje) {
 }
 
 function empresaDisplayEstadisticaEnviosPorEstado() {
+    crearTablaDeEnviosPorEstadoEmpresa();
     document.querySelector("#listadoEnviosPendientesF8").style.display = "none";
     document.querySelector("#listadoEnviosTomadosF9").style.display = "none";
     document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "block";
