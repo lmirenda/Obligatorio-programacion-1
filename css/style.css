@@ -65,7 +65,10 @@ h2 {
 
 .navbar-brand{
     color: white;
-    margin-left: 284px;
+}
+
+.navbar {
+    justify-content: space-around;
 }
 
 a {
