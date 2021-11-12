@@ -62,9 +62,11 @@ function toggleLogIn() {
 }
 
 function toggleRegister() {
-    document.querySelector("#btnTipoDeCuenta").style.display = "none"
+    document.querySelector("#btnTipoDeCuenta").style.display = "none";
+    document.querySelector("#tipoDeCuenta").value = "0";
     ocultarPantallas();
     document.querySelector("#panelRegistroF5").style.display = "block";
+
 }
 
 function ocultarPantallas() {                                                   // Ocultar todas las pantallas
@@ -84,9 +86,6 @@ function ocultarPantallas() {                                                   
     document.querySelector("#panelPersona").style.display = "none"
     document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").style.display = "none";
     document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "none";
-    // document.querySelector("#selEstadisticaPorEstadoEmpresa").value = 0;
-    // document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
-    // document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
     pMensajeErrorFiltrarEmpresas.style.display = "none";
     pMensajeErrorIngresarVehiculo.style.display = "none";
     btnCerrarSesion.style.display = "none";
@@ -173,7 +172,7 @@ function updateSelectVehiculos(id) {
 
 function displayBtnSelect() {
     if (selectTipoCuenta.value == "Empresa" || selectTipoCuenta.value == "Persona") {
-        document.querySelector("#btnTipoDeCuenta").style.display = "block"
+        document.querySelector("#btnTipoDeCuenta").style.display = "block";
     }
 }
 
@@ -297,7 +296,11 @@ function displayMensajeErrorSolicitudesEnTransitoYFinalizadosON(mensaje) {
     document.querySelector("#pErrorListadoEnviosTomadosF9").style.display = "block";
     document.querySelector("#pErrorListadoEnviosTomadosF9").innerHTML = mensaje;
     document.querySelector("#tablaEnviosTomadosF9").style.display = "none";
-
+}
+function displayMensajeErrorSolicitudesEnTransitoYFinalizadosOFF() {
+    document.querySelector("#pErrorListadoEnviosTomadosF9").style.display = "block";
+    document.querySelector("#pErrorListadoEnviosTomadosF9").innerHTML = '';
+    document.querySelector("#tablaEnviosTomadosF9").style.display = "table";
 }
 
 function empresaDisplayListadoEnvio() {
@@ -307,9 +310,6 @@ function empresaDisplayListadoEnvio() {
     document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "none";
     crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
     crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
-    
-    // Pasado de resultados de estadisticas por estado del envio a vacio
-    document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
     document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
 }
 
