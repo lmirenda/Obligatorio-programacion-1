@@ -12,7 +12,7 @@ class UsuarioPersona{
 
 
 class UsuarioEmpresa {
-    constructor(_username, _pass, _fantasia, _rut, _razonSocial, _vehiculo, _habilitacion, _totalKM, _empleado){
+    constructor(_username, _pass, _fantasia, _rut, _razonSocial, _vehiculo, _habilitacion, _totalKM){
         this.username = _username;
         this.pass = _pass;
         this.fantasia = _fantasia;
@@ -21,7 +21,6 @@ class UsuarioEmpresa {
         this.vehiculo = _vehiculo;
         this.habilitacion = _habilitacion;  // True = empresa habilitada. False = empresa deshabilitada. 
         this.km = _totalKM;
-        this.empleado = _empleado;
         this.pedidos = [];
         this.tipo = "Empresa"
     }

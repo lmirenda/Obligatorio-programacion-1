@@ -53,11 +53,11 @@ function precargaDeUsuariosPersona() {
 }
 
 function precargaDeUsuariosEmpresa() {
-    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", 1000, true, 0, "Empleado 1"));
-    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", 1001, true, 0, "Empleado 2"));
-    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", 1001, true, 0, "Empleado 3"));
-    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", 1002, false, 0, "Empleado 4"));
-    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", 1002, false, 0, "Empleado 5"));
+    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", 1000, true, 0));
+    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", 1001, true, 0));
+    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", 1001, true, 0));
+    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", 1002, false, 0));
+    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", 1002, false, 0));
 }
 
 function precargaDeUsuariosAdmin() {
@@ -93,24 +93,24 @@ function precargaDeEnvios() {
 }
 
 function registroPersona() {            // Registra un nuevo usuario en el sistema
+    // Ingreso de datos
     let aliasIngresado = document.querySelector("#registroAliasUsuarioPersonaF5").value.trim();
     let passIngresado = document.querySelector("#registroPassUsuarioPersonaF5").value.trim();
     let ciIngresado = parseInt(document.querySelector("#registroCIUsuarioPersonaF5").value);
     let nombreIngresado = document.querySelector("#registroNombreUsuarioPersonaF5").value.trim();
     let apellidoIngresado = document.querySelector("#registroApellidoUsuarioPersonaF5").value.trim();
 
-    let noEsNumero = isNaN(ciIngresado);
-    console.log(ciIngresado)
-    console.log(noEsNumero)
-
-    if (aliasIngresado && passIngresado && ciIngresado != '' && nombreIngresado && apellidoIngresado) {
-        if (!validarPassword(passIngresado)) {
+    // Validacion de datos
+    let noEsNumero = isNaN(ciIngresado);        // Booleano que devuelve true si la cedula ingresada tiene algo distinto a un numero
+    if (aliasIngresado && passIngresado && ciIngresado != '' && nombreIngresado && apellidoIngresado) {         // Revisa que se hayan ingresado datos en todos los campos
+        if (!validarPassword(passIngresado)) {      
             document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "La contraseña debe tener por lo menos una mayúscula, una minúscula y un número." 
-        } else if (existeUsuarioPorUsuario(aliasIngresado)) {
+        } else if (existeUsuarioPorUsuario(aliasIngresado)) {       
             document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "Ya existe un usuario con ese alias.";     
         } else if (noEsNumero) {
             document.querySelector("#pParaDesplegarErroresPersona").innerHTML = "La cédula debe contener solo números";
         } else {
+            // Si paso todas las restricciones registra al usuario
             registrarUsuarioPersona(aliasIngresado, passIngresado, ciIngresado, nombreIngresado, apellidoIngresado);
             displayBorradoCamposRegistroPersona();
             toggleLogIn();
@@ -122,7 +122,8 @@ function registroPersona() {            // Registra un nuevo usuario en el siste
 
 }
 
-function validarPassword(password) {            //Verificar si la contraseña es valida
+
+function validarPassword(password) {            // Verifica que la Password ingresada tenga como minimo 6 caracteres, al menos una mayuscula, una minuscula y un numero.
     let esValida = true;
 
     if (!passwordTieneMayuscula(password) || !passwordTieneNumero(password) || password.length < 6 || !passwordTieneMinuscula(password)) {
@@ -221,7 +222,6 @@ function objUsuarioPorRazonSocial(razonSocial){               // Recibe como par
             if (usuarios[i].razonSocial.toUpperCase() == razonSocial.toUpperCase()){
                 arrayObjetos.push(usuarios[i]);
             }
-
         }
         i++
     }
@@ -260,16 +260,17 @@ function registroEmpresa() {
     let fantasiaIngresada = document.querySelector("#registroNombreEmpresaF5").value.trim();
     let rutIngresado = parseInt(document.querySelector("#registroRUTEmpresaF5").value);
     let razonSocialIngresada = document.querySelector("#registroRazonSocialEmpresaF5").value.trim();
-    let vehiculoAsociado = document.querySelector("#registroVehiculoEmpresa").value;
+    let vehiculoAsociado = parseInt(document.querySelector("#registroVehiculoEmpresa").value);
 
-    if (aliasIngresado && passIngresado && fantasiaIngresada && rutIngresado!='' && razonSocialIngresada && vehiculoAsociado!=0) {
+    // Validacion de datos
+    if (aliasIngresado && passIngresado && fantasiaIngresada && rutIngresado!='' && razonSocialIngresada && vehiculoAsociado!=0) {          // Revisa que se hayan ingresado datos en todos los campos
         let contraseniaNoEsValida = !validarPassword(passIngresado);
         let usuarioExistente = existeUsuarioPorUsuario(aliasIngresado);
         let razonSocialUnica = existeRazonSocialPorUsuarioEmpresa(razonSocialIngresada);
         let rutUnico = existeRUTPorUsuarioEmpresa(rutIngresado);
 
         if (contraseniaNoEsValida) {
-            document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "La contraseña debe tener por lo menos una mayúscula, una minúscula y un número.";
+            document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "La contraseña debe tener por lo menos una mayúscula, una minúscula y un número." 
         } else if (usuarioExistente) {
             document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "Ya existe un usuario con ese alias.";
         } else if (razonSocialUnica) {
@@ -287,8 +288,6 @@ function registroEmpresa() {
     } else {    
         document.querySelector("#pParaDesplegarErroresEmpresa").innerHTML = "Todos los campos son obligatorios.";
     }
-
-
 }
 
 function existeRazonSocialPorUsuarioEmpresa(razonSocial) {            // Checkear entre las empresas registradas si ya existe la razón social ingresada. SI existe devuelve 'true', sino exite 'false'
@@ -317,7 +316,7 @@ function existeRUTPorUsuarioEmpresa(rut) {            // Checkear entre las empr
 
 
 function registrarUsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo) {            //Agregar una nueva empresa al sistema
-    let nuevoUsuarioEmpresa = new UsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo, false, 0, '');
+    let nuevoUsuarioEmpresa = new UsuarioEmpresa(alias, pass, fantasia, rut, razonSocial, vehiculo, false, 0);
     usuarios.push(nuevoUsuarioEmpresa);
 }
 
@@ -326,19 +325,19 @@ function seleccionarTipoDeCuentaARegistrar() {
     displayRegistrarEmpresaPersona(tipoDeCuenta);
 }
 
-function logIn() {
+function logIn() {          // Controla los datos ingresados en el nombre de usuario y la contraseña. En caso de que sean correctos entra a la aplicacion
     let user = document.querySelector("#ingresoUsuario").value;
     let pass = document.querySelector("#ingresoPassword").value
     let i = 0;
     let encontrado = false;
     let mensaje = document.querySelector("#mensajeLogIn");
 
-    while (i < usuarios.length && !encontrado) {
-       
-        if (usuarios[i].pass == pass && (usuarios[i].username).toUpperCase() === (user).toUpperCase()) {
-            if (usuarios[i].tipo == "Empresa" && usuarios[i].habilitacion == false){
-                mensaje.innerHTML = "Su cuenta aun no ha sido activada por el administrador."
-            }else {
+    
+    while (i < usuarios.length && !encontrado) {            // Recorremos el array de usuarios para buscar si los datos ingresados coinciden con algun usurio ya registrado
+        if (usuarios[i].pass == pass && (usuarios[i].username).toUpperCase() === (user).toUpperCase()) {            
+            if (usuarios[i].tipo == "Empresa" && usuarios[i].habilitacion == false){        // Si el usuario que desea ingresar es empresa y no esta habilitado por el administrador
+                mensaje.innerHTML = "Su cuenta aun no ha sido activada por el administrador."       
+            }else {         // Si pasa el filtro ingresa a la aplicacion
                 let displayPanel = usuarios[i].tipo;
                 displayNavPanel(displayPanel);
                 usuarioLoggeado = usuarios[i];
@@ -361,7 +360,6 @@ function crearListaDeEmpresas() {
     displayErrorBusquedaOFF();
     let table = document.querySelector("#tableListadoEmpresas")
     let tablaEmpresas = `
-        
             <theader>
                 <tr>
                     <th>Nombre de fantasia</th>
@@ -375,10 +373,9 @@ function crearListaDeEmpresas() {
     
     for (let i = 0; i < usuarios.length; i++) {
         let usuarioActual = usuarios[i];
-        let estadoParaModificar = mostrarTextoHabilitarDeshabilitar(usuarioActual)
-        let estadoActual = leerEstado(usuarioActual);
-
         if (usuarioActual.tipo == "Empresa") {
+            let estadoParaModificar = mostrarTextoHabilitarDeshabilitar(usuarioActual)          // Texto usado en la tabla para mostrar si la empresa esta habilitada o no por el administrador
+            let estadoActual = leerEstado(usuarioActual);           // Lee el estado de la empresa
             tablaEmpresas += `
             <tr>
                 <td>${usuarioActual.fantasia}</td>
@@ -394,27 +391,28 @@ function crearListaDeEmpresas() {
     activarBotonesCambioDeEstado();
 }
 
-function mostrarTextoHabilitarDeshabilitar(usuarioEmpresa) {        // Leer el estado (habilitado o deshabilitado) de la empresa. Devuelve "habilitar" o "deshabilitar"
-    if (usuarioEmpresa.tipo=="Empresa"){
-        if (usuarioEmpresa.habilitacion){
-            return "Deshabilitar"
-        } else {
-            return "Habilitar"
-        }
+function mostrarTextoHabilitarDeshabilitar(usuarioEmpresa) {        // Leer el estado (habilitado o deshabilitado) de la empresa. Devuelve el texto "habilitar" o "deshabilitar"
+    let texto = "";
+    if (usuarioEmpresa.habilitacion){
+        texto = "Deshabilitar";
+    } else {
+        texto = "Habilitar";
     }
+    return texto
+
 }
 
 function leerEstado(usuarioEmpresa){        // Leer el estado de la empresa y devolverlo
-    if (usuarioEmpresa.tipo=="Empresa"){
-        if (usuarioEmpresa.habilitacion){
-            return "Habilitado"
-        } else {
-            return "Deshabilitado"
-        }
+    let estadoEmpresa
+    if (usuarioEmpresa.habilitacion){
+        estadoEmpresa = "Habilitado";
+    } else {
+        estadoEmpresa = "Deshabilitado";
     }
+    return estadoEmpresa
 }
 
-function cambiarEstadoDeEmpresa(){   // Recibe como parametro una empresa, cambia su estado de habilitado a deshabilitado o viceversa
+function cambiarEstadoDeEmpresa(){      // Recibe como parametro una empresa, cambia su estado de habilitado a deshabilitado o viceversa
     let empresaUsernameClickeado = this.getAttribute("btnempresaUsername")
     let empresa = objUsuarioPorUsuario(empresaUsernameClickeado);
    
@@ -423,28 +421,28 @@ function cambiarEstadoDeEmpresa(){   // Recibe como parametro una empresa, cambi
     }else{
         empresa.habilitacion = true;
     }
-    crearListaDeEmpresas();                                                                     // Actualizar el listado de empresas
-    crearListaDeEmpresasFiltrado();                                                                     // Actualizar el listado de empresas
+    crearListaDeEmpresas();                 // Actualizar el listado de empresas
+    crearListaDeEmpresasFiltrado();         // Actualizar el listado de empresas
 }
 
-function activarBotonesCambioDeEstado(){                                                        // Activa todos los botones de "Habilitar/Deshabilitar" en la lista de empresas del panel de administrador
-    let listaBotones = document.querySelectorAll(".btnCambioEstado");                           // guardar todos los botones con el Tag indicado en un array
+function activarBotonesCambioDeEstado(){                                        // Activa todos los botones de "Habilitar/Deshabilitar" en la lista de empresas del panel de administrador
+    let listaBotones = document.querySelectorAll(".btnCambioEstado");           // Guardar todos los botones con el Tag indicado en un array
     for(let i = 0; i<listaBotones.length;i++){
         listaBotones[i].addEventListener('click',cambiarEstadoDeEmpresa);
     }
     
 }
 
-function buscadorEmpresas(input){                                                                    // Generar una tabla con todas las empresas que cumplan el criterio de busqueda
+function buscadorEmpresas(input){                                                                    // Generar un array con la empresa que cumple con el criterio de busqueda
     let criterioDeBusqueda = input.trim();
-    let empresasEncontradasPorRZ = objUsuarioPorRazonSocial(criterioDeBusqueda) 
-    let empresasEncontradasPorNF = objUsuarioPorNombreFantasia(criterioDeBusqueda)
+    let empresasEncontradasPorRZ = objUsuarioPorRazonSocial(criterioDeBusqueda);
+    let empresasEncontradasPorNF = objUsuarioPorNombreFantasia(criterioDeBusqueda);
     
     if(empresasEncontradasPorRZ){                                                               // Buscamos primero por Razon Social
-        return empresasEncontradasPorRZ;                                 // En caso de encontrar generamos la tabla con las empresas encontradas
+        return empresasEncontradasPorRZ;                                 // En caso de encontrar generamos el array con la empresa encontrada
     }
     else if (empresasEncontradasPorNF){                                                         // En caso de no encontrar nada por RZ buscamos por NF
-        return empresasEncontradasPorNF;                                 // En caso de encontrar generamos la tabla con las empresas encontradas
+        return empresasEncontradasPorNF;                                 // En caso de encontrar generamos el array con la empresa encontrada
 
     } else {                                                                                    // En caso de no encontrar resultados por ningun metodo desplegar msj de error
         return "Error";
@@ -452,8 +450,8 @@ function buscadorEmpresas(input){                                               
 }
 
 function crearListaDeEmpresasFiltrado() {
-    let criterioDeBusqueda = document.querySelector("#textoBusquedaEmpresaF2").value;           // Leer del HTML lo esrito en el input field
-    let arrayEmpresas = buscadorEmpresas(criterioDeBusqueda)
+    let criterioDeBusqueda = document.querySelector("#textoBusquedaEmpresaF2").value;           // Leer del HTML lo esrito en el campo de busqueda
+    let arrayEmpresas = buscadorEmpresas(criterioDeBusqueda);
     if (arrayEmpresas != 'Error'){
         let table = document.querySelector("#tableListadoEmpresasFiltrado");
         table.innerHTML = ` <theader>
@@ -486,7 +484,7 @@ function crearListaDeEmpresasFiltrado() {
     activarBotonesCambioDeEstado();    
 }
 
-function cortarPath(path) {
+function cortarPath(path) {         // Corta el fakepath de la ruta de la foto
     let posDeArranquePath = posicionUltimoSlash(path) + 1;
 
     let nuevoPath = path.slice(posDeArranquePath);
@@ -494,7 +492,7 @@ function cortarPath(path) {
     return nuevoPath
 }
 
-function posicionUltimoSlash(path) {
+function posicionUltimoSlash(path) {        // Busca el último slash del path y devuelve su posicion
     let posUltimoBackSlash = -1;
 
     for (let i = 0; i < path.length; i++) {
@@ -505,6 +503,10 @@ function posicionUltimoSlash(path) {
 
     return posUltimoBackSlash
 }
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// Comentar a partir de aca
+// ------------------------------------------------------------------------------------------------------------------------------
 
 function btnSolicitudEnvioHandler() {
     let tipoVehiculoIngresado = parseInt(document.querySelector("#solicitudEnvioVehiculo").value);
@@ -819,6 +821,7 @@ function crearListadoDeSolicitudesTomadasEmpresa(){
     let vehiculoEmpresa = tipoVehiculoPorId(usuarioLoggeado.vehiculo)
 
     if (enviosEnTransito.length > 0 || enviosFinalizados.length > 0){
+        displayMensajeErrorSolicitudesEnTransitoYFinalizadosOFF();
         let tablaPedidosTomados =   `<header>
                                         <tr>
                                             <td><strong>Foto</strong></td>
@@ -867,7 +870,7 @@ function crearListadoDeSolicitudesTomadasEmpresa(){
         tablaPedidosTomados += `</body>`;
         table.innerHTML = tablaPedidosTomados;
     } else {
-        displayMensajeErrorSolicitudesEnTransitoYFinalizadosON("No hay envios asignados a su empresa.");
+        displayMensajeErrorSolicitudesEnTransitoYFinalizadosON("No hay envios asociados a su empresa.");
     }
     activarBotonesFinalizarSolicitudesTransito();
 }
