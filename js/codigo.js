@@ -1,3 +1,4 @@
+// Archivo: codigo.js//
 let usuarios = [];
 let vehiculos = [];
 let codigoVehiculo = 1000;
@@ -880,7 +881,7 @@ function calcularInfoEstadisticaEmpresa() {         // Muestra que persona reali
         infoEstadisticaMejoresUsuarios = `La/s personas con mas envios finalizados es/son: <br>`;
         for (let i = 0; i < usuariosConMasEnvios.length; i++) {
             let usuarioActual = usuariosConMasEnvios[i];
-            infoEstadisticaMejoresUsuarios += `${i + 1}. ${usuarioActual.nombre} ${usuarioActual.apellido} con ${encontrarNumMasGrande()} envíos.<br>`
+            infoEstadisticaMejoresUsuarios += `${i + 1}. ${usuarioActual.nombre} ${usuarioActual.apellido}<br>`
         }
     } else {
         infoEstadisticaMejoresUsuarios = "No hay pedidos finalizados asignados a esta empresa.";
@@ -944,7 +945,7 @@ function buscarPedidoPorId(idABuscar) {         // Recibe como parametro un id y
 function encontrarNumMasGrande(arrayNumerico) {         // Recibe como parametro un array númerico y busca el número más grande del array y lo devuelve
     let numMasGrande = 0;
     
-    for (let i = 0; i < envios.length; i++) {
+    for (let i = 0; i < arrayNumerico.length; i++) {
         let numActual = arrayNumerico[i];
         if (numActual != null && numActual > numMasGrande ) {
             numMasGrande = numActual

@@ -1,3 +1,4 @@
+// Archivo: constructores.js//
 class UsuarioPersona{
     constructor(_username, _pass, _CI, _nombre, _apellido, _pedidos){
         this.username = _username;

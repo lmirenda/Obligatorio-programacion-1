@@ -1,4 +1,6 @@
- // SELECTORES // 
+// Archivo: display.js//
+
+// SELECTORES // 
 //--Log In & Registro--//
 const btnMostrarLogIn = document.querySelector("#btnDisplayLogIn");
 const btnMostrarRegister = document.querySelector("#btnDisplayRegistrar");
@@ -312,7 +314,6 @@ function empresaDisplayListadoEnvio() {
     document.querySelector("#infoEstadisticaEmpresaCantidadPorEstado").style.display = "none";
     crearListaDeSolicitudesPendientesEmpresa();                                                 // Actualizar el listado de pedidos pendientes especificos
     crearListadoDeSolicitudesTomadasEmpresa();                                                  // Actualizar listado de solicitudes en transito + finalizadas
-    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
 }
 
 function empresaDisplayEstadisticaMejoresUsuarios(mensaje) {
@@ -330,13 +331,10 @@ function empresaDisplayEstadisticaEnviosPorEstado() {
 }
 
 function displayErrorEnviosPorEstadoEmpresaON(mensaje) {
-    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "block";
-    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").innerHTML = mensaje;
     document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "none";
 }
 
 function displaySuccessEnviosPorEstadoEmpresaON(mensaje) {
     document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").style.display = "block";
     document.querySelector("#pSuccessEstadisticaCantPorEstadoEmpresa").innerHTML = mensaje;
-    document.querySelector("#pErrorEstadisticaCantPorEstadoEmpresa").style.display = "none";
 }
