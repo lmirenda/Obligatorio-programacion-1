@@ -53,11 +53,11 @@ function precargaDeUsuariosPersona() {
 }
 
 function precargaDeUsuariosEmpresa() {
-    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", 1000, true, 0));
-    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", 1001, true, 0));
-    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", 1001, true, 0));
-    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", 1002, false, 0));
-    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", 1002, false, 0));
+    usuarios.push(new UsuarioEmpresa("Empresa1", "Empresa01", "Empresa Uno", 101, "Empresa Cero Uno", 1000, true));
+    usuarios.push(new UsuarioEmpresa("Empresa2", "Empresa02", "Empresa Dos", 102, "Empresa Cero Dos", 1001, true));
+    usuarios.push(new UsuarioEmpresa("Empresa3", "Empresa03", "Empresa Tres", 103, "Empresa Cero Tres", 1001, true));
+    usuarios.push(new UsuarioEmpresa("Empresa4", "Empresa04", "Empresa Cuatro", 104, "Empresa Cero Cuatro", 1002, false));
+    usuarios.push(new UsuarioEmpresa("Empresa5", "Empresa05", "Empresa Cinco", 105, "Empresa Cero Cinco", 1002, false));
 }
 
 function precargaDeUsuariosAdmin() {
@@ -65,10 +65,9 @@ function precargaDeUsuariosAdmin() {
 }
 
 function precargaDeEnvios() {
-    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", "Empresa Cero Uno", "En tránsito", usuarios[0].username);
+    let pedido = new Envio(1000, 5, "Envio de supermercado", "envioSuper.jpg", null, "Pendiente", usuarios[0].username);
     envios.push(pedido);
     usuarios[0].pedidos.push(pedido.id);
-    usuarios[4].pedidos.push(pedido.id);
     
     pedido = new Envio(1001, 10, "Motosierra", "motosierra.jpg", "Empresa Cero Dos", "En tránsito", usuarios[1].username);
     envios.push(pedido);
@@ -504,11 +503,8 @@ function posicionUltimoSlash(path) {        // Busca el último slash del path y
     return posUltimoBackSlash
 }
 
-// ------------------------------------------------------------------------------------------------------------------------------
-// Comentar a partir de aca
-// ------------------------------------------------------------------------------------------------------------------------------
 
-function btnSolicitudEnvioHandler() {
+function btnSolicitudEnvioHandler() {           // Verifica que todos los datos ingresados sean correctos, y si lo son le envía a la función "realizarSolicitudEnvio" los datos necesarios
     let tipoVehiculoIngresado = parseInt(document.querySelector("#solicitudEnvioVehiculo").value);
     let distanciaIngresada = document.querySelector("#solicitudEnvioDistancia").value;
     let descripcionIngresada = document.querySelector("#solicitudEnvioDescripcion").value;
@@ -517,7 +513,7 @@ function btnSolicitudEnvioHandler() {
     if (tipoVehiculoIngresado && distanciaIngresada && descripcionIngresada && fotoIngresada) {
         if (!isNaN(distanciaIngresada)) {
             let distanciaNumerica = parseInt(distanciaIngresada);
-            let fotoIngresadaValidada = cortarPath(fotoIngresada);
+            let fotoIngresadaValidada = cortarPath(fotoIngresada);          // Se le quita el fakepath a la foto ingresada
             if (distanciaNumerica > 0) {
                 realizarSolicitudEnvio(tipoVehiculoIngresado, distanciaNumerica, descripcionIngresada, fotoIngresadaValidada);
                 displaySuccessSolicitudEnvioON();
@@ -536,14 +532,14 @@ function btnSolicitudEnvioHandler() {
     }
 }
 
-function realizarSolicitudEnvio(tipoVehiculo, distancia, descripcion, foto) {
+function realizarSolicitudEnvio(tipoVehiculo, distancia, descripcion, foto) {       // Recibe los datos necesarios y crea el pedido, se le asigna al usuario correspondiente
     let pedido = new Envio(tipoVehiculo, distancia, descripcion, foto, null, "Pendiente", usuarioLoggeado.username);
     envios.push(pedido);
     let i = posUsuarioPorUsuario(usuarioLoggeado.username);
     usuarios[i].pedidos.push(pedido.id);
 }
 
-function crearListadoEnviosPersona() {
+function crearListadoEnviosPersona() {      // Genera una tabla para listar los envios del usuario
     let table = document.querySelector("#listadoDeEnviosPersona");
     let tableListadoEnvios = ` 
     <header>
@@ -560,14 +556,14 @@ function crearListadoEnviosPersona() {
     if (!hayEnvios) {
         resultado = "No tiene pedidos asignados";
     } else {
-        let bodyListado = armarBodyListadoEnviosPersona();
+        let bodyListado = armarBodyListadoEnviosPersona();      // Si tiene pedidos llama a la función "armarBodyListadoEnviosPersona" y lo suma a la tabla
         resultado = tableListadoEnvios + bodyListado
     }
     
     table.innerHTML = resultado
 }
 
-function hayEnviosParaAgregar() {
+function hayEnviosParaAgregar() {       // Checkea si el usuario tiene pedidos realizados
     let hayEnvios = false;
 
     let i = 0;
@@ -582,11 +578,11 @@ function hayEnviosParaAgregar() {
     return hayEnvios
 }
 
-function armarBodyListadoEnviosPersona() {
+function armarBodyListadoEnviosPersona() {       // Arma un body con los pedidos realizados por el usuario
     let bodyListadoEnvios = ``;
     for (let i = 0; i < envios.length; i++) {
         let envioActual = envios[i];
-        let empresaAsignada = buscarEmpresaPorEnvio(envioActual);
+        let empresaAsignada = buscarEmpresaPorEnvio(envioActual);       // LLama a la función "buscarEmpresaPorEnvio" para encontrar la empresa que realizó tal pedido
         if (usuarioLoggeado.username == envioActual.persona) {
             bodyListadoEnvios += `  
             <tr>
@@ -600,7 +596,7 @@ function armarBodyListadoEnviosPersona() {
     return bodyListadoEnvios
 }
 
-function buscarEmpresaPorEnvio(objEnvio){
+function buscarEmpresaPorEnvio(objEnvio){       // Busca si el pedido tiene una empresa asignada y retorna true o false
     if (objEnvio.empresa == null){
         return "No hay empresa asignada"
     } else {
@@ -609,7 +605,7 @@ function buscarEmpresaPorEnvio(objEnvio){
 }
 
 
-function calcularInfoEstadisticaPersona() {
+function calcularInfoEstadisticaPersona() {     // Muestra la información estadistica de los pedidos del usuario
     let contadorPendientes = 0;
     let contadorEnTransito = 0;
     let contadorFinalizado = 0;
@@ -628,7 +624,7 @@ function calcularInfoEstadisticaPersona() {
     }
 
     let pedidosTotales = contadorPendientes + contadorEnTransito + contadorFinalizado;
-    let porcentajeTomados = (contadorEnTransito + contadorFinalizado) / pedidosTotales * 100 + "%";
+    let porcentajeTomados = Math.round((contadorEnTransito + contadorFinalizado) / pedidosTotales * 100) + "%";
 
     let resultado = `Envios totales: ${pedidosTotales}<br>
     Envios pendientes: ${contadorPendientes}<br>
@@ -655,7 +651,7 @@ function agregarVehiculo(tipo) {                                     // Agregar 
 }
 
 
-function agregarVehiculoAlSistemaHandler(){
+function agregarVehiculoAlSistemaHandler(){     //Verifica que el nuevo vehículo no esté vacío ni repetido, y si cumple lo agrega al sistema
     let vehiculoLeido = document.querySelector("#tipoNuevoVehiculo").value;
     if (vehiculoLeido == '') {
         displayMensajeErrorVehiculoON("Se debe completar el campo.")
@@ -695,7 +691,7 @@ function tipoVehiculoPorId(id){                             // Recibe como param
     }
 }
 
-function crearListaDeVehiculos(){
+function crearListaDeVehiculos(){       // Genera una tabla con los vehículos existentes en el sistema
     let table = document.querySelector("#listadoVehiculos");
     table.innerHTML = ` <theader>
                                 <tr>
@@ -801,7 +797,7 @@ function buscarPosEnvioPorId(id){       // Recibe como parametro el id de un env
     }
 }
 
-function buscarEnviosPorEmpresa(objEmpresa) {
+function buscarEnviosPorEmpresa(objEmpresa) {       // Recibe como parametro el objeto empresa y busca sus pedidos asignados
     let arrayPedidos = [[],[]];
     for (let i = 0; i < envios.length; i++){
         if (envios[i].estado == "En tránsito" && envios[i].empresa == objEmpresa.razonSocial) {
@@ -813,7 +809,7 @@ function buscarEnviosPorEmpresa(objEmpresa) {
     return arrayPedidos
 }
 
-function crearListadoDeSolicitudesTomadasEmpresa(){
+function crearListadoDeSolicitudesTomadasEmpresa(){         // Genera una tabla con la información de todos los pedidos que la empresa loggeada tiene asignada, también contiene botones para finalizar cualquier pedido
     let table = document.querySelector("#tablaEnviosTomadosF9");
     let enviosEnTransitoYFinalizados = buscarEnviosPorEmpresa(usuarioLoggeado);
     let enviosEnTransito = enviosEnTransitoYFinalizados[0];
@@ -875,16 +871,16 @@ function crearListadoDeSolicitudesTomadasEmpresa(){
     activarBotonesFinalizarSolicitudesTransito();
 }
 
-function calcularInfoEstadisticaEmpresa() {
+function calcularInfoEstadisticaEmpresa() {         // Muestra que persona realizó más pedidos con la empresa loggeada
     let infoEstadisticaMejoresUsuarios;
 
     let usuariosConMasEnvios = encontrarUsuariosConMasEnvios();
 
     if (usuariosConMasEnvios.length > 0) {
-        infoEstadisticaMejoresUsuarios = `La/s personas con mas envios realizados es/son: <br>`;
+        infoEstadisticaMejoresUsuarios = `La/s personas con mas envios finalizados es/son: <br>`;
         for (let i = 0; i < usuariosConMasEnvios.length; i++) {
             let usuarioActual = usuariosConMasEnvios[i];
-            infoEstadisticaMejoresUsuarios += `${i + 1}. ${usuarioActual.nombre} ${usuarioActual.apellido}.<br>`
+            infoEstadisticaMejoresUsuarios += `${i + 1}. ${usuarioActual.nombre} ${usuarioActual.apellido} con ${encontrarNumMasGrande()} envíos.<br>`
         }
     } else {
         infoEstadisticaMejoresUsuarios = "No hay pedidos finalizados asignados a esta empresa.";
@@ -893,7 +889,7 @@ function calcularInfoEstadisticaEmpresa() {
     empresaDisplayEstadisticaMejoresUsuarios(infoEstadisticaMejoresUsuarios);
 }
 
-function encontrarUsuariosConMasEnvios() {
+function encontrarUsuariosConMasEnvios() {          // Crea un array con los usuarios que tengan más pedidos finalizados        
     let cantPedidosFinalizadosPorUsuario = [];
 
     for (let i = 0; i < usuarios.length; i++) {
@@ -928,7 +924,7 @@ function encontrarUsuariosConMasEnvios() {
     return mejoresUsuarios
 }
 
-function buscarPedidoPorId(idABuscar) {
+function buscarPedidoPorId(idABuscar) {         // Recibe como parametro un id y busca el pedido con ese id, luego devuelve el pedido
     let pedido;
     let pedidoEncontrado = false;
     
@@ -945,7 +941,7 @@ function buscarPedidoPorId(idABuscar) {
     return pedido
 }
 
-function encontrarNumMasGrande(arrayNumerico) {
+function encontrarNumMasGrande(arrayNumerico) {         // Recibe como parametro un array númerico y busca el número más grande del array y lo devuelve
     let numMasGrande = 0;
     
     for (let i = 0; i < envios.length; i++) {
@@ -958,7 +954,7 @@ function encontrarNumMasGrande(arrayNumerico) {
     return numMasGrande
 }
 
-function armarArrayConMejoresUsuarios(numMasGrande, pedidosPorUsuario) {
+function armarArrayConMejoresUsuarios(numMasGrande, pedidosPorUsuario) {        // Recibe como parametro un array (pedidosPorUsuario) con la cantidad de pedidos finalizados por persona y el mayor número (numMasGrande) encontrado en él y devuelve un array con las personas con más pedidos
     let mejoresUsuarios = [];
 
     for (let i = 0; i < pedidosPorUsuario.length; i++) {
@@ -1039,7 +1035,7 @@ function calcularInfoEstadisticaAdmin() {
     }
 }
 
-function kmPorEmpresa(empresa){                                                         // Recibe como parametro la razon social y suma todos los km de los envios finalizados
+function kmPorEmpresa(empresa){                 // Recibe como parametro la razon social y suma todos los km de los envios finalizados
     let total = 0;
 
     for (let i=0; i < envios.length; i++) {
@@ -1051,7 +1047,7 @@ function kmPorEmpresa(empresa){                                                 
     return total;
 }
 
-function enviosFinalizadosPorEmpresa(empresa){                                          // Recibe como parametro la razon social y suma la cantidad de envios finalizados
+function enviosFinalizadosPorEmpresa(empresa){              // Recibe como parametro la razon social y suma la cantidad de envios finalizados
     let totalFinalizados = 0;
     for(let i=0; i<envios.length;i++){
         if(envios[i].empresa == empresa && envios[i].estado == "Finalizado"){

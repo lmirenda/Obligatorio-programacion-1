@@ -55,8 +55,8 @@ function cerrarSesion() {
 function toggleLogIn() {
     ocultarPantallas();
     document.querySelector("#panelLogInF1").style.display = "block";
-    document.querySelector("#ingresoUsuario").value = "amayes";
-    document.querySelector("#ingresoPassword").value = "456";
+    document.querySelector("#ingresoUsuario").value = "";
+    document.querySelector("#ingresoPassword").value = "";
     document.querySelector("#mensajeLogInNuevoUsuario").innerHTML = '';
     document.querySelector("#mensajeLogIn").innerHTML = '';
 }
@@ -161,7 +161,7 @@ function displayNavPanel(tipo) {
 }
 
 function updateSelectVehiculos(id) {
-    document.querySelector(id).innerHTML = ''
+    document.querySelector(id).innerHTML = '';
     for (let i = 0; i < vehiculos.length; i++) {
         if (i == 0) {
             document.querySelector(id).innerHTML += `<option selected disabled value = 0>Ingrese una opcion</option>`
@@ -181,8 +181,9 @@ function adminDisplayEmpresas() {
     document.querySelector("#listadoDeEmpresasF2").style.display = "block";
     document.querySelector("#panelCreacionVehiculosF3").style.display = "none"
     document.querySelector("#verInfoEstadisticaF4").style.display = "none"
-    document.querySelector("#tableListadoEmpresasFiltrado").style.display = "none" // Ocultar las empresas filtradas
+    document.querySelector("#tableListadoEmpresasFiltrado").style.display = "none"  // Ocultar las empresas filtradas
     document.querySelector("#tableListadoEmpresas").style.display = "table"         // Mostrar todas las empresas
+    document.querySelector("#textoBusquedaEmpresaF2").value = "";
     pMensajeErrorFiltrarEmpresas.style.display = "none"                             // Ocultar msj de error
     displayErrorBusquedaOFF();
 }
@@ -193,13 +194,15 @@ function displayErrorBusquedaON() {
     document.querySelector("#tableListadoEmpresasFiltrado").style.display = "none"     // Muestra unicamente las empresas de la tabla filtrada
 }
 function displayErrorBusquedaOFF() {
-    pMensajeErrorFiltrarEmpresas.style.sdisplay = "none"
+    pMensajeErrorFiltrarEmpresas.style.display = "none"
 }
 
 function adminDisplayVehiculos() {
+    displayMensajeErrorVehiculoOFF();
+    document.querySelector("#tipoNuevoVehiculo").value = "";
     document.querySelector("#listadoDeEmpresasF2").style.display = "none";
-    document.querySelector("#panelCreacionVehiculosF3").style.display = "block"
-    document.querySelector("#verInfoEstadisticaF4").style.display = "none"
+    document.querySelector("#panelCreacionVehiculosF3").style.display = "block";
+    document.querySelector("#verInfoEstadisticaF4").style.display = "none";
     crearListaDeVehiculos();
 }
 
@@ -289,7 +292,6 @@ function personaDisplayEstadistica(){
 }
 
 function displayMensajeErrorSolicitudesPendientesON() {
-    // TODO: mensaje error si no hay pedidos para aceptar
 }
 
 function displayMensajeErrorSolicitudesEnTransitoYFinalizadosON(mensaje) {
@@ -317,7 +319,7 @@ function empresaDisplayEstadisticaMejoresUsuarios(mensaje) {
     document.querySelector("#listadoEnviosPendientesF8").style.display = "none";
     document.querySelector("#listadoEnviosTomadosF9").style.display = "none";
     document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").style.display = "block";
-    document.querySelector("#infoEstadisticaEmpresaMejoresUsuarios").innerHTML = mensaje;
+    document.querySelector("#pInfoEstadisticaEmpresaMejoresUsuarios").innerHTML = mensaje;
 }
 
 function empresaDisplayEstadisticaEnviosPorEstado() {

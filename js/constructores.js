@@ -10,9 +10,8 @@ class UsuarioPersona{
     }
 }
 
-
 class UsuarioEmpresa {
-    constructor(_username, _pass, _fantasia, _rut, _razonSocial, _vehiculo, _habilitacion, _totalKM){
+    constructor(_username, _pass, _fantasia, _rut, _razonSocial, _vehiculo, _habilitacion){
         this.username = _username;
         this.pass = _pass;
         this.fantasia = _fantasia;
@@ -20,7 +19,6 @@ class UsuarioEmpresa {
         this.razonSocial = _razonSocial;
         this.vehiculo = _vehiculo;
         this.habilitacion = _habilitacion;  // True = empresa habilitada. False = empresa deshabilitada. 
-        this.km = _totalKM;
         this.pedidos = [];
         this.tipo = "Empresa"
     }
@@ -34,7 +32,6 @@ class UsuarioAdmin {
     }
 }
 
-
 class Envio {
     constructor(_vehiculo, _distancia, _descripcion, _img, _empresa, _estado, _persona){
         this.vehiculo = _vehiculo;
@@ -42,7 +39,7 @@ class Envio {
         this.descripcion = _descripcion;
         this.img = _img;
         this.empresa = _empresa;             // Corresponde a la empresa que toma el pedido
-        this.estado = _estado;              // Estado corresponde a: no aceptado, en transito, o completado
+        this.estado = _estado;              // Estado corresponde a: "Pendiente", "En tránsito", "Finalizado"
         this.persona = _persona;
         this.id = idEnvio;
         idEnvio++;
