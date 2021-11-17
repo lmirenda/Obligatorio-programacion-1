@@ -484,12 +484,16 @@ function crearListaDeEmpresasFiltrado() {
     activarBotonesCambioDeEstado();    
 }
 
-function cortarPath(path) {         // Corta el fakepath de la ruta de la foto
-    let posDeArranquePath = posicionUltimoSlash(path) + 1;
-
-    let nuevoPath = path.slice(posDeArranquePath);
-
-    return nuevoPath
+function cortarPath (path) {                // Corta el fakepath de la ruta de la foto
+    let posUltimoSlash = posicionUltimoSlash(path);
+    
+    let pathCortado = "";
+    
+    for (let i=posUltimoSlash+1; i < path.length; i++) {
+           pathCortado += path[i]
+    }
+    
+    return pathCortado
 }
 
 function posicionUltimoSlash(path) {        // Busca el último slash del path y devuelve su posicion
